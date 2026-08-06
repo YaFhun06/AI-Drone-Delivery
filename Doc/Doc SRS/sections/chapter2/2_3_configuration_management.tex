@@ -1,0 +1,67 @@
+\subsection{Configuration Management}
+
+The project uses GitHub for source code management and Jira for task management.
+
+\textbf{Working Process}
+
+\textbf{Step 1. Clone the Repository}
+
+Each team member clones the GitHub repository to their local machine.
+
+\begin{quote}
+\textit{git clone \url{https://github.com/YaFhun06/CNPM.git}}
+\end{quote}
+
+\textbf{Step 2. Update the Jira Status}
+
+Select the assigned task and change its status from:
+
+\begin{center}
+\textit{To Do $\rightarrow$ In Progress}
+\end{center}
+
+\textbf{Step 3. Create a Working Branch}
+
+Team members must not work directly on the main branch.
+
+Create a feature branch following the team's naming convention.
+
+Branch Naming Convention: \textit{feature/sprint1-member-name}
+
+Example:
+
+\textit{feature/sprint1-phung}
+
+\textit{feature/sprint2-bao}
+
+\textbf{Step 4. Implement the Assigned Tasks}
+
+Each member works on the assigned tasks within the project structure using Visual Studio Code.
+
+\textbf{Step 5. Commit Changes}
+
+Commit messages should reference the corresponding Jira Issue Key.
+
+Commit Convention: \textit{<Jira Issue Key>: <Action> <Description>}
+
+Where:
+
+\begin{itemize}
+  \item Jira Issue Key: CNPM-3, CNPM-15, \ldots
+  \item Action: Add, Update, Fix, Refactor, Remove, Complete
+  \item Description: Brief description of the changes
+\end{itemize}
+
+Example: \textit{git commit -m "CNPM-3: Add use case list"}
+
+\textbf{Step 6. Push the Working Branch}
+
+\textit{git push origin feature/sprint1-phung}
+
+\textbf{Step 7. Update the Jira Status}
+
+After the task has been completed and confirmed by the team, change its status from:
+
+\begin{center}
+\textit{In Progress $\rightarrow$ Done}
+\end{center}

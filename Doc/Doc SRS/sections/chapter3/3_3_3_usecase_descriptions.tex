@@ -1,0 +1,93 @@
+\subsubsection{Use Case Descriptions}
+
+\begin{longtable}{@{}p{1.3cm}p{3cm}p{2.7cm}p{6.5cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Use Case} & \textbf{Actor} & \textbf{Use Case Description} \\
+\midrule
+\endhead
+UC01 & Register Account & Customer & Create a new customer account using an email address or phone number. \\
+UC02 & Login & Authenticated User & Authenticate and log into the system using registered credentials. \\
+UC03 & Logout & Authenticated User & Log out of the system securely. \\
+UC04 & Forgot Password & Customer & Request a password reset through email or phone verification. \\
+UC05 & View Profile & Authenticated User & View personal account information. \\
+UC06 & Update Profile & Authenticated User & Update personal profile information such as name, phone number, or avatar. \\
+UC07 & Change Password & Authenticated User & Change the account password securely. \\
+UC08 & Receive Notification & Authenticated User & Receive notifications about delivery status, system alerts, and important updates. \\
+UC09 & Manage Delivery Address & Customer & Manage saved delivery addresses. \\
+UC10 & View Delivery Address & Customer & View all saved delivery addresses. \\
+UC11 & Add Delivery Address & Customer & Add a new delivery address. \\
+UC12 & Update Delivery Address & Customer & Edit an existing delivery address. \\
+UC13 & Delete Delivery Address & Customer & Remove a saved delivery address. \\
+UC14 & Create Delivery Order & Customer & Create a new drone delivery request. \\
+UC15 & Calculate Delivery Fee & Customer & Calculate the estimated delivery fee based on distance, package weight, and service type. \\
+UC16 & Confirm Delivery Order & Customer & Review and confirm the delivery request before submission. \\
+UC17 & Online Payment & Customer & Pay for the delivery order using supported payment methods. \\
+UC18 & Manage Own Orders & Customer & Manage personal delivery orders before they are completed. \\
+UC19 & View Orders & Customer & View current and historical delivery orders. \\
+UC20 & Edit Order & Customer & Modify a delivery order before it is approved by the dispatcher. \\
+UC21 & Cancel Order & Customer & Cancel a delivery order before processing begins. \\
+UC22 & Track Delivery & Customer & Track the real-time delivery status, drone location, and estimated arrival time (ETA). \\
+UC23 & Delivery Confirmation & Customer & Confirm that the package has been received successfully. \\
+UC24 & Rate Delivery & Customer & Rate the delivery service after receiving the package. \\
+UC25 & AI Chatbot & Customer & Interact with the AI chatbot for delivery support, FAQs, and inquiries. \\
+UC26 & Manage Customers & Dispatcher & Manage customer information within the delivery system. \\
+UC27 & View Customer & Dispatcher & View customer information and delivery history. \\
+UC28 & Search Customer & Dispatcher & Search for customers by name, phone number, or account ID. \\
+UC29 & Update Customer & Dispatcher & Update customer information when necessary. \\
+UC30 & Review Delivery Order & Dispatcher & Review newly submitted delivery orders before processing. \\
+UC31 & Approve Order & Dispatcher & Approve a delivery request for scheduling and execution. \\
+UC32 & Reject Order & Dispatcher & Reject a delivery request that does not meet requirements. \\
+UC33 & Delivery Scheduling & Dispatcher & Schedule approved delivery orders. \\
+UC34 & Assign Drone & Dispatcher & Assign an available drone to a delivery order. \\
+UC35 & Assign Landing Station & Dispatcher & Select the appropriate landing station for package handling. \\
+UC36 & Assign Route & Dispatcher & Assign the optimal delivery route for the drone. \\
+UC37 & Manage Delivery Workflow & Dispatcher & Monitor and manage the delivery workflow throughout the delivery lifecycle. \\
+UC38 & Update Order Status & Dispatcher & Update the delivery order status during processing. \\
+UC39 & Handle Failed Delivery & Dispatcher & Handle delivery failures by rescheduling or returning the package. \\
+UC40 & Reschedule Delivery & Dispatcher & Create a new delivery schedule for failed deliveries. \\
+UC41 & AI Delivery Summary & Dispatcher & View AI-generated delivery summaries and recommendations. \\
+UC42 & View ETA Prediction & Dispatcher & View AI-predicted estimated delivery time for active orders. \\
+UC43 & Receive Package & Station Operator & Receive packages from customers or logistics staff at the landing station. \\
+UC44 & Package Inspection & Station Operator & Inspect the package for weight, size, condition, and labeling before dispatch. \\
+UC45 & Manage Landing Station & Station Operator & Manage the operational status and capacity of the landing station. \\
+UC46 & View Landing Station & Station Operator & View landing station information and current operational status. \\
+UC47 & Update Station Status & Station Operator & Update the landing station status (Available, Busy, Maintenance, etc.). \\
+UC48 & Update Station Capacity & Station Operator & Update the available capacity of the landing station. \\
+UC49 & Update Package Status & Station Operator & Update the package status during handling and delivery. \\
+UC50 & Confirm Drone Operations & Station Operator & Confirm package loading and drone readiness before takeoff. \\
+UC51 & Dashboard Monitoring & Logistics Manager & Monitor overall delivery operations through dashboards. \\
+UC52 & View Dashboard & Logistics Manager & View key operational metrics and system status. \\
+UC53 & Monitor KPI & Logistics Manager & Monitor key performance indicators (KPIs) such as delivery success rate and average delivery time. \\
+UC54 & Delivery Analytics & Logistics Manager & Analyze delivery performance and operational statistics. \\
+UC55 & Revenue Analytics & Logistics Manager & Analyze delivery revenue and business performance. \\
+UC56 & Delivery Statistics & Logistics Manager & View statistical reports on deliveries and operational activities. \\
+UC57 & AI Analytics & Logistics Manager & View AI-generated insights and predictive analytics. \\
+UC58 & Demand Prediction & Logistics Manager & View AI predictions for future delivery demand. \\
+UC59 & Delivery Trend Analysis & Logistics Manager & Analyze delivery trends over time. \\
+UC60 & Landing Station Management & Logistics Manager & Monitor and manage landing stations across the system. \\
+UC61 & Monitor Landing Station Capacity & Logistics Manager & Monitor the operational capacity of all landing stations. \\
+UC62 & Report Management & Logistics Manager & Manage operational reports for the logistics system. \\
+UC63 & Generate Report & Logistics Manager & Generate operational, analytical, and performance reports. \\
+UC64 & Export Report & Logistics Manager & Export reports in PDF, Excel, or CSV format. \\
+UC65 & User Management & System Administrator & Manage user accounts within the system. \\
+UC66 & View User & System Administrator & View user account information. \\
+UC67 & Add User & System Administrator & Create a new user account. \\
+UC68 & Update User & System Administrator & Update existing user information. \\
+UC69 & Remove User & System Administrator & Remove or deactivate a user account. \\
+UC70 & Role Management & System Administrator & Manage system roles. \\
+UC71 & Create Role & System Administrator & Create a new role. \\
+UC72 & Update Role & System Administrator & Modify an existing role. \\
+UC73 & Delete Role & System Administrator & Delete an existing role. \\
+UC74 & Assign Role & System Administrator & Assign roles to users. \\
+UC75 & Permission Management & System Administrator & Manage permissions for system roles. \\
+UC76 & View Permission & System Administrator & View permission settings. \\
+UC77 & Assign Permission & System Administrator & Assign permissions to roles. \\
+UC78 & Update Permission & System Administrator & Modify permission settings. \\
+UC79 & System Configuration & System Administrator & Configure system settings, APIs, notifications, and AI services. \\
+UC80 & Audit Log & System Administrator & View and monitor system logs and user activities. \\
+UC81 & View Audit Log & System Administrator & View detailed audit log records. \\
+UC82 & Backup \& Restore & System Administrator & Manage system backup and data restoration. \\
+UC83 & Backup Data & System Administrator & Perform a system data backup. \\
+UC84 & Restore Data & System Administrator & Restore system data from a backup file. \\
+\bottomrule
+\end{longtable}
