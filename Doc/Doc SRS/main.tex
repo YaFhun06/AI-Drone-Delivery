@@ -1,0 +1,136 @@
+\documentclass[12pt,a4paper]{article}
+
+% ---------- Fonts (XeLaTeX, full Vietnamese Unicode support) ----------
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+% ---------- Layout ----------
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ---------- Tables & Graphics ----------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+
+% ---------- Misc ----------
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={Course Project Report},
+  pdfauthor={Group Project}
+}
+\usepackage{url}
+\usepackage{xurl}
+\usepackage{enumitem}
+
+\title{}
+\date{}
+
+\begin{document}
+
+% ============================================================
+% COVER PAGE
+% ============================================================
+\begin{titlepage}
+  \centering
+  \vspace*{1cm}
+  {\Large\bfseries COURSE PROJECT REPORT\par}
+  \vspace{0.5cm}
+  {\large\itshape AI-powered Drone Delivery Management Platform\par}
+  \vspace{2cm}
+
+  \begin{tabular}{ll}
+    \textbf{Course Code:} & 012012210504 \\[0.3cm]
+    \textbf{Group members:} &
+      \begin{minipage}[t]{8cm}
+        1. Võ Trần Gia Phụng\\
+        2. Bùi Khánh Chi\\
+        3. Trần Nguyễn Quỳnh Anh\\
+        4. Lê Chí Bảo\\
+        5. Mai Hoàng Long
+      \end{minipage} \\[0.6cm]
+    \textbf{Supervisor:} & Ths. Nguyễn Văn Chiến \\
+  \end{tabular}
+
+  \vfill
+  {\itshape Ho Chi Minh, August 2026}
+\end{titlepage}
+
+% ============================================================
+% FRONT MATTER
+% ============================================================
+\input{sections/front/acknowledgement}
+\newpage
+\input{sections/front/definitions}
+\newpage
+
+\listoftables
+\newpage
+
+\tableofcontents
+\newpage
+
+% ============================================================
+% CHAPTER 1: PROJECT OVERVIEW
+% ============================================================
+\section{Project Overview}
+\input{sections/chapter1/1_1_project_information}
+\input{sections/chapter1/1_2_current_situation}
+\input{sections/chapter1/1_3_project_introduction}
+\input{sections/chapter1/1_4_project_objectives}
+\input{sections/chapter1/1_5_project_scope}
+
+% ============================================================
+% CHAPTER 2: PROJECT MANAGEMENT PLAN
+% ============================================================
+\section{Project Management Plan}
+\input{sections/chapter2/2_1_development_methodology}
+\input{sections/chapter2/2_2_project_planning}
+\input{sections/chapter2/2_3_configuration_management}
+
+% ============================================================
+% CHAPTER 3: SOFTWARE REQUIREMENT SPECIFICATION
+% ============================================================
+\section{Software Requirement Specification}
+\input{sections/chapter3/3_1_functional_requirements}
+\input{sections/chapter3/3_2_non_functional_requirements}
+\input{sections/chapter3/3_3_user_requirement}
+\input{sections/chapter3/3_3_1_actor}
+\input{sections/chapter3/3_3_2_usecase_diagram}
+\input{sections/chapter3/3_3_3_usecase_descriptions}
+
+% ============================================================
+% CHAPTER 4: SOFTWARE DESIGN DESCRIPTION
+% ============================================================
+\section{Software Design Description}
+\input{sections/chapter4/4_1_business_process}
+\input{sections/chapter4/4_1_1_business_process_description}
+\input{sections/chapter4/4_1_2_bpmn_diagram}
+\input{sections/chapter4/4_2_activity_diagram}
+\input{sections/chapter4/4_3_sequence_diagram}
+\input{sections/chapter4/4_4_software_architecture}
+\input{sections/chapter4/4_4_1_architecture_overview}
+\input{sections/chapter4/4_4_2_architecture_diagram}
+\input{sections/chapter4/4_4_3_module_design}
+\input{sections/chapter4/4_4_4_project_structure}
+\input{sections/chapter4/4_5_ui_ux_design}
+\input{sections/chapter4/4_5_1_user_flow}
+\input{sections/chapter4/4_5_2_navigation_structure}
+\input{sections/chapter4/4_5_3_wireframe}
+\input{sections/chapter4/4_5_4_prototype}
+\input{sections/chapter4/4_5_5_ui_style_guide}
+\input{sections/chapter4/4_6_rest_api_design}
+
+% ============================================================
+% REFERENCES
+% ============================================================
+\newpage
+\input{sections/references}
+
+\end{document}
