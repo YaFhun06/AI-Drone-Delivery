@@ -1,136 +1,147 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{report}
 
-% ---------- Fonts (XeLaTeX, full Vietnamese Unicode support) ----------
+% ===== Vietnamese support (compile with XeLaTeX or LuaLaTeX) =====
+% Times New Roman is a Microsoft font — cần MÁY BẠN ĐÃ CÀI SẴN font này
+% (có sẵn trên Windows có Office, hoặc macOS). Nếu máy không có, XeLaTeX
+% sẽ báo lỗi "font not found".
 \usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{vietnamese}
 \setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
 
-% ---------- Layout ----------
-\usepackage[margin=1in]{geometry}
+% ===== Layout =====
+\usepackage[margin=2.5cm]{geometry}
 \usepackage{setspace}
 \onehalfspacing
 
-% ---------- Tables & Graphics ----------
-\usepackage{graphicx}
-\usepackage{float}
+% ===== Tables / figures =====
+\usepackage{calc}
 \usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{float}
 \usepackage{caption}
 
-% ---------- Misc ----------
-\usepackage{xcolor}
+% ===== Misc =====
 \usepackage{hyperref}
 \hypersetup{
-  hidelinks,
-  pdftitle={Course Project Report},
-  pdfauthor={Group Project}
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+  citecolor=black,
+  bookmarksopen=true
 }
-\usepackage{url}
-\usepackage{xurl}
 \usepackage{enumitem}
+\usepackage{xcolor}
+
+% ===== Định dạng tiêu đề chương/mục =====
+\usepackage{titlesec}
+
+% Chương: chữ đỏ, in đậm, cỡ 20pt
+\titleformat{\chapter}[hang]
+  {\color{red}\normalfont\bfseries\fontsize{16pt}{24pt}\selectfont}
+  {\thechapter.}{12pt}{}
+\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
+
+% Section (X.Y): chữ đỏ, in đậm, cỡ 15pt
+\titleformat{\section}
+  {\color{red}\normalfont\bfseries\fontsize{14pt}{18pt}\selectfont}
+  {\thesection}{8pt}{}
+
+% Subsection (X.Y.Z): chữ đỏ, in đậm, cỡ 13pt
+\titleformat{\subsection}
+  {\color{black}\normalfont\bfseries\fontsize{13pt}{16pt}\selectfont}
+  {\thesubsection}{8pt}{}
+
+% Subsubsection (bảng, không đánh số): chữ đỏ, in đậm, cỡ 12pt
+\titleformat{\subsubsection}
+  {\color{red}\normalfont\bfseries\fontsize{12pt}{14pt}\selectfont}
+  {\thesubsubsection}{8pt}{}
+
+% Tighten spacing around list items produced by pandoc
+\setlist{itemsep=2pt, topsep=4pt}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 \title{}
 \date{}
 
 \begin{document}
 
-% ============================================================
-% COVER PAGE
-% ============================================================
+% ================= TITLE PAGE =================
 \begin{titlepage}
-  \centering
-  \vspace*{1cm}
-  {\Large\bfseries COURSE PROJECT REPORT\par}
-  \vspace{0.5cm}
-  {\large\itshape AI-powered Drone Delivery Management Platform\par}
-  \vspace{2cm}
+\centering
+\includegraphics[width=6.17in]{images/Logo UTH.png}\par
+\vspace{1.5cm}
+{\LARGE\bfseries BÁO CÁO DỰ ÁN\par}
+\vspace{0.5cm}
+{\Large\itshape Nền tảng quản lý giao hàng bằng drone ứng dụng AI\par}
+\vspace{2cm}
 
-  \begin{tabular}{ll}
-    \textbf{Course Code:} & 012012210504 \\[0.3cm]
-    \textbf{Group members:} &
-      \begin{minipage}[t]{8cm}
-        1. Võ Trần Gia Phụng\\
-        2. Bùi Khánh Chi\\
-        3. Trần Nguyễn Quỳnh Anh\\
-        4. Lê Chí Bảo\\
-        5. Mai Hoàng Long
-      \end{minipage} \\[0.6cm]
-    \textbf{Supervisor:} & Ths. Nguyễn Văn Chiến \\
-  \end{tabular}
+\begin{tabular}{@{}p{4cm}p{9cm}@{}}
+\textbf{Mã học phần:} & 012012210504 \\[4pt]
+\textbf{Giảng viên hướng dẫn:} & Ths. Nguyễn Văn Chiến \\[4pt]
+\textbf{Sinh viên thực hiện:} &
+1. Võ Trần Gia Phụng \\
+& 2. Bùi Khánh Chi \\
+& 3. Trần Nguyễn Quỳnh Anh \\
+& 4. Lê Chí Bảo \\
+& 5. Mai Hoàng Long \\
+\end{tabular}
 
-  \vfill
-  {\itshape Ho Chi Minh, August 2026}
+\vfill
+{\itshape -- Thành phố Hồ Chí Minh, tháng 8 năm 2026 --\par}
 \end{titlepage}
 
-% ============================================================
-% FRONT MATTER
-% ============================================================
-\input{sections/front/acknowledgement}
-\newpage
-\input{sections/front/definitions}
-\newpage
-
-\listoftables
-\newpage
-
+% ================= FRONT MATTER =================
 \tableofcontents
-\newpage
+\clearpage
 
-% ============================================================
-% CHAPTER 1: PROJECT OVERVIEW
-% ============================================================
-\section{Project Overview}
-\input{sections/chapter1/1_1_project_information}
-\input{sections/chapter1/1_2_current_situation}
-\input{sections/chapter1/1_3_project_introduction}
-\input{sections/chapter1/1_4_project_objectives}
-\input{sections/chapter1/1_5_project_scope}
+% ================= BODY =================
+% Cấu trúc: sections/chapterN/ chứa từng file .tex cho từng mục con (1.1, 1.2, ...)
+% front/ chứa lời cảm ơn, thuật ngữ, danh sách bảng/ảnh, tài liệu tham khảo
+% images/ chứa toàn bộ hình ảnh, đặt tên theo nội dung
 
-% ============================================================
-% CHAPTER 2: PROJECT MANAGEMENT PLAN
-% ============================================================
-\section{Project Management Plan}
-\input{sections/chapter2/2_1_development_methodology}
-\input{sections/chapter2/2_2_project_planning}
-\input{sections/chapter2/2_3_configuration_management}
+% ---- Front matter ----
+\input{sections/front/Lời cảm ơn.tex}
+\input{sections/front/Thuật ngữ viết tắt.tex}
+% \input{front/Danh sách bảng và ảnh.tex}
 
-% ============================================================
-% CHAPTER 3: SOFTWARE REQUIREMENT SPECIFICATION
-% ============================================================
-\section{Software Requirement Specification}
-\input{sections/chapter3/3_1_functional_requirements}
-\input{sections/chapter3/3_2_non_functional_requirements}
-\input{sections/chapter3/3_3_user_requirement}
-\input{sections/chapter3/3_3_1_actor}
-\input{sections/chapter3/3_3_2_usecase_diagram}
-\input{sections/chapter3/3_3_3_usecase_descriptions}
+% ---- Chương 1: Giới thiệu tổng quan ----
+\input{sections/chapter1/1_1_Thông tin dự án.tex}
+\input{sections/chapter1/1_2_Bối cảnh thực trạng.tex}
+\input{sections/chapter1/1_3_Giới thiệu dự án.tex}
+\input{sections/chapter1/1_4_Mục tiêu dự án.tex}
+\input{sections/chapter1/1_5_Phạm vi dự án.tex}
 
-% ============================================================
-% CHAPTER 4: SOFTWARE DESIGN DESCRIPTION
-% ============================================================
-\section{Software Design Description}
-\input{sections/chapter4/4_1_business_process}
-\input{sections/chapter4/4_1_1_business_process_description}
-\input{sections/chapter4/4_1_2_bpmn_diagram}
-\input{sections/chapter4/4_2_activity_diagram}
-\input{sections/chapter4/4_3_sequence_diagram}
-\input{sections/chapter4/4_4_software_architecture}
-\input{sections/chapter4/4_4_1_architecture_overview}
-\input{sections/chapter4/4_4_2_architecture_diagram}
-\input{sections/chapter4/4_4_3_module_design}
-\input{sections/chapter4/4_4_4_project_structure}
-\input{sections/chapter4/4_5_ui_ux_design}
-\input{sections/chapter4/4_5_1_user_flow}
-\input{sections/chapter4/4_5_2_navigation_structure}
-\input{sections/chapter4/4_5_3_wireframe}
-\input{sections/chapter4/4_5_4_prototype}
-\input{sections/chapter4/4_5_5_ui_style_guide}
-\input{sections/chapter4/4_6_rest_api_design}
+% ---- Chương 2: Kế hoạch quản lý dự án ----
+\input{sections/chapter2/2_1_Phương pháp phát triển.tex}
+\input{sections/chapter2/2_2_Lập kế hoạch dự án.tex}
+\input{sections/chapter2/2_3_Quản lý cấu hình.tex}
+\input{sections/chapter2/2_4_Quản lý rủi ro.tex}
 
-% ============================================================
-% REFERENCES
-% ============================================================
-\newpage
-\input{sections/references}
+% ---- Chương 3: Đặc tả yêu cầu phần mềm ----
+\input{sections/chapter3/3_1_Tổng quan sản phẩm.tex}
+\input{sections/chapter3/3_2_Phân tích yêu cầu.tex}
+\input{sections/chapter3/3_3_Yêu cầu người dùng.tex}
+\input{sections/chapter3/3_3_1_Tác nhân_actor.tex}
+\input{sections/chapter3/3_3_2_Usecase_diagram tổng thể.tex}
+\input{sections/chapter3/3_3_3_Usecase_tóm tắt.tex}
+\input{sections/chapter3/3_3_4_Activity_diagram.tex}
+\input{sections/chapter3/3_3_5_Sequence_diagram.tex}
+
+% ---- Chương 4: Software Design Description ----
+\input{sections/chapter4/4_1_Thiết kế hệ thống.tex}
+\input{sections/chapter4/4_2_Thiết kế cơ sở dữ liệu.tex}
+\input{sections/chapter4/4_2_1_ Các thực thể và mối quan hệ.tex}
+\input{sections/chapter4/4_2_2_ERD_diagram.tex}
+\input{sections/chapter4/4_2_3_Thiết kế bảng cơ sở dữ liệu.tex}
+
+% ---- Tài liệu tham khảo ----
+\input{sections/Tài liệu tham khảo.tex}
 
 \end{document}
