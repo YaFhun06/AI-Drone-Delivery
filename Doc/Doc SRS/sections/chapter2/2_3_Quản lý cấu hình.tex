@@ -1,67 +1,78 @@
-\subsection{Configuration Management}
+\section{Quản lý cấu hình}
 
-The project uses GitHub for source code management and Jira for task management.
+\subsection{Quản lý tài liệu}
 
-\textbf{Working Process}
+Tài liệu để báo cáo đồ án và các tài liệu thiết kế bản gốc được lưu trữ tập trung trên thư mục GG Drive của nhóm. Phiên bản chính thức của mã nguồn báo cáo LaTeX được quản lý trược tiếp trên Github Repository của nhóm.
+
+\subsection{Quản lý mã nguồn}
+
+Dự án sử dụng \textbf{GitHub} để quản lý mã nguồn và \textbf{Jira} để quản lý công việc trong quá trình phát triển.
+
+Quy trình quản lý cấu hình bao gồm:
+
+Clone Repository → Create Branch → Implement Changes → Commit → Push → Review/Merge → Update Jira
+
+\textbf{Quy trình thực hiện cụ thể:}
 
 \textbf{Step 1. Clone the Repository}
 
-Each team member clones the GitHub repository to their local machine.
+Mỗi thành viên trong nhóm thực hiện clone repository GitHub về máy tính cá nhân.
 
-\begin{quote}
-\textit{git clone \url{https://github.com/YaFhun06/CNPM.git}}
-\end{quote}
+\emph{git clone \textless https://github.com/YaFhun06/CNPM.git\textgreater{}}
 
-\textbf{Step 2. Update the Jira Status}
+\textbf{Step 2. Cập nhật trạng thái trên Jira}
 
-Select the assigned task and change its status from:
+Chọn công việc được phân công và chuyển trạng thái từ:
 
-\begin{center}
-\textit{To Do $\rightarrow$ In Progress}
-\end{center}
+\textbf{To Do → In Progress}
 
-\textbf{Step 3. Create a Working Branch}
+\textbf{Bước 3. Tạo Branch làm việc}
 
-Team members must not work directly on the main branch.
+Các thành viên không được làm việc trực tiếp trên branch main.
 
-Create a feature branch following the team's naming convention.
+Thay vào đó, mỗi thành viên tạo một feature branch theo quy ước đặt tên của nhóm.
 
-Branch Naming Convention: \textit{feature/sprint1-member-name}
+\textbf{Quy ước đặt tên Branch:} \emph{feature/sprint1-member-name}
 
-Example:
-
-\textit{feature/sprint1-phung}
-
-\textit{feature/sprint2-bao}
-
-\textbf{Step 4. Implement the Assigned Tasks}
-
-Each member works on the assigned tasks within the project structure using Visual Studio Code.
-
-\textbf{Step 5. Commit Changes}
-
-Commit messages should reference the corresponding Jira Issue Key.
-
-Commit Convention: \textit{<Jira Issue Key>: <Action> <Description>}
-
-Where:
+\textbf{Ví dụ:}
 
 \begin{itemize}
-  \item Jira Issue Key: CNPM-3, CNPM-15, \ldots
-  \item Action: Add, Update, Fix, Refactor, Remove, Complete
-  \item Description: Brief description of the changes
+\item
+  feature/sprint1-phung
+\item
+  feature/sprint2-bao
 \end{itemize}
 
-Example: \textit{git commit -m "CNPM-3: Add use case list"}
+\textbf{Bước 4. Thực hiện công việc được phân công}
 
-\textbf{Step 6. Push the Working Branch}
+Mỗi thành viên thực hiện các nhiệm vụ được giao trong cấu trúc dự án bằng Visual Studio Code.
 
-\textit{git push origin feature/sprint1-phung}
+\textbf{Bước 5. Commit các thay đổi}
 
-\textbf{Step 7. Update the Jira Status}
+Commit message phải ngắn gọn, cụ thể và phản ánh chính xác nội dung thay đổi.
 
-After the task has been completed and confirmed by the team, change its status from:
+\textbf{Quy ước Commit:} \emph{\textless Action\textgreater{} \textless Description\textgreater{}}
 
-\begin{center}
-\textit{In Progress $\rightarrow$ Done}
-\end{center}
+Trong đó:
+
+\begin{itemize}
+\item
+  Action: Add, Update, Fix, Refactor, Remove, Complete
+\item
+  Description: Mô tả ngắn gọn về nội dung thay đổi.
+\end{itemize}
+
+\textbf{Ví dụ:}
+
+git commit -m "Add use case list"
+
+\textbf{Bước 6. Push Branch lên Repository}
+
+Sau khi hoàn thành các thay đổi, thành viên push branch làm việc lên GitHub.
+
+\textbf{Bước 7. Cập nhật trạng thái trên Jira}
+
+Sau khi công việc đã được hoàn thành và được nhóm xác nhận, cập nhật trạng thái từ:
+
+\textbf{In Progress → Done}
+
