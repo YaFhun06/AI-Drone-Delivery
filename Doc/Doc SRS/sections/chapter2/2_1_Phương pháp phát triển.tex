@@ -1,32 +1,33 @@
-\subsection{Development Methodology}
+\chapter{KẾ HOẠCH QUẢN LÝ DỰ ÁN}
+
+\section{Phương pháp phát triển}
+
+\subsection{Phương pháp quản lý dự án}
+
+Dự án áp dụng mô hình Scrum để quản lý và phát triển phần mềm. Scrum chia dự án thành nhiều Sprint ngắn, giúp nhóm theo dõi tiến độ một cách hiệu quả, linh hoạt điều chỉnh khi có thay đổi về yêu cầu và đánh giá kết quả sau mỗi Sprint.
+
+\subsection{Quy trình làm việc trên Jira (Jira Workflow)}
+
+Nhóm sử dụng Jira để quản lý các công việc trong suốt quá trình phát triển. Quy trình làm việc bao gồm các trạng thái sau:
+
+\textbf{To Do → In Progress → Done}
+
+Mỗi công việc được tạo dưới dạng Jira Issue và phân công cho thành viên phụ trách. Trạng thái của Issue được cập nhật tương ứng với tiến độ thực hiện công việc.
+
+\subsection{Quản lý chất lượng}
+
+Hoạt động quản lý chất lượng được thực hiện qua các quy tắc sau:
 
 \begin{itemize}
-  \item \textbf{Start Date: 31 July 2026}
-  \item \textbf{Expected Completion Date:}
-  \item \textbf{Project Management Methodology:} The project adopts the Scrum framework to manage and develop the software. Scrum divides the project into multiple short sprints, allowing the team to effectively monitor progress, respond to changing requirements, and evaluate the results after each sprint.
-  \item \textbf{Jira Workflow:} The team uses Jira to manage project tasks throughout the development process.
-  \item The workflow consists of the following stages:
+\item
+  \textbf{Kiểm tra yêu cầu:} Đảm bảo các yêu cầu đầy đủ, rõ ràng và chính xác.
+\item
+  \textbf{Kiểm tra tính nhất quán:} Đảm bảo sự thống nhất giữa Yêu cầu, Use Case, UML, Cơ sở dữ liệu, API và chức năng triển khai.
+\item
+  \textbf{Kiểm tra mã nguồn:} Kiểm tra mã nguồn, tuân thủ quy ước lập trình và chất lượng code trước khi merge.
+\item
+  \textbf{Kiểm thử:} Kiểm thử chức năng, API và khả năng tích hợp giữa các thành phần của hệ thống.
+\item
+  \textbf{Đánh giá Sprint:} Kiểm tra và nghiệm thu các sản phẩm bàn giao vào cuối mỗi Sprint.
 \end{itemize}
 
-\begin{center}
-\textbf{To Do $\rightarrow$ In Progress $\rightarrow$ Done}
-\end{center}
-
-Each task is created as a Jira Issue and assigned to the responsible team member. The issue status is updated according to the progress of the task.
-
-\begin{itemize}
-  \item \textbf{Technology Stack}
-\end{itemize}
-
-\begin{longtable}{@{}ll@{}}
-\toprule
-\textbf{Category} & \textbf{Technology / Tools} \\
-\midrule
-\endhead
-\textbf{IDEs / Editors} & Visual Studio Code, Visual Studio \\
-\textbf{Diagramming} & Draw.io, Visual Paradigm, Lucid app \\
-\textbf{Version Control} & GitHub \\
-\textbf{Project Management} & Jira \\
-\textbf{Documentation} & Latex \\
-\bottomrule
-\end{longtable}
