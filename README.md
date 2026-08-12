@@ -10,20 +10,17 @@
 8. Dashboard, thống kê và báo cáo.
 9. AI hỗ trợ (ước tính ETA, tóm tắt giao hàng, chatbot hỗ trợ khách hàng).
 ## 2. Công nghệ triển khai:
+
+
 ## 3. Các tasks chính:
 ## 4. Cấu trúc dự án:
 ```text
 AI-Drone-Delivery/
-├── docs/                    # Project documentation
-│   ├── report/             
-│   ├── Doc SRS/             # Official SRS document (LaTeX)
-│   └── images/              # Images, diagrams and figures
-├── backend/                 # Backend source code
-│   ├── src/
-│   └── tests/
-├── frontend/                # Frontend source code
-│   ├── src/
-│   └── public/
+├── Docs/                 # Project documentation           
+│   ├── Doc SRS/          # Official SRS document (LaTeX)
+├── src/                  # Backend source code
+│   ├── backend/
+│   └── frontend/
 ├── database/                # Database scripts
 │   └── scripts/
 ├── README.md
