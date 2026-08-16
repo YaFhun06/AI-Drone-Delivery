@@ -1,0 +1,49 @@
+@startuml
+title Activity Diagram - Xử lý giao hàng thất bại
+
+start
+
+:Hệ thống phát hiện giao hàng thất bại;
+:Ghi nhận sự kiện giao hàng thất bại;
+:Cập nhật trạng thái đơn hàng = FAILED;
+:Xác định nguyên nhân thất bại;
+
+if (Có thể giao lại?) then (Có)
+
+    :Đánh giá phương án giao lại;
+    :Kiểm tra Drone và trạm hạ cánh;
+    :Lập lịch giao lại;
+    :Phân công Drone;
+    :Chuẩn bị lại kiện hàng;
+
+    :Bắt đầu chuyến giao lại;
+    :Cập nhật trạng thái = IN_TRANSIT;
+    :Theo dõi quá trình giao lại;
+
+    if (Giao lại thành công?) then (Có)
+
+        :Xác nhận giao hàng;
+        :Cập nhật trạng thái = DELIVERED;
+        :Gửi thông báo hoàn tất;
+        stop
+
+    else (Không)
+
+        :Ghi nhận giao lại thất bại;
+        :Cập nhật trạng thái = FAILED;
+        :Thông báo cho khách hàng;
+        :Kết thúc xử lý đơn hàng;
+        stop
+
+    endif
+
+else (Không)
+
+    :Xác nhận hủy đơn;
+    :Cập nhật trạng thái = CANCELLED;
+    :Gửi thông báo hủy đơn cho khách hàng;
+    :Kết thúc xử lý đơn hàng;
+    stop
+
+endif
+@enduml
