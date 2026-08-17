@@ -17,5 +17,8 @@ def create_app():
     migrate.init_app(app, db)
     jwt.init_app(app)
     CORS(app)
-
+    
+    from app.routes.auth import auth_bp
+    app.register_blueprint(auth_bp)
+    
     return app
