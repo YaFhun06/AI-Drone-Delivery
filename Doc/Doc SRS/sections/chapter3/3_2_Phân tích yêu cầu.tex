@@ -2,57 +2,129 @@
 
 \subsection{Yêu cầu chức năng}
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1138}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4314}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4548}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Mã}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Module}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Chức năng}
-\end{minipage} \\
-\midrule\noalign{}
+\begin{longtable}{|C{0.12\textwidth}|C{0.38\textwidth}|C{0.44\textwidth}|}
+\hline
+\textbf{Mã} & \textbf{Module} & \textbf{Chức năng} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Mã} & \textbf{Module} & \textbf{Chức năng} \\
+\hline
 \endhead
-\bottomrule\noalign{}
-\endlastfoot
-\textbf{FR-01} & \multirow{6}{*}{\textbf{Module 1. Quản lý người dùng}} & Đăng ký tài khoản \\
-\textbf{FR-02} & & Đăng nhập và đăng xuất \\
-\textbf{FR-03} & & Đặt lại mật khẩu khi quên \\
-\textbf{FR-04} & & Quản lý thông tin hồ sơ người dùng \\
-\textbf{FR-05} & & Quản lý vai trò người dùng \\
-\textbf{FR-06} & & Quản lý quyền truy cập của người dùng \\
-\textbf{FR-07} & \multirow{5}{*}{\textbf{Module 2. Quản lý khách hàng \& giao hàng}} & Quản lý thông tin khách hàng \\
-\textbf{FR-08} & & Quản lý địa chỉ giao hàng \\
-\textbf{FR-09} & & Tạo, xem, cập nhật và hủy đơn hàng giao hàng \\
-\textbf{FR-10} & & Theo dõi trạng thái đơn hàng giao hàng \\
-\textbf{FR-11} & & Quản lý thông tin kiện hàng \\
-\textbf{FR-12} & \multirow{8}{*}{\textbf{Module 3. Quản lý quy trình giao hàng}} & Xem xét và phê duyệt đơn hàng giao hàng \\
-\textbf{FR-13} & & Từ chối đơn hàng giao hàng \\
-\textbf{FR-14} & & Lập lịch giao hàng \\
-\textbf{FR-15} & & Phân công đơn hàng cho trạm hạ cánh \\
-\textbf{FR-16} & & Theo dõi tiến độ giao hàng \\
-\textbf{FR-17} & & Cập nhật trạng thái giao hàng \\
-\textbf{FR-18} & & Xử lý các trường hợp giao hàng thất bại \\
-\textbf{FR-19} & & Hoàn tất đơn hàng giao hàng \\
-\textbf{FR-20} & \multirow{6}{*}{\textbf{Module 4. Quản lý trạm hạ cánh}} & Quản lý các trạm hạ cánh \\
-\textbf{FR-21} & & Quản lý vị trí và trạng thái hoạt động của trạm hạ cánh \\
-\textbf{FR-22} & & Theo dõi sức chứa của trạm hạ cánh \\
-\textbf{FR-23} & & Xác nhận nhận kiện hàng \\
-\textbf{FR-24} & & Xác nhận drone nhận kiện hàng và quay trở về \\
-\textbf{FR-25} & & Cập nhật trạng thái kiện hàng tại trạm hạ cánh \\
-\textbf{FR-26} & \multirow{9}{*}{\textbf{Module 5. Bảng điều khiển \& Dịch vụ AI}} & Hiển thị bảng điều khiển tổng quan \\
-\textbf{FR-27} & & Xem thống kê đơn hàng giao hàng \\
-\textbf{FR-28} & & Xem thống kê chi phí vận hành \\
-\textbf{FR-29} & & Theo dõi tỷ lệ giao hàng thành công và thất bại \\
-\textbf{FR-30} & & Theo dõi hiệu suất hoạt động của các trạm hạ cánh \\
-\textbf{FR-31} & & Dự đoán thời gian đến dự kiến (ETA) \\
-\textbf{FR-32} & & Cung cấp hỗ trợ thông qua chatbot AI \\
-\textbf{FR-33} & & Tạo bản tóm tắt thông tin giao hàng bằng AI \\
-\textbf{FR-34} & & Thực hiện phân tích bằng AI và phân tích xu hướng giao hàng \\
+
+\hline
+\endfoot
+
+\textbf{FR-01} &
+\multirow[t]{6}{=}{\centering\textbf{Module 1. Quản lý người dùng}} &
+Đăng ký tài khoản \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-02} & &
+Đăng nhập và đăng xuất \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-03} & &
+Đặt lại mật khẩu khi quên \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-04} & &
+Quản lý thông tin hồ sơ người dùng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-05} & &
+Quản lý vai trò người dùng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-06} & &
+Quản lý quyền truy cập của người dùng \\ \hline
+
+\textbf{FR-07} &
+\multirow[t]{5}{=}{\centering\textbf{Module 2. Quản lý khách hàng \& giao hàng}} &
+Quản lý thông tin khách hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-08} & &
+Quản lý địa chỉ giao hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-09} & &
+Tạo, xem, cập nhật và hủy đơn hàng giao hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-10} & &
+Theo dõi trạng thái đơn hàng giao hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-11} & &
+Quản lý thông tin kiện hàng \\ \hline
+
+\textbf{FR-12} &
+\multirow[t]{8}{=}{\centering\textbf{Module 3. Quản lý quy trình giao hàng}} &
+Xem xét và phê duyệt đơn hàng giao hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-13} & &
+Từ chối đơn hàng giao hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-14} & &
+Lập lịch giao hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-15} & &
+Phân công đơn hàng cho trạm hạ cánh \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-16} & &
+Theo dõi tiến độ giao hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-17} & &
+Cập nhật trạng thái giao hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-18} & &
+Xử lý các trường hợp giao hàng thất bại \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-19} & &
+Hoàn tất đơn hàng giao hàng \\ \hline
+
+\textbf{FR-20} &
+\multirow[t]{6}{=}{\centering\textbf{Module 4. Quản lý trạm hạ cánh}} &
+Quản lý các trạm hạ cánh \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-21} & &
+Quản lý vị trí và trạng thái hoạt động của trạm hạ cánh \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-22} & &
+Theo dõi sức chứa của trạm hạ cánh \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-23} & &
+Xác nhận nhận kiện hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-24} & &
+Xác nhận drone nhận kiện hàng và quay trở về \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-25} & &
+Cập nhật trạng thái kiện hàng tại trạm hạ cánh \\ \hline
+
+\textbf{FR-26} &
+\multirow[t]{9}{=}{\centering\textbf{Module 5. Bảng điều khiển \& Dịch vụ AI}} &
+Hiển thị bảng điều khiển tổng quan \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-27} & &
+Xem thống kê đơn hàng giao hàng \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-28} & &
+Xem thống kê chi phí vận hành \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-29} & &
+Theo dõi tỷ lệ giao hàng thành công và thất bại \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-30} & &
+Theo dõi hiệu suất hoạt động của các trạm hạ cánh \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-31} & &
+Dự đoán thời gian đến dự kiến (ETA) \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-32} & &
+Cung cấp hỗ trợ thông qua chatbot AI \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-33} & &
+Tạo bản tóm tắt thông tin giao hàng bằng AI \\ \cline{1-1}\cline{3-3}
+
+\textbf{FR-34} & &
+Thực hiện phân tích bằng AI và phân tích xu hướng giao hàng \\ \hline
+
 \end{longtable}
+
 
 \subsection{Yêu cầu phi chức năng}
 

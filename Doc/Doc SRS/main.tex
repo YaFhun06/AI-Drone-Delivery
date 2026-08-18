@@ -1,9 +1,5 @@
 \documentclass[12pt,a4paper]{report}
 
-% ===== Vietnamese support (compile with XeLaTeX or LuaLaTeX) =====
-% Times New Roman is a Microsoft font — cần MÁY BẠN ĐÃ CÀI SẴN font này
-% (có sẵn trên Windows có Office, hoặc macOS). Nếu máy không có, XeLaTeX
-% sẽ báo lỗi "font not found".
 \usepackage{fontspec}
 \usepackage{polyglossia}
 \setmainlanguage{vietnamese}
@@ -20,11 +16,23 @@
 \usepackage{calc}
 \usepackage{longtable}
 \usepackage{booktabs}
+
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{caption}
+\usepackage{makecell}
+\usepackage{ragged2e}
+\usepackage{ltablex}
+\keepXColumns
+
+% Define new column types for better text wrapping
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{Z}{>{\raggedright\arraybackslash}X}
 
 % ===== Misc =====
 \usepackage{hyperref}
@@ -67,49 +75,63 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-\title{}
-\date{}
+\title{Nền tảng quản lý giao hàng bằng drone ứng dụng AI}
+\author{Võ Trần Gia Phụng, Bùi Khánh Chi, Trần Nguyễn Quỳnh Anh, Lê Chí Bảo, Mai Hoàng Long}
+\date{Tháng 8 năm 2026}
 
 \begin{document}
 
 % ================= TITLE PAGE =================
 \begin{titlepage}
 \centering
+\vspace*{1cm}
+
+{\bfseries\fontsize{16}{20}\selectfont TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI\par}
+
+\vspace{1cm}
 \includegraphics[width=6.17in]{images/Logo UTH.png}\par
+
 \vspace{1.5cm}
 {\LARGE\bfseries BÁO CÁO DỰ ÁN\par}
+
 \vspace{0.5cm}
 {\Large\itshape Nền tảng quản lý giao hàng bằng drone ứng dụng AI\par}
+
 \vspace{2cm}
 
 \begin{tabular}{@{}p{4cm}p{9cm}@{}}
-\textbf{Mã học phần:} & 012012210504 \\[4pt]
-\textbf{Giảng viên hướng dẫn:} & Ths. Nguyễn Văn Chiến \\[4pt]
-\textbf{Sinh viên thực hiện:} &
-1. Võ Trần Gia Phụng \\
-& 2. Bùi Khánh Chi \\
-& 3. Trần Nguyễn Quỳnh Anh \\
-& 4. Lê Chí Bảo \\
-& 5. Mai Hoàng Long \\
+\textbf{Mã học phần:} & 012012210504 \\[6pt]
+\textbf{Giảng viên hướng dẫn:} & Ths. Nguyễn Văn Chiến \\[6pt]
+\textbf{Sinh viên thực hiện:} & 1. Võ Trần Gia Phụng \\
+                               & 2. Bùi Khánh Chi \\
+                               & 3. Trần Nguyễn Quỳnh Anh \\
+                               & 4. Lê Chí Bảo \\
+                               & 5. Mai Hoàng Long \\
 \end{tabular}
 
 \vfill
-{\itshape -- Thành phố Hồ Chí Minh, tháng 8 năm 2026 --\par}
+{\itshape Thành phố Hồ Chí Minh, tháng 8 năm 2026\par}
+
 \end{titlepage}
 
 % ================= FRONT MATTER =================
+\pagenumbering{roman}
+\setcounter{page}{1}
+
 \tableofcontents
 \clearpage
 
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
 % ================= BODY =================
-% Cấu trúc: sections/chapterN/ chứa từng file .tex cho từng mục con (1.1, 1.2, ...)
-% front/ chứa lời cảm ơn, thuật ngữ, danh sách bảng/ảnh, tài liệu tham khảo
-% images/ chứa toàn bộ hình ảnh, đặt tên theo nội dung
 
 % ---- Front matter ----
 \input{sections/front/Lời cảm ơn.tex}
+\clearpage
+
 \input{sections/front/Thuật ngữ viết tắt.tex}
-% \input{front/Danh sách bảng và ảnh.tex}
+\clearpage
 
 % ---- Chương 1: Giới thiệu tổng quan ----
 \input{sections/chapter1/1_1_Thông tin dự án.tex}
@@ -128,20 +150,27 @@
 \input{sections/chapter3/3_1_Tổng quan sản phẩm.tex}
 \input{sections/chapter3/3_2_Phân tích yêu cầu.tex}
 \input{sections/chapter3/3_3_Yêu cầu người dùng.tex}
-\input{sections/chapter3/3_3_1_Tác nhân_actor.tex}
+\input{sections/chapter3/3_3_1_Tác nhân actor.tex}
 \input{sections/chapter3/3_3_2_Usecase_diagram tổng thể.tex}
-\input{sections/chapter3/3_3_3_Usecase_tóm tắt.tex}
-\input{sections/chapter3/3_3_4_Activity_diagram.tex}
-\input{sections/chapter3/3_3_5_Sequence_diagram.tex}
+\input{sections/chapter3/3_3_3_Bảng mô tả Use case tóm tắt.tex}
+\input{sections/chapter3/3_3_4_Use case diagram chi tiết.tex}
+\input{sections/chapter3/3_4_Sơ đồ Screen Flow.tex}
+\input{sections/chapter3/3_4_1_Bảng mô tả các màn hình.tex}
+\input{sections/chapter3/3_4_2_Ma trận phân quyền.tex}
+\input{sections/chapter3/3_5_Activity_diagram.tex}
+\input{sections/chapter3/3_6_Sequence_diagram.tex}
 
-% ---- Chương 4: Software Design Description ----
+% ---- Chương 4: Thiết kế hệ thống ----
 \input{sections/chapter4/4_1_Thiết kế hệ thống.tex}
+\input{sections/chapter4/4_1_1_Kiến trúc hệ thống.tex}
+\input{sections/chapter4/4_1_2_Kiến trúc triển khai.tex}
 \input{sections/chapter4/4_2_Thiết kế cơ sở dữ liệu.tex}
 \input{sections/chapter4/4_2_1_ Các thực thể và mối quan hệ.tex}
 \input{sections/chapter4/4_2_2_ERD_diagram.tex}
 \input{sections/chapter4/4_2_3_Thiết kế bảng cơ sở dữ liệu.tex}
 
 % ---- Tài liệu tham khảo ----
+\appendix
 \input{sections/Tài liệu tham khảo.tex}
 
 \end{document}

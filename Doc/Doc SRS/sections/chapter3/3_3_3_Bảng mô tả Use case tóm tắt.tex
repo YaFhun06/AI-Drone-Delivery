@@ -1,107 +1,179 @@
 \subsection{Bảng tóm tắt mô tả Use case}
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0964}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2670}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2268}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4098}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{ID}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Use Case}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Actor}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Mô tả Use Case}
-\end{minipage} \\
-\midrule\noalign{}
+\begin{longtable}{|p{1.2cm}|p{3.5cm}|p{2.8cm}|p{6.5cm}|}
+\hline
+\textbf{ID} & \textbf{Use Case} & \textbf{Actor} & \textbf{Mô tả Use Case} \\
+\hline
 \endhead
-\bottomrule\noalign{}
+\hline
 \endlastfoot
 \textbf{UC01} & Đăng ký tài khoản & Khách hàng & Tạo tài khoản khách hàng mới bằng địa chỉ email hoặc số điện thoại. \\
+\hline
 \textbf{UC02} & Đăng nhập & Người dùng đã xác thực & Xác thực và đăng nhập vào hệ thống bằng thông tin đăng nhập đã đăng ký. \\
+\hline
 \textbf{UC03} & Đăng xuất & Người dùng đã xác thực & Đăng xuất khỏi hệ thống một cách an toàn. \\
+\hline
 \textbf{UC04} & Quên mật khẩu & Khách hàng & Yêu cầu đặt lại mật khẩu thông qua xác minh email hoặc số điện thoại. \\
+\hline
 \textbf{UC05} & Xem hồ sơ & Người dùng đã xác thực & Xem thông tin tài khoản cá nhân. \\
+\hline
 \textbf{UC06} & Cập nhật hồ sơ & Người dùng đã xác thực & Cập nhật thông tin cá nhân như họ tên, số điện thoại hoặc ảnh đại diện. \\
+\hline
 \textbf{UC07} & Đổi mật khẩu & Người dùng đã xác thực & Thay đổi mật khẩu tài khoản một cách an toàn. \\
+\hline
 \textbf{UC08} & Nhận thông báo & Người dùng đã xác thực & Nhận thông báo về trạng thái giao hàng, cảnh báo hệ thống và các cập nhật quan trọng. \\
+\hline
 \textbf{UC09} & Quản lý địa chỉ giao hàng & Khách hàng & Quản lý các địa chỉ giao hàng đã lưu. \\
+\hline
 \textbf{UC10} & Xem địa chỉ giao hàng & Khách hàng & Xem tất cả các địa chỉ giao hàng đã lưu. \\
+\hline
 \textbf{UC11} & Thêm địa chỉ giao hàng & Khách hàng & Thêm một địa chỉ giao hàng mới. \\
+\hline
 \textbf{UC12} & Cập nhật địa chỉ giao hàng & Khách hàng & Chỉnh sửa địa chỉ giao hàng hiện có. \\
+\hline
 \textbf{UC13} & Xóa địa chỉ giao hàng & Khách hàng & Xóa địa chỉ giao hàng đã lưu. \\
+\hline
 \textbf{UC14} & Tạo đơn giao hàng & Khách hàng & Tạo một yêu cầu giao hàng bằng drone mới. \\
+\hline
 \textbf{UC15} & Tính phí giao hàng & Khách hàng & Tính phí giao hàng dự kiến dựa trên khoảng cách, trọng lượng kiện hàng và loại dịch vụ. \\
+\hline
 \textbf{UC16} & Xác nhận đơn giao hàng & Khách hàng & Kiểm tra và xác nhận yêu cầu giao hàng trước khi gửi. \\
+\hline
 \textbf{UC17} & Thanh toán trực tuyến & Khách hàng & Thanh toán đơn giao hàng bằng các phương thức thanh toán được hỗ trợ. \\
+\hline
 \textbf{UC18} & Quản lý đơn hàng cá nhân & Khách hàng & Quản lý các đơn giao hàng của cá nhân trước khi hoàn tất. \\
+\hline
 \textbf{UC19} & Xem đơn hàng & Khách hàng & Xem các đơn giao hàng hiện tại và lịch sử giao hàng. \\
+\hline
 \textbf{UC20} & Chỉnh sửa đơn hàng & Khách hàng & Thay đổi thông tin đơn giao hàng trước khi được nhân viên điều phối phê duyệt. \\
+\hline
 \textbf{UC21} & Hủy đơn hàng & Khách hàng & Hủy đơn giao hàng trước khi quá trình xử lý bắt đầu. \\
+\hline
 \textbf{UC22} & Theo dõi giao hàng & Khách hàng & Theo dõi trạng thái giao hàng, vị trí drone và thời gian đến dự kiến (ETA) theo thời gian thực. \\
+\hline
 \textbf{UC23} & Xác nhận giao hàng & Khách hàng & Xác nhận đã nhận kiện hàng thành công. \\
+\hline
 \textbf{UC24} & Đánh giá giao hàng & Khách hàng & Đánh giá dịch vụ giao hàng sau khi nhận kiện hàng. \\
+\hline
 \textbf{UC25} & Chatbot AI & Khách hàng & Tương tác với chatbot AI để được hỗ trợ giao hàng, giải đáp câu hỏi thường gặp và các yêu cầu khác. \\
+\hline
 \textbf{UC26} & Quản lý khách hàng & Nhân viên điều phối & Quản lý thông tin khách hàng trong hệ thống giao hàng. \\
+\hline
 \textbf{UC27} & Xem khách hàng & Nhân viên điều phối & Xem thông tin khách hàng và lịch sử giao hàng. \\
+\hline
 \textbf{UC28} & Tìm kiếm khách hàng & Nhân viên điều phối & Tìm kiếm khách hàng theo tên, số điện thoại hoặc mã tài khoản. \\
+\hline
 \textbf{UC29} & Cập nhật khách hàng & Nhân viên điều phối & Cập nhật thông tin khách hàng khi cần thiết. \\
+\hline
 \textbf{UC30} & Xem xét đơn giao hàng & Nhân viên điều phối & Xem xét các đơn giao hàng mới được gửi trước khi xử lý. \\
+\hline
 \textbf{UC31} & Phê duyệt đơn hàng & Nhân viên điều phối & Phê duyệt yêu cầu giao hàng để lập lịch và thực hiện giao hàng. \\
+\hline
 \textbf{UC32} & Từ chối đơn hàng & Nhân viên điều phối & Từ chối yêu cầu giao hàng không đáp ứng các yêu cầu. \\
+\hline
 \textbf{UC33} & Lập lịch giao hàng & Nhân viên điều phối & Lập lịch cho các đơn giao hàng đã được phê duyệt. \\
+\hline
 \textbf{UC34} & Phân công drone & Nhân viên điều phối & Phân công một drone đang khả dụng cho đơn giao hàng. \\
+\hline
 \textbf{UC35} & Phân công trạm hạ cánh & Nhân viên điều phối & Lựa chọn trạm hạ cánh phù hợp để xử lý kiện hàng. \\
+\hline
 \textbf{UC36} & Phân công tuyến đường & Nhân viên điều phối & Phân công tuyến đường giao hàng tối ưu cho drone. \\
+\hline
 \textbf{UC37} & Quản lý quy trình giao hàng & Nhân viên điều phối & Theo dõi và quản lý quy trình giao hàng trong toàn bộ vòng đời giao hàng. \\
+\hline
 \textbf{UC38} & Cập nhật trạng thái đơn hàng & Nhân viên điều phối & Cập nhật trạng thái đơn giao hàng trong quá trình xử lý. \\
+\hline
 \textbf{UC39} & Xử lý giao hàng thất bại & Nhân viên điều phối & Xử lý các trường hợp giao hàng thất bại bằng cách lập lịch lại hoặc hoàn trả kiện hàng. \\
+\hline
 \textbf{UC40} & Lập lại lịch giao hàng & Nhân viên điều phối & Tạo lịch giao hàng mới cho các đơn giao hàng thất bại. \\
+\hline
 \textbf{UC41} & Tóm tắt giao hàng bằng AI & Nhân viên điều phối & Xem bản tóm tắt và đề xuất về hoạt động giao hàng do AI tạo ra. \\
+\hline
 \textbf{UC42} & Xem dự đoán ETA & Nhân viên điều phối & Xem thời gian giao hàng dự kiến do AI dự đoán cho các đơn đang được thực hiện. \\
+\hline
 \textbf{UC43} & Tiếp nhận kiện hàng & Nhân viên vận hành trạm & Tiếp nhận kiện hàng từ khách hàng hoặc nhân viên logistics tại trạm hạ cánh. \\
+\hline
 \textbf{UC44} & Kiểm tra kiện hàng & Nhân viên vận hành trạm & Kiểm tra trọng lượng, kích thước, tình trạng và thông tin nhãn của kiện hàng trước khi vận chuyển. \\
+\hline
 \textbf{UC45} & Quản lý trạm hạ cánh & Nhân viên vận hành trạm & Quản lý trạng thái hoạt động và sức chứa của trạm hạ cánh. \\
+\hline
 \textbf{UC46} & Xem trạm hạ cánh & Nhân viên vận hành trạm & Xem thông tin và trạng thái hoạt động hiện tại của trạm hạ cánh. \\
+\hline
 \textbf{UC47} & Cập nhật trạng thái trạm & Nhân viên vận hành trạm & Cập nhật trạng thái trạm hạ cánh (Sẵn sàng, Đang hoạt động, Bảo trì, v.v.). \\
+\hline
 \textbf{UC48} & Cập nhật sức chứa trạm & Nhân viên vận hành trạm & Cập nhật sức chứa còn khả dụng của trạm hạ cánh. \\
+\hline
 \textbf{UC49} & Cập nhật trạng thái kiện hàng & Nhân viên vận hành trạm & Cập nhật trạng thái kiện hàng trong quá trình tiếp nhận và giao hàng. \\
+\hline
 \textbf{UC50} & Xác nhận hoạt động của drone & Nhân viên vận hành trạm & Xác nhận việc xếp kiện hàng và trạng thái sẵn sàng của drone trước khi cất cánh. \\
+\hline
 \textbf{UC51} & Giám sát bảng điều khiển & Quản lý Logistics & Theo dõi tổng quan hoạt động giao hàng thông qua bảng điều khiển. \\
+\hline
 \textbf{UC52} & Xem bảng điều khiển & Quản lý Logistics & Xem các chỉ số hoạt động chính và trạng thái hệ thống. \\
+\hline
 \textbf{UC53} & Theo dõi KPI & Quản lý Logistics & Theo dõi các chỉ số hiệu suất chính như tỷ lệ giao hàng thành công và thời gian giao hàng trung bình. \\
+\hline
 \textbf{UC54} & Phân tích giao hàng & Quản lý Logistics & Phân tích hiệu suất giao hàng và các số liệu hoạt động. \\
+\hline
 \textbf{UC55} & Phân tích doanh thu & Quản lý Logistics & Phân tích doanh thu giao hàng và hiệu quả hoạt động kinh doanh. \\
+\hline
 \textbf{UC56} & Thống kê giao hàng & Quản lý Logistics & Xem các báo cáo thống kê về hoạt động giao hàng và vận hành. \\
+\hline
 \textbf{UC57} & Phân tích bằng AI & Quản lý Logistics & Xem các thông tin chuyên sâu và kết quả phân tích dự đoán do AI tạo ra. \\
+\hline
 \textbf{UC58} & Dự đoán nhu cầu & Quản lý Logistics & Xem dự đoán nhu cầu giao hàng trong tương lai do AI cung cấp. \\
+\hline
 \textbf{UC59} & Phân tích xu hướng giao hàng & Quản lý Logistics & Phân tích xu hướng giao hàng theo thời gian. \\
+\hline
 \textbf{UC60} & Quản lý trạm hạ cánh & Quản lý Logistics & Theo dõi và quản lý các trạm hạ cánh trong toàn hệ thống. \\
+\hline
 \textbf{UC61} & Theo dõi sức chứa trạm hạ cánh & Quản lý Logistics & Theo dõi sức chứa hoạt động của tất cả các trạm hạ cánh. \\
+\hline
 \textbf{UC62} & Quản lý báo cáo & Quản lý Logistics & Quản lý các báo cáo hoạt động của hệ thống logistics. \\
+\hline
 \textbf{UC63} & Tạo báo cáo & Quản lý Logistics & Tạo các báo cáo về hoạt động, phân tích và hiệu suất. \\
+\hline
 \textbf{UC64} & Xuất báo cáo & Quản lý Logistics & Xuất báo cáo dưới dạng PDF, Excel hoặc CSV. \\
+\hline
 \textbf{UC65} & Quản lý người dùng & Quản trị viên hệ thống & Quản lý tài khoản người dùng trong hệ thống. \\
+\hline
 \textbf{UC66} & Xem người dùng & Quản trị viên hệ thống & Xem thông tin tài khoản người dùng. \\
+\hline
 \textbf{UC67} & Thêm người dùng & Quản trị viên hệ thống & Tạo tài khoản người dùng mới. \\
+\hline
 \textbf{UC68} & Cập nhật người dùng & Quản trị viên hệ thống & Cập nhật thông tin người dùng hiện có. \\
+\hline
 \textbf{UC69} & Xóa người dùng & Quản trị viên hệ thống & Xóa hoặc vô hiệu hóa tài khoản người dùng. \\
+\hline
 \textbf{UC70} & Quản lý vai trò & Quản trị viên hệ thống & Quản lý các vai trò trong hệ thống. \\
+\hline
 \textbf{UC71} & Tạo vai trò & Quản trị viên hệ thống & Tạo một vai trò mới. \\
+\hline
 \textbf{UC72} & Cập nhật vai trò & Quản trị viên hệ thống & Chỉnh sửa vai trò hiện có. \\
+\hline
 \textbf{UC73} & Xóa vai trò & Quản trị viên hệ thống & Xóa vai trò hiện có. \\
+\hline
 \textbf{UC74} & Phân công vai trò & Quản trị viên hệ thống & Gán vai trò cho người dùng. \\
+\hline
 \textbf{UC75} & Quản lý quyền & Quản trị viên hệ thống & Quản lý quyền truy cập cho các vai trò trong hệ thống. \\
+\hline
 \textbf{UC76} & Xem quyền & Quản trị viên hệ thống & Xem các thiết lập quyền. \\
+\hline
 \textbf{UC77} & Phân quyền & Quản trị viên hệ thống & Gán quyền cho các vai trò. \\
+\hline
 \textbf{UC78} & Cập nhật quyền & Quản trị viên hệ thống & Chỉnh sửa các thiết lập quyền. \\
+\hline
 \textbf{UC79} & Cấu hình hệ thống & Quản trị viên hệ thống & Cấu hình các thiết lập hệ thống, API, thông báo và dịch vụ AI. \\
+\hline
 \textbf{UC80} & Nhật ký kiểm tra & Quản trị viên hệ thống & Xem và giám sát nhật ký hệ thống và hoạt động của người dùng. \\
+\hline
 \textbf{UC81} & Xem nhật ký kiểm tra & Quản trị viên hệ thống & Xem chi tiết các bản ghi nhật ký kiểm tra. \\
+\hline
 \textbf{UC82} & Sao lưu \& khôi phục & Quản trị viên hệ thống & Quản lý việc sao lưu hệ thống và khôi phục dữ liệu. \\
+\hline
 \textbf{UC83} & Sao lưu dữ liệu & Quản trị viên hệ thống & Thực hiện sao lưu dữ liệu hệ thống. \\
+\hline
 \textbf{UC84} & Khôi phục dữ liệu & Quản trị viên hệ thống & Khôi phục dữ liệu hệ thống từ tệp sao lưu. \\
+\hline
 \end{longtable}
 
