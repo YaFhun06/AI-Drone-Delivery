@@ -1,0 +1,252 @@
+\subsection{Thiết kế bảng cơ sở dữ liệu}
+
+\subsubsection*{Bảng ROLE -- Vai trò}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1562}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2344}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3018}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3076}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cột}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Kiểu dữ liệu}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ràng buộc}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mô tả}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+id & BIGINT & PK, Identity & Mã vai trò \\
+name & VARCHAR(50) & UNIQUE, NOT NULL & Tên vai trò \\
+description & VARCHAR(255) & NULL & Mô tả vai trò \\
+\end{longtable}
+
+\subsubsection*{Bảng USER -- Người dùng}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2061}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2344}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2971}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2624}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cột}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Kiểu dữ liệu}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ràng buộc}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mô tả}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+id & BIGINT & PK, Identity & Mã người dùng \\
+role\_id & BIGINT & FK, NOT NULL & Vai trò \\
+full\_name & VARCHAR(100) & NOT NULL & Họ tên \\
+email & VARCHAR(100) & UNIQUE, NOT NULL & Email \\
+phone & VARCHAR(20) & UNIQUE & Số điện thoại \\
+password\_hash & VARCHAR(255) & NOT NULL & Mật khẩu đã mã hóa \\
+status & VARCHAR(20) & NOT NULL & Trạng thái tài khoản \\
+created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
+updated\_at & TIMESTAMP & NULL & Ngày cập nhật \\
+\end{longtable}
+
+\subsubsection*{Bảng ADDRESS -- Địa chỉ}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1993}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2344}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3085}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2577}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cột}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Kiểu dữ liệu}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ràng buộc}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mô tả}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+id & BIGINT & PK, Identity & Mã địa chỉ \\
+user\_id & BIGINT & FK, NOT NULL & Người sở hữu \\
+receiver\_name & VARCHAR(100) & NOT NULL & Người nhận \\
+phone & VARCHAR(20) & NOT NULL & SĐT người nhận \\
+address\_detail & VARCHAR(255) & NOT NULL & Địa chỉ chi tiết \\
+latitude & DECIMAL(10,6) & NOT NULL & Vĩ độ \\
+longitude & DECIMAL(10,6) & NOT NULL & Kinh độ \\
+is\_default & BOOLEAN & DEFAULT FALSE & Địa chỉ mặc định \\
+created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
+\end{longtable}
+
+\subsubsection*{Bảng LANDING\_STATION -- Trạm hạ cánh}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1966}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2425}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3032}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2577}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cột}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Kiểu dữ liệu}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ràng buộc}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mô tả}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+id & BIGINT & PK, Identity & Mã trạm \\
+name & VARCHAR(100) & NOT NULL & Tên trạm \\
+code & VARCHAR(50) & UNIQUE, NOT NULL & Mã trạm \\
+address & VARCHAR(255) & NOT NULL & Địa chỉ \\
+latitude & DECIMAL(10,6) & NOT NULL & Vĩ độ \\
+longitude & DECIMAL(10,6) & NOT NULL & Kinh độ \\
+capacity & INT & CHECK \textgreater{} 0 & Sức chứa \\
+status & VARCHAR(20) & NOT NULL & Trạng thái \\
+created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
+\end{longtable}
+
+\subsubsection*{Bảng DRONE}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1970}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2424}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3182}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2424}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cột}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Kiểu dữ liệu}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ràng buộc}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mô tả}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+id & BIGINT & PK, Identity & Mã drone \\
+station\_id & BIGINT & FK & Trạm hiện tại \\
+code & VARCHAR(50) & UNIQUE, NOT NULL & Mã drone \\
+model & VARCHAR(100) & NOT NULL & Model drone \\
+max\_payload\_kg & DECIMAL(10,2) & CHECK \textgreater{} 0 & Tải trọng tối đa \\
+battery\_level & INT & CHECK 0--100 & Mức pin \\
+status & VARCHAR(20) & NOT NULL & Trạng thái drone \\
+created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
+last\_maintenance & TIMESTAMP & NULL & Bảo trì gần nhất \\
+\end{longtable}
+
+\subsubsection*{Bảng PACKAGES -- Kiện hàng}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1966}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2425}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3184}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2425}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cột}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Kiểu dữ liệu}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ràng buộc}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mô tả}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+id & BIGINT & PK, Identity & Mã kiện \\
+order\_id & BIGINT & FK, UNIQUE & Đơn giao hàng \\
+weight\_kg & DECIMAL(10,2) & CHECK \textgreater{} 0 & Khối lượng \\
+length\_cm & DECIMAL(10,2) & CHECK \textgreater{} 0 & Chiều dài \\
+width\_cm & DECIMAL(10,2) & CHECK \textgreater{} 0 & Chiều rộng \\
+height\_cm & DECIMAL(10,2) & CHECK \textgreater{} 0 & Chiều cao \\
+description & VARCHAR(255) & NULL & Mô tả kiện hàng \\
+created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
+\end{longtable}
+
+\subsubsection*{Bảng ORDERS -- Đơn giao hàng}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2755}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2444}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2348}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2452}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cột}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Kiểu dữ liệu}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ràng buộc}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mô tả}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+id & BIGINT & PK, Identity & Mã đơn \\
+customer\_id & BIGINT & FK, NOT NULL & Khách hàng \\
+pickup\_address\_id & BIGINT & FK, NOT NULL & Địa chỉ lấy hàng \\
+delivery\_address\_id & BIGINT & FK, NOT NULL & Địa chỉ giao hàng \\
+status & VARCHAR(20) & NOT NULL & Trạng thái đơn \\
+note & VARCHAR(255) & NULL & Ghi chú \\
+created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
+updated\_at & TIMESTAMP & NULL & Ngày cập nhật \\
+\end{longtable}
+
+\subsubsection*{Bảng SHIPMENTS -- Lượt giao hàng}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2144}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2344}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3541}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1971}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Cột
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Kiểu dữ liệu
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Ràng buộc
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mô tả
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+id & BIGINT & PK, Identity & Mã lượt giao \\
+order\_id & BIGINT & FK, NOT NULL & Đơn hàng \\
+drone\_id & BIGINT & FK, NOT NULL & Drone thực hiện \\
+from\_station\_id & BIGINT & FK, NOT NULL & Trạm xuất phát \\
+to\_station\_id & BIGINT & FK, NOT NULL & Trạm đích \\
+status & VARCHAR(20) & NOT NULL & Trạng thái giao \\
+assigned\_at & TIMESTAMP & NULL & Thời điểm phân công \\
+started\_at & TIMESTAMP & NULL & Thời điểm bắt đầu \\
+completed\_at & TIMESTAMP & NULL & Thời điểm hoàn thành \\
+cancelled\_at & TIMESTAMP & NULL & Thời điểm hủy \\
+cancel\_reason & VARCHAR(255) & NULL & Lý do hủy \\
+\end{longtable}
+
