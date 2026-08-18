@@ -1,0 +1,46 @@
+@startuml
+title Sơ đồ tuần tự - Dự đoán ETA bằng AI
+
+actor "Người dùng" as User
+participant "Ứng dụng" as App
+participant "API" as API
+participant "Dịch vụ AI" as AI
+participant "Mô hình AI" as ML
+database "Cơ sở dữ liệu" as DB
+
+User -> App: Yêu cầu xem ETA
+App -> API: Gửi yêu cầu dự đoán ETA
+
+API -> AI: Yêu cầu dự đoán ETA
+
+AI -> DB: Lấy dữ liệu giao hàng
+DB --> AI: Trả dữ liệu giao hàng
+
+note right of AI
+Dữ liệu gồm:
+- Vị trí hiện tại
+- Điểm giao hàng
+- Khoảng cách
+- Tải trọng
+- Trạng thái Drone
+end note
+
+AI -> ML: Gửi dữ liệu dự đoán
+
+note right of ML
+Phân tích dữ liệu
+và tính toán thời gian
+dự kiến (ETA)
+end note
+
+ML --> AI: Trả kết quả ETA
+
+AI --> API: Trả kết quả ETA
+
+API -> DB: Cập nhật ETA cho đơn hàng
+DB --> API: Cập nhật thành công
+
+API --> App: Trả ETA
+App --> User: Hiển thị thời gian dự kiến
+
+@enduml
