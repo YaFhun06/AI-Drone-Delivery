@@ -1,0 +1,76 @@
+@startuml
+!theme plain
+skinparam defaultTextAlignment center
+skinparam linetype ortho
+skinparam shadowing false
+
+' Định dạng màu sắc giống hình
+skinparam usecase {
+    BackgroundColor #e3f2fd
+    BorderColor #1e88e5
+}
+skinparam database {
+    BackgroundColor #f3e5f5
+    BorderColor #8e24aa
+}
+
+rectangle "1. PRESENTATION LAYER (Client)" as Layer1 {
+  rectangle "Web Manager\n(ReactJS)" as Web #e3f2fd
+  rectangle "Mobile App\n(Flutter)" as Mobile #e3f2fd
+  Web -[hidden]down- Mobile
+}
+
+usecase "HTTPS / RESTful API (Flask-CORS)\n& WebSocket (Flask-SocketIO)" as Protocol
+
+rectangle "2. BACKEND CORE (Python - Flask Monolith)" as Layer2 #e8f5e9 {
+  rectangle "API Layer (Flask Blueprints)" as APILayer {
+    rectangle "User Mngt" as API1
+    rectangle "Order & Package" as API2
+    rectangle "Landing Station" as API3
+    rectangle "Tracking" as API4
+    rectangle "Dashboard" as API5
+    
+    API1 -[hidden]down- API2
+    API2 -[hidden]down- API3
+    API3 -[hidden]down- API4
+    API4 -[hidden]down- API5
+  }
+
+  rectangle "Business Logic Layer" as BLLayer {
+    rectangle "Customer & Order\nManagement" as BL1
+    rectangle "Package & Workflow\nManagement" as BL2
+    rectangle "Landing Station\nManagement" as BL3
+    rectangle "Tracking &\nConfirmation" as BL4
+    rectangle "Analytics & AI\nServices Logic" as BL5
+    
+    BL1 -[hidden]down- BL2
+    BL2 -[hidden]down- BL3
+    BL3 -[hidden]down- BL4
+    BL4 -[hidden]down- BL5
+  }
+  
+  APILayer ---> BLLayer
+}
+
+rectangle "3. DATA LAYER (Docker Containers)" as Layer3 {
+  database "PostgreSQL + PostGIS\n(GeoAlchemy2)" as DB1
+  database "MinIO Object Storage\n(Lưu ảnh, tài liệu)" as DB2
+  DB1 -[hidden]down- DB2
+}
+
+rectangle "4. AI & EXTERNAL SERVICES" as Layer4 {
+  rectangle "Gemini API / Groq API\n(Dự đoán ETA, Tuyến đường,\nChatbot)" as Ext1 #fff3e0
+  rectangle "Map API\n(Hiển thị bản đồ)" as Ext2 #fff3e0
+  rectangle "Firebase FCM\n(Push Notification)" as Ext3 #fff3e0
+  
+  Ext1 -[hidden]down- Ext2
+  Ext2 -[hidden]down- Ext3
+}
+
+' Kết nối các khối chính
+Layer1 ---> Protocol : Gọi trực tiếp
+Protocol ---> Layer2
+Layer2 ---> Layer3
+Layer2 ---> Layer4
+
+@enduml
