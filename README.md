@@ -1,4 +1,4 @@
-# Project name: AI-powered Drone Delivery Management Platform
+# Dự án: AI-powered Drone Delivery Management Platform
 ## 1. Các main-flow chính:
 1. Đăng nhập và phân quyền người dùng.
 2. Quản lý khách hàng.
@@ -10,11 +10,11 @@
 8. Dashboard, thống kê và báo cáo.
 9. AI hỗ trợ (ước tính ETA, tóm tắt giao hàng, chatbot hỗ trợ khách hàng).
 ## 2. Công nghệ triển khai:
-**Frontend:** ReactJS, Flutter  
-**Backend:** ASP.NET Core Web API (.NET 8)  
-**Database:** PostgreSQL, PostGIS  
-**AI:** Python, FastAPI, Gemini API  
-**Deployment:** Docker, Docker Compose, NGINX
+- Frontend: ReactJS, Flutter  
+- Backend: Python, Flask  
+- Database: PostgreSQL, PostGIS  
+- AI:Gemini API
+- Deployment: Docker, Docker Compose
 ## 3. Các tasks chính:
 - Phân tích yêu cầu và nghiệp vụ
 - Thiết kế hệ thống và cơ sở dữ liệu
