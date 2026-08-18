@@ -41,7 +41,7 @@ AI-Drone-Delivery/
 │       ├── main.tex
 │       ├── sections/      # Chapter 1-4, tài liệu tham khảo
 │       └── images/        # Ảnh + sơ đồ
-├── backend/                # Flask (Python)
+├── backend/               # Flask (Python)
 │   ├── app/
 │   │   ├── models/
 │   │   └── routes/
