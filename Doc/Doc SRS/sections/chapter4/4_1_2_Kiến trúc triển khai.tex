@@ -1,0 +1,21 @@
+\subsection{Kiến trúc triển khai}
+
+Hệ thống sử dụng Docker và Docker Compose để đóng gói và triển khai các thành phần
+trong môi trường thống nhất. Các thành phần chính được triển khai dưới dạng các
+container:
+
+\begin{itemize}
+
+    \item \textbf{Frontend Container:} ReactJS.
+
+    \item \textbf{Backend Container:} Python/Flask, xử lý API và nghiệp vụ chính của hệ thống.
+
+    \item \textbf{Database Container:}PostgreSQL + PostGIS, lưu trữ dữ liệu và thông tin tọa độ địa lý.
+
+    \item \textbf{NGINX Container:} API Gateway/Reverse Proxy.
+
+    \item \textbf{AI Service:} Gemini API được Backend Flask gọi để thực hiện các chức năng như dự đoán ETA, chatbot, tóm tắt và phân tích giao hàng.
+
+\end{itemize}
+
+Các container được kết nối thông qua Docker Network. Người dùng truy cập hệ thống thông qua Web/Mobile, request được chuyển qua NGINX đến Backend Flask. Backend xử lý nghiệp vụ, truy xuất dữ liệu từ PostgreSQL và thực hiện các chức năng AI khi cần.
