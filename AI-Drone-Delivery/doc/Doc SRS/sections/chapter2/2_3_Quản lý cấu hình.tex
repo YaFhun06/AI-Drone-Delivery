@@ -1,0 +1,78 @@
+\section{Quản lý cấu hình}
+
+\subsection{Quản lý tài liệu}
+
+Tài liệu để báo cáo đồ án và các tài liệu thiết kế bản gốc được lưu trữ tập trung trên thư mục GG Drive của nhóm. Phiên bản chính thức của mã nguồn báo cáo LaTeX được quản lý trược tiếp trên Github Repository của nhóm.
+
+\subsection{Quản lý mã nguồn}
+
+Dự án sử dụng \textbf{GitHub} để quản lý mã nguồn và \textbf{Jira} để quản lý công việc trong quá trình phát triển.
+
+Quy trình quản lý cấu hình bao gồm:
+
+Clone Repository → Create Branch → Implement Changes → Commit → Push → Review/Merge → Update Jira
+
+\textbf{Quy trình thực hiện cụ thể:}
+
+\textbf{Step 1. Clone the Repository}
+
+Mỗi thành viên trong nhóm thực hiện clone repository GitHub về máy tính cá nhân.
+
+\emph{git clone \textless https://github.com/YaFhun06/CNPM.git\textgreater{}}
+
+\textbf{Step 2. Cập nhật trạng thái trên Jira}
+
+Chọn công việc được phân công và chuyển trạng thái từ:
+
+\textbf{To Do → In Progress}
+
+\textbf{Bước 3. Tạo Branch làm việc}
+
+Các thành viên không được làm việc trực tiếp trên branch main.
+
+Thay vào đó, mỗi thành viên tạo một feature branch theo quy ước đặt tên của nhóm.
+
+\textbf{Quy ước đặt tên Branch:} \emph{feature/sprint1-member-name}
+
+\textbf{Ví dụ:}
+
+\begin{itemize}
+\item
+  feature/sprint1-phung
+\item
+  feature/sprint2-bao
+\end{itemize}
+
+\textbf{Bước 4. Thực hiện công việc được phân công}
+
+Mỗi thành viên thực hiện các nhiệm vụ được giao trong cấu trúc dự án bằng Visual Studio Code.
+
+\textbf{Bước 5. Commit các thay đổi}
+
+Commit message phải ngắn gọn, cụ thể và phản ánh chính xác nội dung thay đổi.
+
+\textbf{Quy ước Commit:} \emph{\textless Action\textgreater{} \textless Description\textgreater{}}
+
+Trong đó:
+
+\begin{itemize}
+\item
+  Action: Add, Update, Fix, Refactor, Remove, Complete
+\item
+  Description: Mô tả ngắn gọn về nội dung thay đổi.
+\end{itemize}
+
+\textbf{Ví dụ:}
+
+git commit -m "Add use case list"
+
+\textbf{Bước 6. Push Branch lên Repository}
+
+Sau khi hoàn thành các thay đổi, thành viên push branch làm việc lên GitHub.
+
+\textbf{Bước 7. Cập nhật trạng thái trên Jira}
+
+Sau khi công việc đã được hoàn thành và được nhóm xác nhận, cập nhật trạng thái từ:
+
+\textbf{In Progress → Done}
+
