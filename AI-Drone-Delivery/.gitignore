@@ -10,3 +10,9 @@
 *.synctex.gz
 *.bbl
 *.blg
+
+# Python / Flask backend
+venv/
+.env
+__pycache__/
+*.pyc
