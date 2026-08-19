@@ -1,222 +1,915 @@
 \subsection{Thiết kế bảng cơ sở dữ liệu}
 
-\subsubsection*{Bảng ROLE -- Vai trò}
+% ---------------------------------------------------------
+% 1. ROLES
+% ---------------------------------------------------------
 
-\begin{longtable}{|L{2cm}|L{2.5cm}|L{3.5cm}|L{3.5cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
-\hline
-\endhead
-\hline
-\endlastfoot
-id & BIGINT & PK, Identity & Mã vai trò \\
-\hline
-name & VARCHAR(50) & UNIQUE, NOT NULL & Tên vai trò \\
-\hline
-description & VARCHAR(255) & NULL & Mô tả vai trò \\
-\hline
-\end{longtable}
+\subsubsection{Bảng \texttt{roles} -- Vai trò}
 
-\subsubsection*{Bảng USER -- Người dùng}
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{roles}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
 
-\begin{longtable}{|L{2.5cm}|L{2.5cm}|L{3cm}|L{3.5cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
-\hline
-\endhead
-\hline
-\endlastfoot
-id & BIGINT & PK, Identity & Mã người dùng \\
-\hline
-role\_id & BIGINT & FK, NOT NULL & Vai trò \\
-\hline
-full\_name & VARCHAR(100) & NOT NULL & Họ tên \\
-\hline
-email & VARCHAR(100) & UNIQUE, NOT NULL & Email \\
-\hline
-phone & VARCHAR(20) & UNIQUE & Số điện thoại \\
-\hline
-password\_hash & VARCHAR(255) & NOT NULL & Mật khẩu đã mã hóa \\
-\hline
-status & VARCHAR(20) & NOT NULL & Trạng thái tài khoản \\
-\hline
-created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
-\hline
-updated\_at & TIMESTAMP & NULL & Ngày cập nhật \\
-\hline
-\end{longtable}
+\texttt{id}
+& SERIAL
+& PK
+& Mã vai trò \\ \hline
 
-\subsubsection*{Bảng ADDRESS -- Địa chỉ}
+\texttt{name}
+& VARCHAR(50)
+& NOT NULL, UNIQUE
+& Tên vai trò \\ \hline
 
-\begin{longtable}{|L{2.5cm}|L{2.5cm}|L{3.5cm}|L{3cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
-\hline
-\endhead
-\hline
-\endlastfoot
-id & BIGINT & PK, Identity & Mã địa chỉ \\
-\hline
-user\_id & BIGINT & FK, NOT NULL & Người sở hữu \\
-\hline
-receiver\_name & VARCHAR(100) & NOT NULL & Người nhận \\
-\hline
-phone & VARCHAR(20) & NOT NULL & SĐT người nhận \\
-\hline
-address\_detail & VARCHAR(255) & NOT NULL & Địa chỉ chi tiết \\
-\hline
-latitude & DECIMAL(10,6) & NOT NULL & Vĩ độ \\
-\hline
-longitude & DECIMAL(10,6) & NOT NULL & Kinh độ \\
-\hline
-is\_default & BOOLEAN & DEFAULT FALSE & Địa chỉ mặc định \\
-\hline
-created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
-\hline
-\end{longtable}
+\texttt{description}
+& TEXT
+& NULL
+& Mô tả vai trò \\ \hline
 
-\subsubsection*{Bảng LANDING\_STATION -- Trạm hạ cánh}
+\end{tabularx}
+\end{table}
 
-\begin{longtable}{|L{2.5cm}|L{2.5cm}|L{3.5cm}|L{3cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
-\hline
-\endhead
-\hline
-\endlastfoot
-id & BIGINT & PK, Identity & Mã trạm \\
-\hline
-name & VARCHAR(100) & NOT NULL & Tên trạm \\
-\hline
-code & VARCHAR(50) & UNIQUE, NOT NULL & Mã trạm \\
-\hline
-address & VARCHAR(255) & NOT NULL & Địa chỉ \\
-\hline
-latitude & DECIMAL(10,6) & NOT NULL & Vĩ độ \\
-\hline
-longitude & DECIMAL(10,6) & NOT NULL & Kinh độ \\
-\hline
-capacity & INT & CHECK \textgreater{} 0 & Sức chứa \\
-\hline
-status & VARCHAR(20) & NOT NULL & Trạng thái \\
-\hline
-created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
-\hline
-\end{longtable}
 
-\subsubsection*{Bảng DRONE}
+% ---------------------------------------------------------
+% 2. USERS
+% ---------------------------------------------------------
 
-\begin{longtable}{|L{2.5cm}|L{2.5cm}|L{3.5cm}|L{3cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
-\hline
-\endhead
-\hline
-\endlastfoot
-id & BIGINT & PK, Identity & Mã drone \\
-\hline
-station\_id & BIGINT & FK & Trạm hiện tại \\
-\hline
-code & VARCHAR(50) & UNIQUE, NOT NULL & Mã drone \\
-\hline
-model & VARCHAR(100) & NOT NULL & Model drone \\
-\hline
-max\_payload\_kg & DECIMAL(10,2) & CHECK \textgreater{} 0 & Tải trọng tối đa \\
-\hline
-battery\_level & INT & CHECK 0--100 & Mức pin \\
-\hline
-status & VARCHAR(20) & NOT NULL & Trạng thái drone \\
-\hline
-created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
-\hline
-last\_maintenance & TIMESTAMP & NULL & Bảo trì gần nhất \\
-\hline
-\end{longtable}
+\subsubsection{Bảng \texttt{users} -- Người dùng}
 
-\subsubsection*{Bảng PACKAGES -- Kiện hàng}
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{users}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
 
-\begin{longtable}{|L{2.5cm}|L{2.5cm}|L{3.5cm}|L{3cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
-\hline
-\endhead
-\hline
-\endlastfoot
-id & BIGINT & PK, Identity & Mã kiện \\
-\hline
-order\_id & BIGINT & FK, UNIQUE & Đơn giao hàng \\
-\hline
-weight\_kg & DECIMAL(10,2) & CHECK \textgreater{} 0 & Khối lượng \\
-\hline
-length\_cm & DECIMAL(10,2) & CHECK \textgreater{} 0 & Chiều dài \\
-\hline
-width\_cm & DECIMAL(10,2) & CHECK \textgreater{} 0 & Chiều rộng \\
-\hline
-height\_cm & DECIMAL(10,2) & CHECK \textgreater{} 0 & Chiều cao \\
-\hline
-description & VARCHAR(255) & NULL & Mô tả kiện hàng \\
-\hline
-created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
-\hline
-\end{longtable}
+\texttt{id}
+& SERIAL
+& PK
+& Mã người dùng \\ \hline
 
-\subsubsection*{Bảng ORDERS -- Đơn giao hàng}
+\texttt{role\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{roles.id}, NOT NULL
+& Vai trò của người dùng \\ \hline
 
-\begin{longtable}{|L{2.8cm}|L{2.5cm}|L{3cm}|L{3.2cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
-\hline
-\endhead
-\hline
-\endlastfoot
-id & BIGINT & PK, Identity & Mã đơn \\
-\hline
-customer\_id & BIGINT & FK, NOT NULL & Khách hàng \\
-\hline
-pickup\_address\_id & BIGINT & FK, NOT NULL & Địa chỉ lấy hàng \\
-\hline
-delivery\_address\_id & BIGINT & FK, NOT NULL & Địa chỉ giao hàng \\
-\hline
-status & VARCHAR(20) & NOT NULL & Trạng thái đơn \\
-\hline
-note & VARCHAR(255) & NULL & Ghi chú \\
-\hline
-created\_at & TIMESTAMP & NOT NULL & Ngày tạo \\
-\hline
-updated\_at & TIMESTAMP & NULL & Ngày cập nhật \\
-\hline
-\end{longtable}
+\texttt{email}
+& VARCHAR(100)
+& NOT NULL, UNIQUE
+& Email đăng nhập \\ \hline
 
-\subsubsection*{Bảng SHIPMENTS -- Lượt giao hàng}
+\texttt{password\_hash}
+& VARCHAR(255)
+& NOT NULL
+& Mật khẩu đã mã hóa \\ \hline
 
-\begin{longtable}{|L{2.5cm}|L{2.5cm}|L{3.5cm}|L{3cm}|}
-\hline
-Cột & Kiểu dữ liệu & Ràng buộc & Mô tả \\
-\hline
-\endhead
-\hline
-\endlastfoot
-id & BIGINT & PK, Identity & Mã lượt giao \\
-\hline
-order\_id & BIGINT & FK, NOT NULL & Đơn hàng \\
-\hline
-drone\_id & BIGINT & FK, NOT NULL & Drone thực hiện \\
-\hline
-from\_station\_id & BIGINT & FK, NOT NULL & Trạm xuất phát \\
-\hline
-to\_station\_id & BIGINT & FK, NOT NULL & Trạm đích \\
-\hline
-status & VARCHAR(20) & NOT NULL & Trạng thái giao \\
-\hline
-assigned\_at & TIMESTAMP & NULL & Thời điểm phân công \\
-\hline
-started\_at & TIMESTAMP & NULL & Thời điểm bắt đầu \\
-\hline
-completed\_at & TIMESTAMP & NULL & Thời điểm hoàn thành \\
-\hline
-cancelled\_at & TIMESTAMP & NULL & Thời điểm hủy \\
-\hline
-cancel\_reason & VARCHAR(255) & NULL & Lý do hủy \\
-\hline
-\end{longtable}
+\texttt{full\_name}
+& VARCHAR(100)
+& NOT NULL
+& Họ tên người dùng \\ \hline
 
+\texttt{phone\_number}
+& VARCHAR(20)
+& UNIQUE
+& Số điện thoại \\ \hline
+
+\texttt{is\_active}
+& BOOLEAN
+& DEFAULT TRUE
+& Trạng thái tài khoản \\ \hline
+
+\texttt{created\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian tạo tài khoản \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 3. ADDRESSES
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{addresses} -- Địa chỉ}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{addresses}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã địa chỉ \\ \hline
+
+\texttt{user\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{users.id}, NOT NULL
+& Người sở hữu địa chỉ \\ \hline
+
+\texttt{street\_address}
+& TEXT
+& NOT NULL
+& Địa chỉ chi tiết \\ \hline
+
+\texttt{latitude}
+& DOUBLE PRECISION
+& NOT NULL
+& Vĩ độ \\ \hline
+
+\texttt{longitude}
+& DOUBLE PRECISION
+& NOT NULL
+& Kinh độ \\ \hline
+
+\texttt{location}
+& GEOGRAPHY(POINT,4326)
+& NOT NULL
+& Tọa độ không gian sử dụng PostGIS \\ \hline
+
+\texttt{is\_default}
+& BOOLEAN
+& DEFAULT FALSE
+& Xác định địa chỉ mặc định \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 4. ORDERS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{orders} -- Đơn giao hàng}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{orders}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã đơn giao hàng \\ \hline
+
+\texttt{customer\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{users.id}, NOT NULL
+& Khách hàng đặt đơn \\ \hline
+
+\texttt{package\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{packages.id}, NOT NULL
+& Kiện hàng cần giao \\ \hline
+
+\texttt{sender\_address\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{addresses.id}, NOT NULL
+& Địa chỉ lấy hàng \\ \hline
+
+\texttt{receiver\_address\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{addresses.id}, NOT NULL
+& Địa chỉ nhận hàng \\ \hline
+
+\texttt{total\_price}
+& DECIMAL(10,2)
+& NOT NULL
+& Phí giao hàng \\ \hline
+
+\texttt{status}
+& VARCHAR(30)
+& DEFAULT 'PENDING'
+& Trạng thái đơn hàng \\ \hline
+
+\texttt{created\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian tạo đơn \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 5. PACKAGES
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{packages} -- Kiện hàng}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{packages}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã kiện hàng \\ \hline
+
+\texttt{weight}
+& DECIMAL(8,2)
+& NOT NULL
+& Trọng lượng kiện hàng (kg) \\ \hline
+
+\texttt{length}
+& DECIMAL(8,2)
+& NULL
+& Chiều dài kiện hàng \\ \hline
+
+\texttt{width}
+& DECIMAL(8,2)
+& NULL
+& Chiều rộng kiện hàng \\ \hline
+
+\texttt{height}
+& DECIMAL(8,2)
+& NULL
+& Chiều cao kiện hàng \\ \hline
+
+\texttt{description}
+& TEXT
+& NULL
+& Mô tả kiện hàng \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 6. LANDING STATIONS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{landing\_stations} -- Trạm hạ cánh}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{landing\_stations}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã trạm \\ \hline
+
+\texttt{name}
+& VARCHAR(100)
+& NOT NULL
+& Tên trạm hạ cánh \\ \hline
+
+\texttt{capacity}
+& INTEGER
+& NOT NULL
+& Sức chứa tối đa của trạm \\ \hline
+
+\texttt{current\_load}
+& INTEGER
+& DEFAULT 0
+& Số kiện hàng hiện tại \\ \hline
+
+\texttt{location}
+& GEOGRAPHY(POINT,4326)
+& NOT NULL
+& Vị trí địa lý của trạm \\ \hline
+
+\texttt{status}
+& VARCHAR(30)
+& DEFAULT 'ACTIVE'
+& Trạng thái trạm \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 7. DRONES
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{drones} -- Drone}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{drones}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã Drone \\ \hline
+
+\texttt{station\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{landing\_stations.id}
+& Trạm quản lý Drone \\ \hline
+
+\texttt{model}
+& VARCHAR(50)
+& NOT NULL
+& Model Drone \\ \hline
+
+\texttt{battery\_level}
+& DECIMAL(5,2)
+& NOT NULL
+& Mức pin hiện tại (\%) \\ \hline
+
+\texttt{max\_payload}
+& DECIMAL(8,2)
+& NOT NULL
+& Tải trọng tối đa (kg) \\ \hline
+
+\texttt{status}
+& VARCHAR(30)
+& DEFAULT 'IDLE'
+& Trạng thái Drone \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 8. SHIPMENTS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{shipments} -- Lượt giao hàng}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{shipments}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã lượt giao hàng \\ \hline
+
+\texttt{order\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{orders.id}, NOT NULL
+& Đơn hàng được thực hiện \\ \hline
+
+\texttt{drone\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{drones.id}, NOT NULL
+& Drone thực hiện giao hàng \\ \hline
+
+\texttt{departure\_station\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{landing\_stations.id}
+& Trạm xuất phát \\ \hline
+
+\texttt{arrival\_station\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{landing\_stations.id}
+& Trạm đến \\ \hline
+
+\texttt{route}
+& JSONB
+& NULL
+& Tuyến đường được lựa chọn \\ \hline
+
+\texttt{start\_time}
+& TIMESTAMP
+& NULL
+& Thời gian xuất phát \\ \hline
+
+\texttt{end\_time}
+& TIMESTAMP
+& NULL
+& Thời gian kết thúc \\ \hline
+
+\texttt{status}
+& VARCHAR(30)
+& DEFAULT 'ASSIGNED'
+& Trạng thái lượt giao \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 9. DELIVERY SCHEDULES
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{delivery\_schedules} -- Lịch giao hàng}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{delivery\_schedules}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã lịch giao hàng \\ \hline
+
+\texttt{shipment\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{shipments.id}, NOT NULL
+& Lượt giao hàng \\ \hline
+
+\texttt{scheduled\_start}
+& TIMESTAMP
+& NOT NULL
+& Thời gian dự kiến bắt đầu \\ \hline
+
+\texttt{scheduled\_end}
+& TIMESTAMP
+& NULL
+& Thời gian dự kiến kết thúc \\ \hline
+
+\texttt{status}
+& VARCHAR(30)
+& DEFAULT 'SCHEDULED'
+& Trạng thái lịch \\ \hline
+
+\texttt{created\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian tạo lịch \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 10. DELIVERY EVENTS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{delivery\_events} -- Sự kiện giao hàng}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{delivery\_events}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã sự kiện \\ \hline
+
+\texttt{shipment\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{shipments.id}, NOT NULL
+& Lượt giao hàng \\ \hline
+
+\texttt{event\_type}
+& VARCHAR(50)
+& NOT NULL
+& Loại sự kiện \\ \hline
+
+\texttt{status}
+& VARCHAR(30)
+& NULL
+& Trạng thái tại thời điểm sự kiện \\ \hline
+
+\texttt{location}
+& GEOGRAPHY(POINT,4326)
+& NULL
+& Vị trí ghi nhận sự kiện \\ \hline
+
+\texttt{description}
+& TEXT
+& NULL
+& Mô tả sự kiện \\ \hline
+
+\texttt{created\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian ghi nhận \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 11. ORDER STATUS HISTORY
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{order\_status\_history} -- Lịch sử trạng thái đơn}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{order\_status\_history}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã lịch sử \\ \hline
+
+\texttt{order\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{orders.id}, NOT NULL
+& Đơn hàng \\ \hline
+
+\texttt{status}
+& VARCHAR(30)
+& NOT NULL
+& Trạng thái đơn hàng \\ \hline
+
+\texttt{changed\_by}
+& INTEGER
+& FK $\rightarrow$ \texttt{users.id}
+& Người thay đổi trạng thái \\ \hline
+
+\texttt{changed\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian thay đổi \\ \hline
+
+\texttt{note}
+& TEXT
+& NULL
+& Ghi chú \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 12. PACKAGE HANDOVERS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{package\_handovers} -- Bàn giao kiện hàng}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{package\_handovers}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã bàn giao \\ \hline
+
+\texttt{shipment\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{shipments.id}, NOT NULL
+& Lượt giao hàng \\ \hline
+
+\texttt{package\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{packages.id}, NOT NULL
+& Kiện hàng được bàn giao \\ \hline
+
+\texttt{from\_user\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{users.id}
+& Người bàn giao \\ \hline
+
+\texttt{to\_user\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{users.id}
+& Người nhận \\ \hline
+
+\texttt{handover\_type}
+& VARCHAR(30)
+& NOT NULL
+& Loại bàn giao: PICKUP / DELIVERY \\ \hline
+
+\texttt{verification\_code}
+& VARCHAR(100)
+& NULL
+& Mã xác thực OTP hoặc QR \\ \hline
+
+\texttt{handover\_time}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian bàn giao \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 13. DELIVERY CONFIRMATIONS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{delivery\_confirmations} -- Xác nhận giao hàng}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{delivery\_confirmations}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã xác nhận \\ \hline
+
+\texttt{shipment\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{shipments.id}, NOT NULL
+& Lượt giao hàng \\ \hline
+
+\texttt{confirmed\_by}
+& INTEGER
+& FK $\rightarrow$ \texttt{users.id}, NOT NULL
+& Người xác nhận \\ \hline
+
+\texttt{method}
+& VARCHAR(30)
+& NOT NULL
+& Phương thức xác nhận: OTP / QR \\ \hline
+
+\texttt{proof\_image\_url}
+& TEXT
+& NULL
+& Đường dẫn ảnh bằng chứng giao hàng \\ \hline
+
+\texttt{confirmed\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian xác nhận \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 14. DELIVERY INCIDENTS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{delivery\_incidents} -- Sự cố giao hàng}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{delivery\_incidents}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã sự cố \\ \hline
+
+\texttt{shipment\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{shipments.id}, NOT NULL
+& Lượt giao hàng xảy ra sự cố \\ \hline
+
+\texttt{incident\_type}
+& VARCHAR(50)
+& NOT NULL
+& Loại sự cố \\ \hline
+
+\texttt{description}
+& TEXT
+& NOT NULL
+& Nội dung sự cố \\ \hline
+
+\texttt{resolution}
+& VARCHAR(50)
+& NULL
+& Cách xử lý sự cố \\ \hline
+
+\texttt{reported\_by}
+& INTEGER
+& FK $\rightarrow$ \texttt{users.id}
+& Người ghi nhận sự cố \\ \hline
+
+\texttt{reported\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian ghi nhận \\ \hline
+
+\texttt{resolved\_at}
+& TIMESTAMP
+& NULL
+& Thời gian xử lý xong \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 15. AI ANALYSIS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{ai\_analysis} -- Phân tích AI}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{ai\_analysis}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã phân tích \\ \hline
+
+\texttt{shipment\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{shipments.id}
+& Lượt giao hàng được phân tích \\ \hline
+
+\texttt{analysis\_type}
+& VARCHAR(50)
+& NOT NULL
+& Loại phân tích: ETA / ROUTE / SUMMARY \\ \hline
+
+\texttt{result}
+& JSONB
+& NOT NULL
+& Kết quả do AI tạo ra \\ \hline
+
+\texttt{model}
+& VARCHAR(50)
+& NULL
+& Mô hình AI được sử dụng \\ \hline
+
+\texttt{created\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian tạo kết quả \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 16. NOTIFICATIONS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{notifications} -- Thông báo}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{notifications}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã thông báo \\ \hline
+
+\texttt{user\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{users.id}, NOT NULL
+& Người nhận thông báo \\ \hline
+
+\texttt{title}
+& VARCHAR(150)
+& NOT NULL
+& Tiêu đề thông báo \\ \hline
+
+\texttt{message}
+& TEXT
+& NOT NULL
+& Nội dung thông báo \\ \hline
+
+\texttt{type}
+& VARCHAR(50)
+& NULL
+& Loại thông báo \\ \hline
+
+\texttt{is\_read}
+& BOOLEAN
+& DEFAULT FALSE
+& Trạng thái đã đọc \\ \hline
+
+\texttt{created\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian tạo thông báo \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
+% ---------------------------------------------------------
+% 17. ACTIVITY LOGS
+% ---------------------------------------------------------
+
+\subsubsection{Bảng \texttt{activity\_logs} -- Nhật ký hoạt động}
+
+\begin{table}[H]
+\centering
+\caption{Thiết kế bảng \texttt{activity\_logs}}
+\begin{tabularx}{\textwidth}{|l|l|Z|Z|}
+\hline
+\textbf{Cột} &
+\textbf{Kiểu dữ liệu} &
+\textbf{Ràng buộc} &
+\textbf{Mô tả} \\ \hline
+
+\texttt{id}
+& SERIAL
+& PK
+& Mã nhật ký \\ \hline
+
+\texttt{user\_id}
+& INTEGER
+& FK $\rightarrow$ \texttt{users.id}
+& Người thực hiện hành động \\ \hline
+
+\texttt{action}
+& VARCHAR(100)
+& NOT NULL
+& Hành động được thực hiện \\ \hline
+
+\texttt{entity\_type}
+& VARCHAR(50)
+& NULL
+& Loại đối tượng tác động \\ \hline
+
+\texttt{entity\_id}
+& INTEGER
+& NULL
+& Mã đối tượng tác động \\ \hline
+
+\texttt{details}
+& JSONB
+& NULL
+& Chi tiết hoạt động \\ \hline
+
+\texttt{ip\_address}
+& INET
+& NULL
+& Địa chỉ IP \\ \hline
+
+\texttt{created\_at}
+& TIMESTAMP
+& DEFAULT CURRENT\_TIMESTAMP
+& Thời gian ghi nhận \\ \hline
+
+\end{tabularx}
+\end{table}

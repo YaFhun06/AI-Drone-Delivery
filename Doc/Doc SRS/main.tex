@@ -16,7 +16,7 @@
 \usepackage{calc}
 \usepackage{longtable}
 \usepackage{booktabs}
-
+\usepackage{tabularx}
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{graphicx}
@@ -79,6 +79,17 @@
 \author{Võ Trần Gia Phụng, Bùi Khánh Chi, Trần Nguyễn Quỳnh Anh, Lê Chí Bảo, Mai Hoàng Long}
 \date{Tháng 8 năm 2026}
 
+\usepackage{xurl}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    breaklinks=true
+}
+
+\urlstyle{same}
 \begin{document}
 
 % ================= TITLE PAGE =================
@@ -154,6 +165,7 @@
 \input{sections/chapter3/3_3_2_Usecase_diagram tổng thể.tex}
 \input{sections/chapter3/3_3_3_Bảng mô tả Use case tóm tắt.tex}
 \input{sections/chapter3/3_3_4_Use case diagram chi tiết.tex}
+
 \input{sections/chapter3/3_4_Sơ đồ Screen Flow.tex}
 \input{sections/chapter3/3_4_1_Bảng mô tả các màn hình.tex}
 \input{sections/chapter3/3_4_2_Ma trận phân quyền.tex}
