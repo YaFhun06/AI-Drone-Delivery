@@ -1,20 +1,27 @@
 \subsection{Kiến trúc hệ thống}
 
-SmartDroneDelivery áp dụng \textit{Layered Architecture}, trong đó các thành phần được tổ chức thành các lớp riêng biệt nhưng cùng triển khai trong một hệ thống Flask.
+SmartDroneDelivery áp dụng \textit{*Layered Architecture*}, trong đó các thành phần được tổ chức thành các lớp riêng biệt nhưng cùng triển khai trong một hệ thống Flask.
 
 \begin{itemize}
 
-\item \textbf{Presentation Layer:} Sử dụng ReactJS cho Web Manager và Flutter cho Mobile App. Các ứng dụng giao tiếp với Backend thông qua RESTful API.
+\item \textbf{**Presentation Layer:**} Sử dụng ReactJS cho Web Manager và Flutter cho Mobile App. Các ứng dụng giao tiếp với Backend thông qua RESTful API.
 
 
-\item \textbf{API \& Business Logic Layer:} Sử dụng Python/Flask, tổ chức API bằng Blueprint theo các module như User Management, Order \& Package, Landing Station, Tracking và Dashboard. Lớp này chịu trách nhiệm xử lý nghiệp vụ, xác thực, phân quyền và điều phối các yêu cầu từ Client.
 
-\item \textbf{Data Layer:} Sử dụng PostgreSQL + PostGIS để lưu trữ dữ liệu hệ thống và xử lý thông tin địa lý như tọa độ, khoảng cách và tìm trạm hạ cánh phù hợp. MinIO được sử dụng để lưu trữ hình ảnh, tài liệu và dữ liệu xác nhận giao hàng.
+\item \textbf{**API \& Business Logic Layer:**} Sử dụng Python/Flask, tổ chức API bằng Blueprint theo các module như User Management, Order \& Package, Landing Station, Tracking và Dashboard. Lớp này chịu trách nhiệm xử lý nghiệp vụ, xác thực, phân quyền và điều phối các yêu cầu từ Client.
 
-\item \textbf{AI Integration:} Backend Flask tích hợp Gemini API và Groq API để hỗ trợ các chức năng như dự đoán ETA, Chatbot AI, tóm tắt giao hàng và phân tích dữ liệu vận hành.
+\item \textbf{**Data Layer:**} Sử dụng PostgreSQL + PostGIS để lưu trữ dữ liệu hệ thống và xử lý thông tin địa lý như tọa độ, khoảng cách và tìm trạm hạ cánh phù hợp. MinIO được sử dụng để lưu trữ hình ảnh, tài liệu và dữ liệu xác nhận giao hàng.
 
-\item \textbf{External Services:} Hệ thống có thể tích hợp Map API để hiển thị bản đồ và Firebase Cloud Messaging (FCM) để gửi thông báo đến người dùng.
+\item \textbf{**AI Integration:**} Backend Flask tích hợp Gemini API và Groq API để hỗ trợ các chức năng như dự đoán ETA, Chatbot AI, tóm tắt giao hàng và phân tích dữ liệu vận hành.
+
+\item \textbf{**External Services:**} Hệ thống có thể tích hợp Map API để hiển thị bản đồ và Firebase Cloud Messaging (FCM) để gửi thông báo đến người dùng.
 
 \end{itemize}
 
+\begin{figure}[H]
 
+\centering
+
+\includegraphics[width=5.88239in,height=7.12401in,keepaspectratio,width=\linewidth]{images/Sơ đồ kiến trúc hệ thống.png}
+
+\end{figure} 
