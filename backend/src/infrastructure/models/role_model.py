@@ -1,6 +1,6 @@
-from app import db
+from src.infrastructure.databases.base import db
 
-class Role(db.Model):
+class RoleModel(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), unique=True, nullable=False)

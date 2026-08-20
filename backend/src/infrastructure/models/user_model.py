@@ -1,7 +1,7 @@
-from app import db
+from src.infrastructure.databases.base import db
 from datetime import datetime
 
-class User(db.Model):
+class UserModel(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     full_name = db.Column(db.String(100))
