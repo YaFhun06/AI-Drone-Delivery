@@ -26,3 +26,13 @@ class InvalidCredentialsError(DomainException):
 class AccountLockedError(DomainException):
     status_code = 403
     message = "Tài khoản đã bị khóa"
+
+
+class InvalidResetTokenError(DomainException):
+    status_code = 400
+    message = "Mã xác nhận không đúng hoặc đã hết hạn"
+
+
+class UserNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy tài khoản với email này"
