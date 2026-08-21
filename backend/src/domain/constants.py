@@ -1,3 +1,9 @@
+class StationStatus:
+    ACTIVE = "ACTIVE"
+    INACTIVE = "INACTIVE"
+    MAINTENANCE = "MAINTENANCE"
+
+
 class RoleNames:
     CUSTOMER = "Customer"
     DISPATCHER = "Dispatcher"

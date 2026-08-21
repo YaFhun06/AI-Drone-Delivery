@@ -36,3 +36,13 @@ class InvalidResetTokenError(DomainException):
 class UserNotFoundError(DomainException):
     status_code = 404
     message = "Không tìm thấy tài khoản với email này"
+
+
+class StationNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy trạm"
+
+
+class InvalidStationStatusError(DomainException):
+    status_code = 400
+    message = "Trạng thái trạm không hợp lệ"
