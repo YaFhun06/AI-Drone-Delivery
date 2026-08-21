@@ -11,3 +11,5 @@ class UserModel(db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=False)
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    reset_token = db.Column(db.String(10), nullable=True)
+    reset_token_expiry = db.Column(db.DateTime, nullable=True)   
