@@ -8,9 +8,13 @@ from src.infrastructure.databases.base import db
 migrate = Migrate()
 jwt = JWTManager()
 
-def create_app():
+
+def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    if test_config:
+        app.config.update(test_config)
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -18,7 +22,13 @@ def create_app():
     CORS(app)
 
     with app.app_context():
-        from src.infrastructure.models import user_model, role_model, auth_function_model, auth_role_function_model, station_model
+        from src.infrastructure.models import (
+            user_model,
+            role_model,
+            auth_function_model,
+            auth_role_function_model,
+            station_model
+        )
 
     from src.api.controllers.auth_controller import auth_bp
     app.register_blueprint(auth_bp)
