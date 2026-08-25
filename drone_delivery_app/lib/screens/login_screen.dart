@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dashboard_screen.dart'; // Đã thêm thư viện để chuyển trang
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -61,7 +62,11 @@ class LoginScreen extends StatelessWidget {
               // Nút Đăng nhập
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Xử lý chuyển trang sau khi đăng nhập
+                  // Chuyển sang màn hình Dashboard
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const DashboardScreen()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0085FC), // Màu Blue Tech
@@ -79,10 +84,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ], // Đóng children của Column
+          ), // Đóng Column
+        ), // Đóng Padding
+      ), // Đóng Center
+    ); // Đóng Scaffold
   }
 }
