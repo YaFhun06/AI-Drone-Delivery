@@ -36,3 +36,11 @@ class InvalidResetTokenError(DomainException):
 class UserNotFoundError(DomainException):
     status_code = 404
     message = "Không tìm thấy tài khoản với email này"
+
+class AddressNotFoundError(DomainException):
+    def __init__(self):
+        super().__init__("Không tìm thấy địa chỉ", 404)
+
+class CustomerNotFoundError(DomainException):
+    def __init__(self):
+        super().__init__("Không tìm thấy khách hàng", 404)
