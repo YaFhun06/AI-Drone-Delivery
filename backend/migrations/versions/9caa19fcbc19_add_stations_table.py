@@ -1,8 +1,8 @@
-"""Add station table
+"""Add stations table
 
-Revision ID: 6ac7ffc95a5c
-Revises: 5e0040148077
-Create Date: 2026-08-25 15:53:21.184772
+Revision ID: 9caa19fcbc19
+Revises: 50f2d1a1d7f2
+Create Date: 2026-08-21 21:29:05.791109
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6ac7ffc95a5c'
+revision = '9caa19fcbc19'
 down_revision = '5e0040148077'
 branch_labels = None
 depends_on = None
@@ -21,9 +21,10 @@ def upgrade():
     op.create_table('stations',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
-    sa.Column('address', sa.String(length=255), nullable=True),
-    sa.Column('latitude', sa.Float(), nullable=True),
-    sa.Column('longitude', sa.Float(), nullable=True),
+    sa.Column('latitude', sa.Float(), nullable=False),
+    sa.Column('longitude', sa.Float(), nullable=False),
+    sa.Column('capacity', sa.Integer(), nullable=False),
+    sa.Column('status', sa.String(length=50), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

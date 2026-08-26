@@ -1,4 +1,4 @@
-class DomainException(Exception):
+﻿class DomainException(Exception):
     status_code = 400
     message = "Đã có lỗi xảy ra"
 
@@ -37,10 +37,22 @@ class UserNotFoundError(DomainException):
     status_code = 404
     message = "Không tìm thấy tài khoản với email này"
 
+
 class AddressNotFoundError(DomainException):
-    def __init__(self):
-        super().__init__("Không tìm thấy địa chỉ", 404)
+    status_code = 404
+    message = "Không tìm thấy địa chỉ"
+
 
 class CustomerNotFoundError(DomainException):
-    def __init__(self):
-        super().__init__("Không tìm thấy khách hàng", 404)
+    status_code = 404
+    message = "Không tìm thấy khách hàng"
+
+
+class StationNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy trạm"
+
+
+class InvalidStationStatusError(DomainException):
+    status_code = 400
+    message = "Trạng thái trạm không hợp lệ"
