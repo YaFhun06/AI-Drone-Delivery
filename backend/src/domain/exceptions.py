@@ -56,3 +56,7 @@ class StationNotFoundError(DomainException):
 class InvalidStationStatusError(DomainException):
     status_code = 400
     message = "Trạng thái trạm không hợp lệ"
+
+class AIServiceUnavailableError(DomainException):
+    status_code = 503
+    message = "Dịch vụ AI hiện không khả dụng, đã sử dụng ước tính mặc định"

@@ -1,4 +1,4 @@
-﻿from flask import Flask
+from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -50,4 +50,14 @@ def create_app(test_config=None):
     register_error_handlers(app)
     setup_logging(app)
 
+    from src.api.controllers.eta_controller import eta_bp
+    app.register_blueprint(eta_bp)
+
+    from src.api.controllers.chatbot_controller import chatbot_bp
+    app.register_blueprint(chatbot_bp)
+
+    from src.api.controllers.delivery_summary_controller import delivery_summary_bp
+    app.register_blueprint(delivery_summary_bp)
+
+    
     return app

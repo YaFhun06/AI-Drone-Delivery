@@ -10,3 +10,4 @@ class RoleNames:
     STATION_OPERATOR = "StationOperator"
     LOGISTICS_MANAGER = "LogisticsManager"
     ADMIN = "Admin"
+DEFAULT_DRONE_SPEED_KMH = 40
