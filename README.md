@@ -29,18 +29,58 @@
 ## 4. Cấu trúc dự án:
 ```text
 AI-Drone-Delivery/
+├── backend/                        # Flask API - Clean Architecture
+│   ├── .env
+│   ├── requirements.txt
+│   ├── SETUP.md
+│   ├── migrations/
+│   │   └── versions/
+│   ├── tests/
+│   │   ├── conftest.py
+│   │   ├── test_auth.py
+│   │   └── test_station.py
+│   └── src/
+│       ├── app.py                  # entry point: python -m src.app
+│       ├── create_app.py           # app factory, đăng ký blueprint
+│       ├── config.py
+│       ├── error_handler.py
+│       ├── logging.py
+│       ├── api/
+│       │   └── controllers/        # auth, role, address, customer,
+│       │                           # station, eta, chatbot, delivery_summary
+│       ├── domain/
+│       │   ├── exceptions.py
+│       │   └── constants.py
+│       ├── services/
+│       └── infrastructure/
+│           ├── ai/                 # gemini_client.py
+│           ├── databases/
+│           ├── models/
+│           └── repositories/
+│
+├── frontend/                       # ReactJS (Vite + Tailwind)
+│   ├── public/
+│   └── src/
+│       ├── components/             # Header, Sidebar, Footer
+│       ├── layouts/                # MainLayout
+│       ├── pages/                  # Login, Dashboard
+│       ├── App.jsx
+│       └── main.jsx
+│
+├── mobile/                         # Flutter app
+│   ├── android/
+│   ├── ios/
+│   ├── lib/
+│   │   ├── main.dart
+│   │   └── screens/                # login_screen, dashboard_screen
+│   └── pubspec.yaml
+│
+├── database/                       # Script SQL, seed data
+│
 ├── doc/
-│   └── Doc SRS/
-│       ├── main.tex
-│       ├── sections/      # Chapter 1-4, tài liệu tham khảo.....
-│       ├── images/        # Ảnh + sơ đồ
+│   ├── Doc SRS/                    # main.tex, sections/, images/
 │   └── UML/
-├── src/
-│   ├── backend/
-│   ├── web/
-│   ├── mobile/
-│   └── ai-service/
-├── database/
-├── README.md
-└── .gitignore
+│
+├── .gitignore
+└── README.md
 ```
