@@ -1,3 +1,4 @@
+Set-Content -Encoding UTF8 -Path D:\PROJECT\AI-Drone-Delivery\frontend\src\App.jsx -Value @"
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
@@ -23,4 +24,4 @@ function App() {
   );
 }
 
-export default App;
+export default
