@@ -62,6 +62,14 @@ class PackageAlreadyReceivedError(DomainException):
     status_code = 400
     message = "Package đã được xác nhận đến trạm"
 
+class PackageAlreadyPickedUpError(DomainException):
+    status_code = 400
+    message = "Package đã được pickup trước đó"
+
+class PackagePickupNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy thông tin pickup package"
+
 
 class InvalidStationStatusError(DomainException):
     status_code = 400

@@ -1,2 +1,3 @@
 from src.infrastructure.models.station_model import StationModel
 from src.infrastructure.models.package_receipt_model import PackageReceiptModel
+from src.infrastructure.models import package_receipt_model

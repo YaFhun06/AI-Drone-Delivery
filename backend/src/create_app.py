@@ -2,8 +2,10 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+
 from src.config import Config
 from src.infrastructure.databases.base import db
+
 
 migrate = Migrate()
 jwt = JWTManager()
@@ -31,15 +33,18 @@ def create_app(test_config=None):
             customer_model,
             station_model,
             package_receipt_model,
+            package_pickup_model,
         )
 
     from src.api.controllers.auth_controller import auth_bp
     app.register_blueprint(auth_bp)
+
     from src.api.controllers.role_controller import role_bp
     app.register_blueprint(role_bp)
 
     from src.api.controllers.address_controller import address_bp
     app.register_blueprint(address_bp)
+
     from src.api.controllers.customer_controller import customer_bp
     app.register_blueprint(customer_bp)
 
@@ -48,11 +53,7 @@ def create_app(test_config=None):
 
     from src.error_handler import register_error_handlers
     from src.logging import setup_logging
-    register_error_handlers(app)
-    setup_logging(app)
 
-    from src.error_handler import register_error_handlers
-    from src.logging import setup_logging
     register_error_handlers(app)
     setup_logging(app)
 
@@ -67,5 +68,8 @@ def create_app(test_config=None):
 
     from src.api.controllers.package_receipt_controller import package_receipt_bp
     app.register_blueprint(package_receipt_bp)
+
+    from src.api.controllers.package_pickup_controller import package_pickup_bp
+    app.register_blueprint(package_pickup_bp)
 
     return app
