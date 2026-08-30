@@ -52,6 +52,16 @@ class StationNotFoundError(DomainException):
     status_code = 404
     message = "Không tìm thấy trạm"
 
+    
+class PackageReceiptNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy thông tin xác nhận package"
+
+
+class PackageAlreadyReceivedError(DomainException):
+    status_code = 400
+    message = "Package đã được xác nhận đến trạm"
+
 
 class InvalidStationStatusError(DomainException):
     status_code = 400

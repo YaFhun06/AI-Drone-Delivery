@@ -30,6 +30,7 @@ def create_app(test_config=None):
             address_model,
             customer_model,
             station_model,
+            package_receipt_model,
         )
 
     from src.api.controllers.auth_controller import auth_bp
@@ -50,6 +51,11 @@ def create_app(test_config=None):
     register_error_handlers(app)
     setup_logging(app)
 
+    from src.error_handler import register_error_handlers
+    from src.logging import setup_logging
+    register_error_handlers(app)
+    setup_logging(app)
+
     from src.api.controllers.eta_controller import eta_bp
     app.register_blueprint(eta_bp)
 
@@ -59,5 +65,7 @@ def create_app(test_config=None):
     from src.api.controllers.delivery_summary_controller import delivery_summary_bp
     app.register_blueprint(delivery_summary_bp)
 
-    
+    from src.api.controllers.package_receipt_controller import package_receipt_bp
+    app.register_blueprint(package_receipt_bp)
+
     return app
