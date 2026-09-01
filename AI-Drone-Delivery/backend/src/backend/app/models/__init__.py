@@ -1,2 +1,2 @@
-from app.models.order import Order
-from app.models.package import Package
+from .order import Order
+from .package import Package
