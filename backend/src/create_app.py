@@ -30,6 +30,8 @@ def create_app(test_config=None):
             address_model,
             customer_model,
             station_model,
+            order_model,
+            package_model,
         )
 
     from src.api.controllers.auth_controller import auth_bp
@@ -59,5 +61,7 @@ def create_app(test_config=None):
     from src.api.controllers.delivery_summary_controller import delivery_summary_bp
     app.register_blueprint(delivery_summary_bp)
 
-    
+    from src.api.controllers.order_controller import order_bp
+    app.register_blueprint(order_bp)
+
     return app
