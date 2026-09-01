@@ -1,25 +1,34 @@
 from flask import Blueprint, request, jsonify
 from app.services.order_service import OrderService
 
+# Giữ nguyên order_bp đã có
 order_bp = Blueprint('order_bp', __name__)
 
-@order_bp.route('/orders', methods=['GET'])
-def get_orders():
-    orders = OrderService.get_all_orders()
-    return jsonify([order.to_dict() for order in orders]), 200
+# FR-12: Duyệt đơn
+@order_bp.route('/orders/<int:order_id>/approve', methods=['PUT', 'PATCH'])
+def approve_order(order_id):
+    order, error = OrderService.approve_order(order_id)
+    if error:
+        return jsonify({'message': error}), 404
+    return jsonify({'message': 'Order approved successfully', 'status': order.status}), 200
 
-@order_bp.route('/orders/<int:order_id>', methods=['GET'])
-def get_order(order_id):
-    order = OrderService.get_order_by_id(order_id)
-    if not order:
-        return jsonify({'message': 'Order not found'}), 404
-    return jsonify(order.to_dict()), 200
+# FR-13: Từ chối đơn
+@order_bp.route('/orders/<int:order_id>/reject', methods=['PUT', 'PATCH'])
+def reject_order(order_id):
+    order, error = OrderService.reject_order(order_id)
+    if error:
+        return jsonify({'message': error}), 404
+    return jsonify({'message': 'Order rejected successfully', 'status': order.status}), 200
 
-@order_bp.route('/orders', methods=['POST'])
-def create_order():
+# FR-14: Lên lịch giao hàng
+@order_bp.route('/orders/<int:order_id>/schedule', methods=['POST', 'PUT'])
+def schedule_delivery(order_id):
     data = request.get_json()
-    if not data or not data.get('customer_id'):
-        return jsonify({'message': 'Missing customer_id'}), 400
-
-    new_order = OrderService.create_order_with_package(data)
-    return jsonify(new_order.to_dict()), 201
+    scheduled_time = data.get('scheduled_time')
+    if not scheduled_time:
+        return jsonify({'message': 'Missing scheduled_time'}), 400
+        
+    order, error = OrderService.schedule_delivery(order_id, scheduled_time)
+    if error:
+        return jsonify({'message': error}), 404
+    return jsonify({'message': 'Delivery scheduled successfully', 'order': order.to_dict() if hasattr(order, 'to_dict') else {'id': order.id}}), 200

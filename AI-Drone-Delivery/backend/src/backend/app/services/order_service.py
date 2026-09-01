@@ -1,34 +1,26 @@
 from app.repositories.order_repositories import OrderRepository
-from app.repositories.package_repository import PackageRepository
-from app.models.order import Order
-from app.models.package import Package
 
 class OrderService:
     @staticmethod
-    def get_all_orders():
-        return OrderRepository.get_all()
+    def approve_order(order_id):
+        order = OrderRepository.get_by_id(order_id)
+        if not order:
+            return None, "Order not found"
+        updated_order = OrderRepository.update_status(order, "APPROVED")
+        return updated_order, None
 
     @staticmethod
-    def get_order_by_id(order_id):
-        return OrderRepository.get_by_id(order_id)
+    def reject_order(order_id):
+        order = OrderRepository.get_by_id(order_id)
+        if not order:
+            return None, "Order not found"
+        updated_order = OrderRepository.update_status(order, "REJECTED")
+        return updated_order, None
 
     @staticmethod
-    def create_order_with_package(data):
-        new_order = Order(
-            customer_id=data.get('customer_id'),
-            station_id=data.get('station_id'),
-            scheduled_time=data.get('scheduled_time')
-        )
-        OrderRepository.create(new_order)
-
-        if 'package' in data:
-            pkg_data = data['package']
-            new_package = Package(
-                order_id=new_order.id,
-                weight=pkg_data.get('weight'),
-                dimensions=pkg_data.get('dimensions'),
-                description=pkg_data.get('description')
-            )
-            PackageRepository.create(new_package)
-
-        return new_order
+    def schedule_delivery(order_id, scheduled_time):
+        order = OrderRepository.get_by_id(order_id)
+        if not order:
+            return None, "Order not found"
+        updated_order = OrderRepository.set_delivery_schedule(order, scheduled_time)
+        return updated_order, None
