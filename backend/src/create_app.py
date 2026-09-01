@@ -64,4 +64,7 @@ def create_app(test_config=None):
     from src.api.controllers.order_controller import order_bp
     app.register_blueprint(order_bp)
 
+    from src.api.controllers.analytics_controller import analytics_bp
+    app.register_blueprint(analytics_bp)
+
     return app
