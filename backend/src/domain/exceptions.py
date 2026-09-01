@@ -60,3 +60,12 @@ class InvalidStationStatusError(DomainException):
 class AIServiceUnavailableError(DomainException):
     status_code = 503
     message = "Dịch vụ AI hiện không khả dụng, đã sử dụng ước tính mặc định"
+
+class OrderNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy đơn hàng"
+
+
+class MissingScheduledTimeError(DomainException):
+    status_code = 400
+    message = "Thiếu thời gian lên lịch giao hàng"
