@@ -1,7 +1,7 @@
 """Add stations table
 
 Revision ID: 9caa19fcbc19
-Revises: 50f2d1a1d7f2
+Revises: 5e0040148077
 Create Date: 2026-08-21 21:29:05.791109
 
 """
