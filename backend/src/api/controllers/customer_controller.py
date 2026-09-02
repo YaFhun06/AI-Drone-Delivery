@@ -18,8 +18,6 @@ def get_customer(id):
         "id": customer.id, "full_name": customer.full_name,
         "phone": customer.phone, "address_id": customer.address_id
     }), 200
-
-
 @customer_bp.route("/api/customers/<int:id>", methods=["PUT"])
 def update_customer(id):
     data = request.get_json()
