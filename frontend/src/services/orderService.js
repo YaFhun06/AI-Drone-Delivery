@@ -1,7 +1,14 @@
-export const fetchOrders = async () => {
-  // Mock data đơn hàng
-  return [
-    { id: 'ORD-001', customer: 'Nguyễn Văn A', status: 'Đang giao', destination: 'Quận 1', eta: '15 phút' },
-    { id: 'ORD-002', customer: 'Trần Thị B', status: 'Hoàn thành', destination: 'Quận 3', eta: 'Đã giao' },
-  ];
+const API_BASE_URL = 'http://localhost:5000/api';
+
+export const getOrders = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders`);
+    if (!response.ok) {
+      throw new Error(`Lỗi HTTP: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Lỗi kết nối API Orders:", error);
+    throw error;
+  }
 };
