@@ -1,7 +1,14 @@
-export const fetchStations = async () => {
-  // Mock data trạm đáp
-  return [
-    { id: 'ST-01', name: 'Trạm trung tâm Q1', status: 'Hoạt động', battery: '92%', dronesActive: 3 },
-    { id: 'ST-02', name: 'Trạm Thủ Đức', status: 'Đang sạc', battery: '45%', dronesActive: 1 },
-  ];
+const API_BASE_URL = 'http://localhost:5000/api';
+
+export const getStations = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/stations`);
+    if (!response.ok) {
+      throw new Error(`Lỗi HTTP: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Lỗi kết nối API Stations:", error);
+    throw error;
+  }
 };

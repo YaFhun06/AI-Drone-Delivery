@@ -1,60 +1,87 @@
-import React, { useEffect, useState } from 'react';
-import { fetchStations } from '../services/stationService';
+import React, { useState, useEffect } from 'react';
+import { getStations } from '../services/stationService';
 
-export default function StationList() {
+const StationList = () => {
   const [stations, setStations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchStations().then(data => {
-      setStations(data);
-      setLoading(false);
-    });
+    const fetchStations = async () => {
+      try {
+        setLoading(true);
+        const data = await getStations();
+        setStations(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStations();
   }, []);
 
-  if (loading) {
-    return <div className="p-6 text-center text-gray-500">Đang tải danh sách trạm đáp...</div>;
-  }
-
   return (
-    <div className="p-6 bg-white rounded-xl shadow-md">
+    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mt-8">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Quản Lý Trạm Đáp</h2>
-        <span className="bg-purple-100 text-purple-700 text-sm font-semibold px-3 py-1 rounded-full">
+        <h2 className="text-xl font-bold text-gray-800">Quản Lý Trạm (Station)</h2>
+        <span className="bg-purple-100 text-purple-800 text-sm font-semibold px-3 py-1 rounded-full">
           Tổng số: {stations.length} trạm
         </span>
       </div>
 
-      <div className="overflow-x-auto border border-gray-100 rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã Trạm</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên Trạm</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng Thái</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pin</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Drone Hoạt Động</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {stations.map((station) => (
-              <tr key={station.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{station.id}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{station.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                   <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${
-                    station.status === 'Hoạt động' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
-                  }`}>
-                    {station.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{station.battery}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{station.dronesActive}</td>
+      {loading && <p className="text-gray-500 animate-pulse mb-4">Đang tải danh sách trạm...</p>}
+      
+      {error && (
+        <div className="bg-red-50 text-red-600 p-4 rounded-md border border-red-200 mb-4">
+          <p className="font-semibold">Lỗi tải dữ liệu trạm:</p>
+          <p className="text-sm">Vui lòng chờ Backend khởi động ({error})</p>
+        </div>
+      )}
+
+      {!loading && !error && (
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm text-gray-600">
+            <thead className="bg-gray-50 text-gray-700 uppercase text-xs font-semibold">
+              <tr>
+                <th className="px-4 py-3 border-b">ID</th>
+                <th className="px-4 py-3 border-b">Tên Trạm</th>
+                <th className="px-4 py-3 border-b">Vị Trí</th>
+                <th className="px-4 py-3 border-b">Sức Chứa</th>
+                <th className="px-4 py-3 border-b">Trạng Thái</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {stations.length > 0 ? (
+                stations.map((station, index) => (
+                  <tr key={station.id || index} className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-purple-600">#{station.id}</td>
+                    <td className="px-4 py-3">{station.name || 'N/A'}</td>
+                    <td className="px-4 py-3">{station.location || 'N/A'}</td>
+                    <td className="px-4 py-3">{station.capacity || 0} drone</td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        station.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                      }`}>
+                        {station.status || 'Unknown'}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="px-4 py-8 text-center text-gray-500">
+                    Chưa có trạm nào trong hệ thống.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default StationList;
