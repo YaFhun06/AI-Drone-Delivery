@@ -12,3 +12,16 @@ export const getOrders = async () => {
     throw error;
   }
 };
+
+export const getOrderById = async (id) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders/${id}`);
+    if (!response.ok) {
+      throw new Error(`Lỗi HTTP: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Lỗi kết nối API chi tiết đơn hàng #${id}:`, error);
+    throw error;
+  }
+};
