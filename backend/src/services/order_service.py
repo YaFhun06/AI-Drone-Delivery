@@ -18,6 +18,12 @@ class OrderService:
             raise OrderNotFoundError()
         return self.order_repository.update_status(order, "REJECTED")
 
+    def complete_order(self, order_id):
+        order = self.order_repository.find_by_id(order_id)
+        if not order:
+            raise OrderNotFoundError()
+        return self.order_repository.update_status(order, "COMPLETED")
+
     def schedule_delivery(self, order_id, scheduled_time, station_id=None):
         order = self.order_repository.find_by_id(order_id)
         if not order:

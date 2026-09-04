@@ -38,3 +38,16 @@ def schedule_delivery(order_id):
     except DomainException as e:
         return jsonify({"error": e.message}), e.status_code
     return jsonify({"message": "Delivery scheduled successfully", "order": order.to_dict()}), 200
+
+
+@order_bp.route("/api/orders/<int:order_id>/complete", methods=["PUT", "PATCH"])
+def complete_order(order_id):
+    try:
+        order = order_service.complete_order(order_id)
+    except DomainException as e:
+        return jsonify({"error": e.message}), e.status_code
+
+    return jsonify({
+        "message": "Order completed successfully",
+        "status": order.status
+    }), 200
