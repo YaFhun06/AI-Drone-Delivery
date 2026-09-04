@@ -5,8 +5,10 @@ from src.infrastructure.databases.base import db
 class PackageRepository:
     def create(self, order_id, weight, dimensions=None, description=None):
         package = PackageModel(
-            order_id=order_id, weight=weight,
-            dimensions=dimensions, description=description,
+            order_id=order_id,
+            weight=weight,
+            dimensions=dimensions,
+            description=description,
         )
         db.session.add(package)
         db.session.commit()
@@ -14,3 +16,11 @@ class PackageRepository:
 
     def find_by_order_id(self, order_id):
         return PackageModel.query.filter_by(order_id=order_id).all()
+
+    def find_by_id(self, package_id):
+        return PackageModel.query.get(package_id)
+
+    def update_status(self, package, status):
+        package.status = status
+        db.session.commit()
+        return package

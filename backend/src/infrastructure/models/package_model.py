@@ -10,6 +10,11 @@ class PackageModel(db.Model):
     dimensions = db.Column(db.String(100), nullable=True)
     description = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(
+      db.String(50),
+      nullable=False,
+      default='RECEIVED'
+)
 
     def to_dict(self):
         return {

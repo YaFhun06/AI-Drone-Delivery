@@ -77,3 +77,11 @@ class PackageReceiptNotFoundError(DomainException):
 class PackageAlreadyReceivedError(DomainException):
     status_code = 400
     message = "Package đã được xác nhận đến trạm"
+
+class PackageNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy package"
+
+class InvalidPackageStatusError(DomainException):
+    status_code = 400
+    message = "Trạng thái package không hợp lệ"
