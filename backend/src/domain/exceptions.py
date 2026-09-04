@@ -69,3 +69,11 @@ class OrderNotFoundError(DomainException):
 class MissingScheduledTimeError(DomainException):
     status_code = 400
     message = "Thiếu thời gian lên lịch giao hàng"
+class PackageReceiptNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy thông tin xác nhận package"
+
+
+class PackageAlreadyReceivedError(DomainException):
+    status_code = 400
+    message = "Package đã được xác nhận đến trạm"

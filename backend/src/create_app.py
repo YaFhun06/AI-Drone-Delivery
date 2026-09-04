@@ -32,6 +32,7 @@ def create_app(test_config=None):
             station_model,
             order_model,
             package_model,
+            package_receipt_model,
         )
 
     from src.api.controllers.auth_controller import auth_bp
@@ -63,6 +64,8 @@ def create_app(test_config=None):
 
     from src.api.controllers.order_controller import order_bp
     app.register_blueprint(order_bp)
+    from src.api.controllers.package_receipt_controller import package_receipt_bp
+    app.register_blueprint(package_receipt_bp)
 
     from src.api.controllers.analytics_controller import analytics_bp
     app.register_blueprint(analytics_bp)
