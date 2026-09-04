@@ -28,4 +28,26 @@ class OrderService:
         order = self.order_repository.find_by_id(order_id)
         if not order:
             raise OrderNotFoundError()
-        return self.order_repository.set_delivery_schedule(order, scheduled_time, station_id)
+        return self.order_repository.set_delivery_schedule(
+            order, scheduled_time, station_id
+        )
+
+    def fail_order(self, order_id, failure_reason):
+        order = self.order_repository.find_by_id(order_id)
+        if not order:
+            raise OrderNotFoundError()
+
+        if not failure_reason:
+            raise ValueError("Failure reason is required")
+
+        return self.order_repository.mark_failed(order, failure_reason)
+
+    def retry_order(self, order_id):
+        order = self.order_repository.find_by_id(order_id)
+        if not order:
+            raise OrderNotFoundError()
+
+        if order.status != 'FAILED':
+            raise ValueError("Only failed orders can be retried")
+
+        return self.order_repository.retry_order(order)

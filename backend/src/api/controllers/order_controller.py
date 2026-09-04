@@ -51,3 +51,40 @@ def complete_order(order_id):
         "message": "Order completed successfully",
         "status": order.status
     }), 200
+@order_bp.route("/api/orders/<int:order_id>/fail", methods=["POST", "PUT", "PATCH"])
+def fail_order(order_id):
+    data = request.get_json() or {}
+    failure_reason = data.get("failure_reason")
+
+    if not failure_reason:
+        return jsonify({"error": "Missing failure_reason"}), 400
+
+    try:
+        order = order_service.fail_order(order_id, failure_reason)
+    except DomainException as e:
+        return jsonify({"error": e.message}), e.status_code
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    return jsonify({
+        "message": "Order marked as failed",
+        "status": order.status,
+        "failure_reason": order.failure_reason,
+        "retry_count": order.retry_count
+    }), 200
+
+
+@order_bp.route("/api/orders/<int:order_id>/retry", methods=["POST", "PUT", "PATCH"])
+def retry_order(order_id):
+    try:
+        order = order_service.retry_order(order_id)
+    except DomainException as e:
+        return jsonify({"error": e.message}), e.status_code
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    return jsonify({
+        "message": "Order retry initiated successfully",
+        "status": order.status,
+        "retry_count": order.retry_count
+    }), 200
