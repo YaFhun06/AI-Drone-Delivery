@@ -49,3 +49,23 @@ def delete_drone(drone_id):
     db.session.delete(drone)
     db.session.commit()
     return jsonify({'message': f'Drone {drone_id} deleted successfully'}), 200
+@drone_bp.route('/<int:drone_id>/confirm-return', methods=['POST'])
+def confirm_drone_return(drone_id):
+    drone = Drone.query.get(drone_id)
+    if not drone:
+        return jsonify({'error': 'Drone not found'}), 404
+
+    # Cập nhật trạng thái drone thành RETURNING hoặc IDLE tùy logic hệ thống
+    data = request.get_json() or {}
+    drone.status = data.get('status', 'RETURNING')
+    
+    # Nếu có cập nhật dung lượng pin còn lại sau khi bay về
+    if 'battery_level' in data:
+        drone.battery_level = data['battery_level']
+
+    db.session.commit()
+
+    return jsonify({
+        'message': 'Drone status updated successfully',
+        'drone': drone.to_dict()
+    }), 200
