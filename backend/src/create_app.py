@@ -69,7 +69,9 @@ def create_app(test_config=None):
     app.register_blueprint(package_receipt_bp)
 
     from src.api.controllers.package_status_controller import package_status_bp
+    from src.api.controllers.package_timeline_controller import package_timeline_bp
     app.register_blueprint(package_status_bp)
+    app.register_blueprint(package_timeline_bp)
 
     from src.api.controllers.analytics_controller import analytics_bp
     app.register_blueprint(analytics_bp)

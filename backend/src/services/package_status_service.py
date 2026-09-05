@@ -1,4 +1,7 @@
 from src.infrastructure.repositories.package_repository import PackageRepository
+from src.infrastructure.repositories.package_status_history_repository import (
+    PackageStatusHistoryRepository
+)
 
 from src.domain.exceptions import (
     PackageNotFoundError,
@@ -18,9 +21,16 @@ class PackageStatusService:
         "PROCESSING": "DISPATCHED",
     }
 
-    def __init__(self, package_repository=None):
+    def __init__(
+        self,
+        package_repository=None,
+        history_repository=None
+    ):
         self.package_repository = (
             package_repository or PackageRepository()
+        )
+        self.history_repository = (
+            history_repository or PackageStatusHistoryRepository()
         )
 
     def update_status(self, package_id, new_status):
@@ -43,10 +53,18 @@ class PackageStatusService:
 
         if new_status != expected_status:
             raise InvalidPackageStatusError(
-                f"Không thể chuyển trạng thái từ {current_status} sang {new_status}"
+                f"Không thể chuyển trạng thái từ "
+                f"{current_status} sang {new_status}"
             )
 
-        return self.package_repository.update_status(
+        package = self.package_repository.update_status(
             package,
             new_status
         )
+
+        self.history_repository.create(
+            package_id=package.id,
+            status=new_status
+        )
+
+        return package
