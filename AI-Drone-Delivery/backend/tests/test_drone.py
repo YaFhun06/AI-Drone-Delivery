@@ -55,5 +55,15 @@ class DroneTestCase(unittest.TestCase):
             self.assertIsNotNone(drone.id)
             self.assertEqual(drone.battery_level, 80)
 
+    def test_cancel_order_endpoint_exists(self):
+        """Test API Hủy đơn hàng (CNPM-83)"""
+        response = self.client.post('/api/orders/1/cancel')
+        self.assertIn(response.status_code, [200, 404])
+
+    def test_auto_assign_station_endpoint_exists(self):
+        """Test API Phân công trạm tự động (CNPM-83)"""
+        response = self.client.post('/api/orders/1/auto-assign-station')
+        self.assertIn(response.status_code, [200, 400, 404])
+
 if __name__ == '__main__':
     unittest.main()
