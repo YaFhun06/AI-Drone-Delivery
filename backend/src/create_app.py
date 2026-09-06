@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from src.config import Config
 from src.infrastructure.databases.base import db
+from src.extensions import socketio
 
 migrate = Migrate()
 jwt = JWTManager()
@@ -20,6 +21,7 @@ def create_app(test_config=None):
     migrate.init_app(app, db)
     jwt.init_app(app)
     CORS(app)
+    socketio.init_app(app)
 
     with app.app_context():
         from src.infrastructure.models import (
@@ -32,6 +34,7 @@ def create_app(test_config=None):
             station_model,
             order_model,
             package_model,
+            notification_model,
         )
 
     from src.api.controllers.auth_controller import auth_bp
@@ -67,4 +70,9 @@ def create_app(test_config=None):
     from src.api.controllers.analytics_controller import analytics_bp
     app.register_blueprint(analytics_bp)
 
+    from src.sockets import register_socket_events
+    register_socket_events(socketio)
+
+    from src.api.controllers.notification_controller import notification_bp
+    app.register_blueprint(notification_bp)
     return app
