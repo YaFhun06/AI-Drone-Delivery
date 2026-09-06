@@ -1,9 +1,9 @@
-from app.extensions import db
+from src.infrastructure.databases.base import db
 
-class Drone(db.Model):
+
+class DroneModel(db.Model):
     __tablename__ = 'drones'
-
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(50), default='IDLE')
     battery_level = db.Column(db.Integer, default=100)
@@ -15,5 +15,5 @@ class Drone(db.Model):
             'name': self.name,
             'status': self.status,
             'battery_level': self.battery_level,
-            'station_id': self.station_id
+            'station_id': self.station_id,
         }

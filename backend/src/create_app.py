@@ -35,6 +35,7 @@ def create_app(test_config=None):
             order_model,
             package_model,
             notification_model,
+            drone_model,
         )
 
     from src.api.controllers.auth_controller import auth_bp
@@ -75,4 +76,8 @@ def create_app(test_config=None):
 
     from src.api.controllers.notification_controller import notification_bp
     app.register_blueprint(notification_bp)
+    
+    from src.api.controllers.drone_controller import drone_bp
+    app.register_blueprint(drone_bp)
+
     return app

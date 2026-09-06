@@ -69,3 +69,10 @@ class OrderNotFoundError(DomainException):
 class MissingScheduledTimeError(DomainException):
     status_code = 400
     message = "Thiếu thời gian lên lịch giao hàng"
+
+
+
+
+class DroneNotFoundError(DomainException):
+    status_code = 404
+    message = "Khong tim thay drone"
