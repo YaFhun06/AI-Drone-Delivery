@@ -4,6 +4,7 @@ import OrderDetail from './pages/OrderDetail';
 import CustomerList from './components/CustomerList';
 import OrderList from './components/OrderList';
 import StationList from './components/StationList';
+import DroneList from './components/DroneList';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <OrderList />
         <OrderDetail orderId={1} />
         <StationList />
+        <DroneList />
       </div>
     </div>
   );
