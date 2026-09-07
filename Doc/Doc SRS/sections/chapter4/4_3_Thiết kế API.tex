@@ -1,0 +1,302 @@
+\section{Thiết kế API}
+
+Hệ thống SmartDroneDelivery cung cấp giao diện lập trình ứng dụng (API) theo kiến trúc RESTful, cho phép Web Application, Mobile Application và các hệ thống bên thứ ba tương tác với dữ liệu và nghiệp vụ của nền tảng.
+
+Toàn bộ API được xây dựng trên nền tảng Flask, tuân theo kiến trúc phân lớp (Controller - Service - Repository), đảm bảo tính mở rộng và dễ bảo trì. Dữ liệu trao đổi giữa client và server được định dạng theo chuẩn JSON.
+
+\begin{itemize}
+\item
+  \textbf{Base URL:} \texttt{http://127.0.0.1:5000}
+\item
+  \textbf{Định dạng dữ liệu:} JSON (Content-Type: application/json)
+\item
+  \textbf{Xác thực:} JSON Web Token (JWT), được truyền qua header \texttt{Authorization: Bearer <token>} đối với các endpoint yêu cầu đăng nhập
+\item
+  \textbf{Mã trạng thái phản hồi:} Tuân theo chuẩn HTTP (200 - Thành công, 201 - Tạo mới thành công, 400 - Yêu cầu không hợp lệ, 401 - Chưa xác thực, 404 - Không tìm thấy tài nguyên, 500 - Lỗi hệ thống)
+\end{itemize}
+
+\subsection{Danh sách Endpoint}
+
+Bảng \ref{tab:api-endpoints} tổng hợp toàn bộ endpoint của hệ thống, phân nhóm theo chức năng nghiệp vụ.
+
+\begin{longtable}{|p{2.2cm}|p{5.5cm}|p{5cm}|p{1.8cm}|}
+\caption{Tổng hợp Endpoint API}
+\label{tab:api-endpoints}\\
+\hline
+\textbf{Phương thức} & \textbf{Endpoint} & \textbf{Chức năng} & \textbf{Yêu cầu} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Phương thức} & \textbf{Endpoint} & \textbf{Chức năng} & \textbf{Yêu cầu} \\
+\hline
+\endhead
+
+POST & /api/auth/register & Đăng ký tài khoản khách hàng & FR-01 \\
+\hline
+POST & /api/auth/login & Đăng nhập hệ thống & FR-02 \\
+\hline
+POST & /api/auth/logout & Đăng xuất hệ thống & FR-03 \\
+\hline
+POST & /api/auth/forgot-password & Yêu cầu đặt lại mật khẩu & FR-04 \\
+\hline
+POST & /api/auth/reset-password & Xác nhận đặt lại mật khẩu & FR-05 \\
+\hline
+GET & /api/users/profile & Xem hồ sơ cá nhân & FR-06 \\
+\hline
+PUT & /api/users/profile & Cập nhật hồ sơ cá nhân & FR-06 \\
+\hline
+POST & /api/addresses & Tạo địa chỉ giao hàng & FR-07 \\
+\hline
+GET & /api/addresses & Xem danh sách địa chỉ & FR-07 \\
+\hline
+PUT & /api/addresses/<id> & Cập nhật địa chỉ & FR-08 \\
+\hline
+DELETE & /api/addresses/<id> & Xóa địa chỉ & FR-08 \\
+\hline
+GET & /api/customers/<id> & Xem thông tin khách hàng & FR-09 \\
+\hline
+PUT & /api/customers/<id> & Cập nhật thông tin khách hàng & FR-09 \\
+\hline
+POST & /api/stations & Tạo trạm giao hàng & FR-20 \\
+\hline
+GET & /api/stations & Xem danh sách trạm & FR-20 \\
+\hline
+GET & /api/stations/<id> & Xem chi tiết trạm & FR-20 \\
+\hline
+PUT & /api/stations/<id> & Cập nhật thông tin trạm & FR-20 \\
+\hline
+DELETE & /api/stations/<id> & Xóa trạm & FR-20 \\
+\hline
+PUT & /api/stations/<id>/status & Cập nhật trạng thái trạm & FR-21 \\
+\hline
+GET & /api/stations/<id>/capacity & Xem sức chứa hiện tại của trạm & FR-21 \\
+\hline
+PUT & /api/orders/<id>/approve & Duyệt đơn giao hàng & FR-12 \\
+\hline
+PUT & /api/orders/<id>/reject & Từ chối đơn giao hàng & FR-13 \\
+\hline
+POST & /api/orders/<id>/schedule & Lên lịch giao hàng & FR-14 \\
+\hline
+POST & /api/eta/estimate & Ước tính thời gian giao hàng bằng AI & FR-31 \\
+\hline
+POST & /api/chatbot/ask & Trả lời câu hỏi khách hàng bằng AI & FR-32 \\
+\hline
+POST & /api/deliveries/summarize & Tóm tắt trạng thái đơn hàng bằng AI & FR-33 \\
+\hline
+GET & /api/analytics/orders-by-status & Thống kê số lượng đơn theo trạng thái & FR-34 \\
+\hline
+\end{longtable}
+
+\subsection{Nhóm API Xác thực và Người dùng}
+
+\subsubsection{Đăng ký tài khoản}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} POST /api/auth/register
+\item
+  \textbf{Mô tả:} Tạo tài khoản mới cho khách hàng, tự động gán vai trò mặc định là Customer.
+\item
+  \textbf{Tham số đầu vào (Request Body):}
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  email (chuỗi, bắt buộc): Địa chỉ email dùng để đăng nhập
+\item
+  password (chuỗi, bắt buộc): Mật khẩu tài khoản
+\item
+  full\_name (chuỗi, tùy chọn): Họ tên đầy đủ của người dùng
+\end{enumerate}
+
+\begin{itemize}
+\item
+  \textbf{Kết quả trả về:} Thông tin định danh (id) của tài khoản vừa tạo.
+\item
+  \textbf{Điều kiện lỗi:} Email đã tồn tại trong hệ thống; thiếu email hoặc mật khẩu; chưa cấu hình vai trò Customer trong hệ thống.
+\end{itemize}
+
+\subsubsection{Đăng nhập}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} POST /api/auth/login
+\item
+  \textbf{Mô tả:} Xác thực tài khoản và cấp phát mã truy cập (access token) sử dụng cho các yêu cầu tiếp theo.
+\item
+  \textbf{Tham số đầu vào:} email, password
+\item
+  \textbf{Kết quả trả về:} access\_token và thông tin cơ bản của người dùng (id, email, họ tên, vai trò).
+\item
+  \textbf{Điều kiện lỗi:} Email hoặc mật khẩu không đúng; tài khoản đã bị khóa.
+\end{itemize}
+
+\subsubsection{Quên mật khẩu và đặt lại mật khẩu}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} POST /api/auth/forgot-password
+\item
+  \textbf{Mô tả:} Sinh mã xác nhận và gửi đến email của người dùng để phục vụ việc đặt lại mật khẩu.
+\item
+  \textbf{Endpoint tiếp theo:} POST /api/auth/reset-password
+\item
+  \textbf{Tham số đầu vào:} token (mã xác nhận), new\_password (mật khẩu mới)
+\item
+  \textbf{Điều kiện lỗi:} Mã xác nhận không hợp lệ hoặc đã hết hạn (hiệu lực 15 phút).
+\end{itemize}
+
+\subsubsection{Quản lý hồ sơ cá nhân}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} GET, PUT /api/users/profile
+\item
+  \textbf{Mô tả:} Cho phép người dùng đã đăng nhập xem và cập nhật thông tin cá nhân (họ tên, số điện thoại).
+\item
+  \textbf{Yêu cầu:} Bắt buộc xác thực bằng JWT.
+\end{itemize}
+
+\subsection{Nhóm API Địa chỉ và Khách hàng}
+
+\subsubsection{Quản lý địa chỉ giao hàng}
+
+Nhóm API này cho phép tạo, xem, cập nhật và xóa các địa chỉ giao hàng liên kết với khách hàng.
+
+\begin{itemize}
+\item
+  \textbf{Tạo địa chỉ:} POST /api/addresses -- Tham số: street, city, latitude, longitude.
+\item
+  \textbf{Xem danh sách địa chỉ:} GET /api/addresses.
+\item
+  \textbf{Cập nhật địa chỉ:} PUT /api/addresses/<id>.
+\item
+  \textbf{Xóa địa chỉ:} DELETE /api/addresses/<id>.
+\end{itemize}
+
+\subsubsection{Quản lý thông tin khách hàng}
+
+\begin{itemize}
+\item
+  \textbf{Xem thông tin:} GET /api/customers/<id> -- Trả về họ tên, số điện thoại, địa chỉ liên kết.
+\item
+  \textbf{Cập nhật thông tin:} PUT /api/customers/<id> -- Cho phép cập nhật họ tên, số điện thoại và địa chỉ.
+\item
+  \textbf{Điều kiện lỗi:} Không tìm thấy khách hàng với id được cung cấp.
+\end{itemize}
+
+\subsection{Nhóm API Trạm giao hàng}
+
+Nhóm API này phục vụ việc quản lý các trạm hạ cánh của drone, bao gồm vị trí, sức chứa và trạng thái vận hành.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Tạo trạm mới} (POST /api/stations): Nhập tên trạm, tọa độ (vĩ độ, kinh độ), sức chứa tối đa và trạng thái ban đầu.
+\item
+  \textbf{Xem danh sách và chi tiết trạm} (GET /api/stations, GET /api/stations/<id>).
+\item
+  \textbf{Cập nhật thông tin trạm} (PUT /api/stations/<id>): Cho phép chỉnh sửa tên, vị trí, sức chứa.
+\item
+  \textbf{Xóa trạm} (DELETE /api/stations/<id>).
+\item
+  \textbf{Cập nhật trạng thái và vị trí trạm} (PUT /api/stations/<id>/status): Chuyển đổi trạng thái trạm giữa các giá trị hợp lệ (ví dụ: ACTIVE, MAINTENANCE). Hệ thống kiểm tra tính hợp lệ của trạng thái trước khi cập nhật.
+\item
+  \textbf{Xem sức chứa hiện tại} (GET /api/stations/<id>/capacity): Trả về sức chứa tối đa, số đơn hàng đang được gán cho trạm và số chỗ còn trống, được tính toán dựa trên dữ liệu đơn hàng thời gian thực.
+\end{enumerate}
+
+\subsection{Nhóm API Đơn hàng và Kiện hàng}
+
+Nhóm API này hỗ trợ nghiệp vụ duyệt đơn, từ chối đơn và lập kế hoạch giao hàng, tương ứng với các yêu cầu chức năng FR-12, FR-13 và FR-14.
+
+\subsubsection{Duyệt và từ chối đơn hàng}
+
+\begin{itemize}
+\item
+  \textbf{Duyệt đơn:} PUT /api/orders/<id>/approve -- Chuyển trạng thái đơn hàng từ PENDING sang APPROVED.
+\item
+  \textbf{Từ chối đơn:} PUT /api/orders/<id>/reject -- Chuyển trạng thái đơn hàng sang REJECTED.
+\item
+  \textbf{Điều kiện lỗi:} Không tìm thấy đơn hàng với id được cung cấp.
+\end{itemize}
+
+\subsubsection{Lên lịch giao hàng}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} POST /api/orders/<id>/schedule
+\item
+  \textbf{Tham số đầu vào:}
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  scheduled\_time (chuỗi định dạng ISO 8601, bắt buộc): Thời gian dự kiến giao hàng
+\item
+  station\_id (số nguyên, tùy chọn): Trạm được gán để thực hiện giao hàng
+\end{enumerate}
+
+\begin{itemize}
+\item
+  \textbf{Mô tả xử lý:} Hệ thống cập nhật thời gian giao hàng dự kiến, gán trạm (nếu có) và chuyển trạng thái đơn hàng sang SCHEDULED.
+\item
+  \textbf{Điều kiện lỗi:} Thiếu tham số scheduled\_time; không tìm thấy đơn hàng; trạm được chỉ định không tồn tại.
+\end{itemize}
+
+\subsection{Nhóm API Tích hợp Trí tuệ nhân tạo}
+
+Nhóm API này khai thác mô hình ngôn ngữ Gemini nhằm nâng cao trải nghiệm người dùng thông qua các tính năng dự đoán và hỗ trợ tự động.
+
+\subsubsection{Ước tính thời gian giao hàng (ETA)}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} POST /api/eta/estimate
+\item
+  \textbf{Tham số đầu vào:} origin\_lat, origin\_lng, dest\_lat, dest\_lng (tọa độ điểm đi và điểm đến), speed\_kmh (tùy chọn, mặc định 40 km/h).
+\item
+  \textbf{Phương pháp tính toán:} Khoảng cách giữa hai điểm được tính theo công thức Haversine, sau đó suy ra thời gian di chuyển dựa trên tốc độ trung bình của drone.
+\item
+  \textbf{Kết quả trả về:} Khoảng cách (km), thời gian ước tính (phút), và một đoạn diễn giải bằng ngôn ngữ tự nhiên do AI sinh ra.
+\item
+  \textbf{Cơ chế dự phòng:} Trong trường hợp dịch vụ AI gặp sự cố, hệ thống vẫn trả về kết quả tính toán theo công thức, kèm theo thông báo mặc định thay cho phần diễn giải của AI.
+\end{itemize}
+
+\subsubsection{Trợ lý hội thoại (Chatbot)}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} POST /api/chatbot/ask
+\item
+  \textbf{Tham số đầu vào:} question (câu hỏi của khách hàng)
+\item
+  \textbf{Mô tả xử lý:} Câu hỏi được kết hợp với ngữ cảnh nghiệp vụ và gửi đến mô hình Gemini để sinh câu trả lời phù hợp, thân thiện, bằng tiếng Việt.
+\item
+  \textbf{Cơ chế dự phòng:} Nếu dịch vụ AI không phản hồi, hệ thống trả về thông báo hướng dẫn khách hàng liên hệ tổng đài hỗ trợ.
+\end{itemize}
+
+\subsubsection{Tóm tắt trạng thái giao hàng}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} POST /api/deliveries/summarize
+\item
+  \textbf{Tham số đầu vào:} order\_id, status\_history (danh sách các mốc thời gian và trạng thái của đơn hàng)
+\item
+  \textbf{Mô tả xử lý:} Lịch sử trạng thái được tổng hợp và gửi đến AI để sinh ra một đoạn tóm tắt ngắn gọn, dễ hiểu, giúp khách hàng nắm được tiến độ giao hàng hiện tại.
+\item
+  \textbf{Cơ chế dự phòng:} Nếu AI không khả dụng, hệ thống trả về trạng thái gần nhất của đơn hàng dưới dạng văn bản đơn giản.
+\end{itemize}
+
+\subsubsection{Thống kê vận hành (Analytics)}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} GET /api/analytics/orders-by-status
+\item
+  \textbf{Mô tả:} Cung cấp số liệu thống kê tổng số đơn hàng và số lượng đơn hàng phân theo từng trạng thái (PENDING, APPROVED, REJECTED, SCHEDULED), phục vụ nhu cầu theo dõi vận hành của quản lý logistics.
+\item
+  \textbf{Kết quả trả về:} Tổng số đơn hàng và một đối tượng thể hiện số lượng đơn hàng tương ứng với mỗi trạng thái.
+\end{itemize}

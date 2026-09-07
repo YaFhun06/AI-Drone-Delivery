@@ -70,3 +70,5 @@ app.*.map.json
 *.njsproj
 *.sln
 *.sw?
+# Database backups
+*.dump
