@@ -1,4 +1,4 @@
-from flask import Flask
+﻿from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -36,6 +36,7 @@ def create_app(test_config=None):
             package_model,
             notification_model,
             drone_model,
+            package_receipt_model,
         )
 
     from src.api.controllers.auth_controller import auth_bp
@@ -68,6 +69,14 @@ def create_app(test_config=None):
     from src.api.controllers.order_controller import order_bp
     app.register_blueprint(order_bp)
 
+    from src.api.controllers.package_receipt_controller import package_receipt_bp
+    app.register_blueprint(package_receipt_bp)
+
+    from src.api.controllers.package_status_controller import package_status_bp
+    from src.api.controllers.package_timeline_controller import package_timeline_bp
+    app.register_blueprint(package_status_bp)
+    app.register_blueprint(package_timeline_bp)
+
     from src.api.controllers.analytics_controller import analytics_bp
     app.register_blueprint(analytics_bp)
 
@@ -76,7 +85,7 @@ def create_app(test_config=None):
 
     from src.api.controllers.notification_controller import notification_bp
     app.register_blueprint(notification_bp)
-    
+
     from src.api.controllers.drone_controller import drone_bp
     app.register_blueprint(drone_bp)
 

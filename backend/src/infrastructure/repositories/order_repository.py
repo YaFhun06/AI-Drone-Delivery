@@ -18,3 +18,16 @@ class OrderRepository:
         order.status = 'SCHEDULED'
         db.session.commit()
         return order
+
+    def mark_failed(self, order, failure_reason):
+        order.status = 'FAILED'
+        order.failure_reason = failure_reason
+        db.session.commit()
+        return order
+
+    def retry_order(self, order):
+        order.status = 'APPROVED'
+        order.retry_count += 1
+        order.failure_reason = None
+        db.session.commit()
+        return order
