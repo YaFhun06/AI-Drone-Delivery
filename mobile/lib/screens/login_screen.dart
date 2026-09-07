@@ -1,3 +1,4 @@
+import 'register_screen.dart';
 import 'package:flutter/material.dart';
 import 'dashboard_screen.dart'; // Đã thêm thư viện để chuyển trang
 
@@ -84,10 +85,39 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
+
+              // Nút chuyển sang màn hình Đăng ký
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Chưa có tài khoản? ',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Đăng ký ngay',
+                      style: TextStyle(
+                        color: Color(0xFF0085FC),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ], // Đóng children của Column
           ), // Đóng Column
         ), // Đóng Padding
       ), // Đóng Center
-    ); // Đóng Scaffold
+    );
   }
 }
