@@ -89,4 +89,7 @@ def create_app(test_config=None):
     from src.api.controllers.drone_controller import drone_bp
     app.register_blueprint(drone_bp)
 
+    from src.api.controllers.health_controller import health_bp
+    app.register_blueprint(health_bp)
+    
     return app

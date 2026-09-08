@@ -1,4 +1,4 @@
-from src.infrastructure.models.order_model import OrderModel
+﻿from src.infrastructure.models.order_model import OrderModel
 from src.infrastructure.models.station_model import StationModel
 from sqlalchemy import func
 from src.infrastructure.databases.base import db
@@ -27,7 +27,6 @@ class AnalyticsService:
 
         total_orders = OrderModel.query.count()
         total_weight = db.session.query(func.coalesce(func.sum(PackageModel.weight), 0)).scalar()
-
         estimated_cost = (total_orders * BASE_DELIVERY_FEE) + (total_weight * FEE_PER_PACKAGE_WEIGHT)
 
         return {
@@ -73,25 +72,22 @@ class AnalyticsService:
             "failure_rate_percent": round((failed / total) * 100, 2) if total else 0,
         }
 
+    def get_orders_trend(self, days=7):
+        """Thong ke so don hang theo tung ngay, N ngay gan nhat."""
+        start_date = datetime.utcnow() - timedelta(days=days)
 
-def get_orders_trend(self, days=7):
-    """Thống kê số đơn hàng theo từng ngày, N ngày gần nhất."""
-    from src.infrastructure.models.order_model import OrderModel
-
-    start_date = datetime.utcnow() - timedelta(days=days)
-
-    results = (
-        db.session.query(
-            func.date(OrderModel.created_at).label("date"),
-            func.count(OrderModel.id).label("count"),
+        results = (
+            db.session.query(
+                func.date(OrderModel.created_at).label("date"),
+                func.count(OrderModel.id).label("count"),
+            )
+            .filter(OrderModel.created_at >= start_date)
+            .group_by(func.date(OrderModel.created_at))
+            .order_by(func.date(OrderModel.created_at))
+            .all()
         )
-        .filter(OrderModel.created_at >= start_date)
-        .group_by(func.date(OrderModel.created_at))
-        .order_by(func.date(OrderModel.created_at))
-        .all()
-    )
 
-    return [
-        {"date": str(date), "order_count": count}
-        for date, count in results
-    ]
+        return [
+            {"date": str(date), "order_count": count}
+            for date, count in results
+        ]
