@@ -1,4 +1,5 @@
 ﻿from src.infrastructure.repositories.notification_repository import NotificationRepository
+from src.sockets import emit_notification
 
 
 class NotificationService:
@@ -14,10 +15,15 @@ class NotificationService:
             "SCHEDULED": f"Don hang #{order_id} da duoc len lich giao hang.",
         }
         message = messages.get(status, f"Don hang #{order_id} cap nhat trang thai: {status}")
-        return self.notification_repository.create(
+        notification = self.notification_repository.create(
             customer_id=customer_id, order_id=order_id,
             message=message, type=status,
         )
+
+        # Bắn realtime tới client đang lắng nghe của customer này
+        emit_notification(customer_id, notification.to_dict())
+
+        return notification
 
     def get_customer_notifications(self, customer_id):
         return self.notification_repository.find_by_customer(customer_id)

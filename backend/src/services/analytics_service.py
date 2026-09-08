@@ -2,6 +2,7 @@ from src.infrastructure.models.order_model import OrderModel
 from src.infrastructure.models.station_model import StationModel
 from sqlalchemy import func
 from src.infrastructure.databases.base import db
+from datetime import datetime, timedelta
 
 BASE_DELIVERY_FEE = 15000
 FEE_PER_PACKAGE_WEIGHT = 5000
@@ -71,3 +72,26 @@ class AnalyticsService:
             "success_rate_percent": round((completed / total) * 100, 2) if total else 0,
             "failure_rate_percent": round((failed / total) * 100, 2) if total else 0,
         }
+
+
+def get_orders_trend(self, days=7):
+    """Thống kê số đơn hàng theo từng ngày, N ngày gần nhất."""
+    from src.infrastructure.models.order_model import OrderModel
+
+    start_date = datetime.utcnow() - timedelta(days=days)
+
+    results = (
+        db.session.query(
+            func.date(OrderModel.created_at).label("date"),
+            func.count(OrderModel.id).label("count"),
+        )
+        .filter(OrderModel.created_at >= start_date)
+        .group_by(func.date(OrderModel.created_at))
+        .order_by(func.date(OrderModel.created_at))
+        .all()
+    )
+
+    return [
+        {"date": str(date), "order_count": count}
+        for date, count in results
+    ]

@@ -14,8 +14,19 @@ def register_socket_events(socketio):
         if order_id:
             join_room(f"order_{order_id}")
 
+    @socketio.on("join_customer_room")
+    def handle_join_customer_room(data):
+        from flask_socketio import join_room
+        customer_id = data.get("customer_id")
+        if customer_id:
+            join_room(f"customer_{customer_id}")
+
 
 def emit_order_update(order_id, payload):
-    """Gọi hàm này từ bất kỳ service nào để phát sự kiện realtime khi đơn hàng thay đổi."""
     from src.extensions import socketio
     socketio.emit("order_status_updated", payload, room=f"order_{order_id}")
+
+
+def emit_notification(customer_id, payload):
+    from src.extensions import socketio
+    socketio.emit("new_notification", payload, room=f"customer_{customer_id}")

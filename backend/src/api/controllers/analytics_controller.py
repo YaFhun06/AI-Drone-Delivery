@@ -23,3 +23,8 @@ def get_station_performance():
 @analytics_bp.route("/api/analytics/success-rate", methods=["GET"])
 def get_success_rate():
     return jsonify(analytics_service.get_delivery_success_rate()), 200
+
+@analytics_bp.route("/api/analytics/orders-trend", methods=["GET"])
+def get_orders_trend():
+    days = request.args.get("days", default=7, type=int)
+    return jsonify(analytics_service.get_orders_trend(days)), 200
