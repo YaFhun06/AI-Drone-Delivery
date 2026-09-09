@@ -1,6 +1,11 @@
-from src.infrastructure.models.order_model import OrderModel
+﻿from src.infrastructure.models.order_model import OrderModel
+from src.infrastructure.models.station_model import StationModel
 from sqlalchemy import func
 from src.infrastructure.databases.base import db
+from datetime import datetime, timedelta
+
+BASE_DELIVERY_FEE = 15000
+FEE_PER_PACKAGE_WEIGHT = 5000
 
 class AnalyticsService:
     def get_order_status_summary(self):

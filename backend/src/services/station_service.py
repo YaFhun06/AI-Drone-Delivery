@@ -1,4 +1,4 @@
-from src.infrastructure.repositories.station_repository import StationRepository
+﻿from src.infrastructure.repositories.station_repository import StationRepository
 from src.domain.exceptions import StationNotFoundError, InvalidStationStatusError
 from src.domain.constants import StationStatus
 
@@ -17,6 +17,7 @@ class StationService:
         return station
 
     def create_station(self, name, latitude, longitude, capacity, status):
+        print(f"DEBUG status nhan duoc: '{status}' type={type(status)}")
         if status not in (StationStatus.ACTIVE, StationStatus.INACTIVE, StationStatus.MAINTENANCE):
             raise InvalidStationStatusError()
         return self.station_repository.create_station(name, latitude, longitude, capacity, status)
@@ -54,3 +55,5 @@ class StationService:
             "active_orders": active_orders_count,
             "available": station.capacity - active_orders_count,
         }
+
+

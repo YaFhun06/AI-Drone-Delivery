@@ -1,9 +1,10 @@
-from flask import Flask
+﻿from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from src.config import Config
 from src.infrastructure.databases.base import db
+from src.extensions import socketio
 
 migrate = Migrate()
 jwt = JWTManager()
@@ -35,6 +36,9 @@ def create_app(test_config=None):
             station_model,
             order_model,
             package_model,
+            notification_model,
+            drone_model,
+            package_receipt_model,
         )
 
     # Đăng ký các Controllers

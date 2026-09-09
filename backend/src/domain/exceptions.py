@@ -57,9 +57,11 @@ class InvalidStationStatusError(DomainException):
     status_code = 400
     message = "Trạng thái trạm không hợp lệ"
 
+
 class AIServiceUnavailableError(DomainException):
     status_code = 503
     message = "Dịch vụ AI hiện không khả dụng, đã sử dụng ước tính mặc định"
+
 
 class OrderNotFoundError(DomainException):
     status_code = 404
@@ -69,3 +71,28 @@ class OrderNotFoundError(DomainException):
 class MissingScheduledTimeError(DomainException):
     status_code = 400
     message = "Thiếu thời gian lên lịch giao hàng"
+
+
+class DroneNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy drone"
+
+
+class PackageReceiptNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy thông tin xác nhận package"
+
+
+class PackageAlreadyReceivedError(DomainException):
+    status_code = 400
+    message = "Package đã được xác nhận đến trạm"
+
+
+class PackageNotFoundError(DomainException):
+    status_code = 404
+    message = "Không tìm thấy package"
+
+
+class InvalidPackageStatusError(DomainException):
+    status_code = 400
+    message = "Trạng thái package không hợp lệ"

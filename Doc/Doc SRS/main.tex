@@ -25,6 +25,7 @@
 \usepackage{makecell}
 \usepackage{ragged2e}
 \usepackage{ltablex}
+\usepackage{parskip}
 \keepXColumns
 
 % Define new column types for better text wrapping
@@ -59,16 +60,19 @@
 \titleformat{\section}
   {\color{red}\normalfont\bfseries\fontsize{14pt}{18pt}\selectfont}
   {\thesection}{8pt}{}
+\titlespacing*{\section}{0pt}{18pt}{10pt}
 
 % Subsection (X.Y.Z): chữ đỏ, in đậm, cỡ 13pt
 \titleformat{\subsection}
   {\color{black}\normalfont\bfseries\fontsize{13pt}{16pt}\selectfont}
   {\thesubsection}{8pt}{}
+\titlespacing*{\subsection}{0pt}{14pt}{8pt}
 
 % Subsubsection (bảng, không đánh số): chữ đỏ, in đậm, cỡ 12pt
 \titleformat{\subsubsection}
   {\color{red}\normalfont\bfseries\fontsize{12pt}{14pt}\selectfont}
   {\thesubsubsection}{8pt}{}
+\titlespacing*{\subsubsection}{0pt}{12pt}{6pt}
 
 % Tighten spacing around list items produced by pandoc
 \setlist{itemsep=2pt, topsep=4pt}
@@ -110,14 +114,18 @@
 
 \vspace{2cm}
 
-\begin{tabular}{@{}p{4cm}p{9cm}@{}}
+\begin{tabular}{@{}p{5cm}p{8cm}@{}}
+
 \textbf{Mã học phần:} & 012012210504 \\[6pt]
+
 \textbf{Giảng viên hướng dẫn:} & Ths. Nguyễn Văn Chiến \\[6pt]
+
 \textbf{Sinh viên thực hiện:} & 1. Võ Trần Gia Phụng \\
                                & 2. Bùi Khánh Chi \\
                                & 3. Trần Nguyễn Quỳnh Anh \\
                                & 4. Lê Chí Bảo \\
                                & 5. Mai Hoàng Long \\
+
 \end{tabular}
 
 \vfill
@@ -180,6 +188,9 @@
 \input{sections/chapter4/4_2_1_ Các thực thể và mối quan hệ.tex}
 \input{sections/chapter4/4_2_2_ERD_diagram.tex}
 \input{sections/chapter4/4_2_3_Thiết kế bảng cơ sở dữ liệu.tex}
+\input{sections/chapter4/4_3_Thiết kế API.tex}
+
+
 
 % ---- Tài liệu tham khảo ----
 \appendix
