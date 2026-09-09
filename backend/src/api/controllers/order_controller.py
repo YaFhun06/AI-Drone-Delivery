@@ -1,10 +1,25 @@
-from flask import Blueprint, request, jsonify
+﻿from flask import Blueprint, request, jsonify
 from src.services.order_service import OrderService
 from src.domain.exceptions import DomainException
 from src.api.decorators import require_permission
 
 order_bp = Blueprint("order", __name__)
 order_service = OrderService()
+
+
+@order_bp.route("/api/orders", methods=["GET"])
+def list_orders():
+    orders = order_service.get_all()
+    return jsonify([order.to_dict() for order in orders]), 200
+
+
+@order_bp.route("/api/orders/<int:order_id>", methods=["GET"])
+def get_order(order_id):
+    try:
+        order = order_service.get_by_id(order_id)
+    except DomainException as e:
+        return jsonify({"error": e.message}), e.status_code
+    return jsonify(order.to_dict()), 200
 
 
 @order_bp.route("/api/orders/<int:order_id>/approve", methods=["PUT", "PATCH"])
@@ -55,6 +70,8 @@ def complete_order(order_id):
         "message": "Order completed successfully",
         "status": order.status
     }), 200
+
+
 @order_bp.route("/api/orders/<int:order_id>/fail", methods=["POST", "PUT", "PATCH"])
 def fail_order(order_id):
     data = request.get_json() or {}

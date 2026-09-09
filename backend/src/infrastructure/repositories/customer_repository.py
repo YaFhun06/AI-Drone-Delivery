@@ -15,3 +15,5 @@ class CustomerRepository:
         db.session.commit()
         return customer
     
+    def find_all(self):
+        return CustomerModel.query.all()

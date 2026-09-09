@@ -61,3 +61,12 @@ class OrderService:
             raise ValueError("Only failed orders can be retried")
 
         return self.order_repository.retry_order(order)
+
+    def get_all(self):
+        return self.order_repository.find_all()
+
+    def get_by_id(self, order_id):
+        order = self.order_repository.find_by_id(order_id)
+        if not order:
+            raise OrderNotFoundError()
+        return order

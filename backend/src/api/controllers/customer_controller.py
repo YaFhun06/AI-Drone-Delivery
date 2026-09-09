@@ -34,3 +34,15 @@ def update_customer(id):
     return jsonify({
         "id": customer.id, "full_name": customer.full_name, "phone": customer.phone
     }), 200
+
+
+@customer_bp.route("/api/customers", methods=["GET"])
+def list_customers():
+    customers = customer_service.get_all()
+    return jsonify([
+        {
+            "id": c.id, "full_name": c.full_name,
+            "phone": c.phone, "address_id": c.address_id
+        }
+        for c in customers
+    ]), 200

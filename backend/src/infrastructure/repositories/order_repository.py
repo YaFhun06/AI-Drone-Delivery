@@ -31,3 +31,5 @@ class OrderRepository:
         order.failure_reason = None
         db.session.commit()
         return order
+    def find_all(self):
+        return OrderModel.query.order_by(OrderModel.created_at.desc()).all()

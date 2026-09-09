@@ -14,3 +14,5 @@ class CustomerService:
     def update(self, customer_id, full_name=None, phone=None, address_id=None):
         customer = self.get_by_id(customer_id)
         return self.customer_repository.update(customer, full_name, phone, address_id)
+    def get_all(self):
+        return self.customer_repository.find_all()
