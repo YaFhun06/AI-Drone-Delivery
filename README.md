@@ -28,51 +28,58 @@
 - Hoàn thiện tài liệu và báo cáo
 ## 4. Cấu trúc dự án:
 ```text
-AI-Drone-Delivery/
+AAI-Drone-Delivery/
 ├── backend/                        # Flask API - Clean Architecture
 │   ├── .env
 │   ├── requirements.txt
 │   ├── SETUP.md
 │   ├── migrations/
-│   │   └── versions/
 │   ├── tests/
 │   │   ├── conftest.py
 │   │   ├── test_auth.py
 │   │   └── test_station.py
+│   ├── venv/
 │   └── src/
 │       ├── app.py                  # entry point: python -m src.app
-│       ├── create_app.py           # app factory, đăng ký blueprint
 │       ├── config.py
+│       ├── create_app.py           # app factory, đăng ký blueprint
+│       ├── dependency_container.py 
 │       ├── error_handler.py
+│       ├── extensions.py
 │       ├── logging.py
-│       ├── api/
-│       │   └── controllers/        # auth, role, address, customer,
-│       │                           # station, eta, chatbot, delivery_summary
+│       ├── sockets.py
+│       ├── api/                    # controllers (auth, users, customers,
+│       │                           # stations, orders, eta, chatbot...)
 │       ├── domain/
-│       │   ├── exceptions.py
-│       │   └── constants.py
-│       ├── services/
-│       └── infrastructure/
-│           ├── ai/                 # gemini_client.py
-│           ├── databases/
-│           ├── models/
-│           └── repositories/
+│       ├── infrastructure/         # ai, databases, models, repositories
+│       └── services/
 │
 ├── frontend/                       # ReactJS (Vite + Tailwind)
+│   ├── dist/
+│   ├── node_modules/
 │   ├── public/
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── postcss.config.js
+│   ├── README.md
+│   ├── tailwind.config.js
+│   ├── vite.config.js
 │   └── src/
-│       ├── components/             # Header, Sidebar, Footer
-│       ├── layouts/                # MainLayout
-│       ├── pages/                  # Login, Dashboard
-│       ├── App.jsx
-│       └── main.jsx
+│       ├── App.jsx                
+│       │                           
+│       │                           
+│       ├── App.css
+│       ├── index.css
+│       ├── main.jsx
+│       ├── components/            
+│       └── services/                
 │
 ├── mobile/                         # Flutter app
 │   ├── android/
 │   ├── ios/
-│   ├── lib/
-│   │   ├── main.dart
-│   │   └── screens/                # login_screen, dashboard_screen
+│   ├── lib/                                        
 │   └── pubspec.yaml
 │
 ├── database/                       # Script SQL, seed data
