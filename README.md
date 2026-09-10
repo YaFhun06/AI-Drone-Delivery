@@ -10,11 +10,11 @@
 8. Dashboard, thống kê và báo cáo.
 9. AI hỗ trợ (ước tính ETA, tóm tắt giao hàng, chatbot hỗ trợ khách hàng).
 ## 2. Công nghệ triển khai:
-- Frontend: ReactJS, Flutter  
-- Backend: Python, Flask  
-- Database: PostgreSQL, PostGIS  
-- AI: Gemini API
-- Deployment: Docker, Docker Compose
+- Frontend: ReactJS, Flutter 
+- Backend: Python, Flask (RESTful API, Flask-SQLAlchemy, Flask-JWT-Extended, Flask-SocketIO ở mức nền tảng)
+- Database: PostgreSQL trên Supabase, truy cập qua SQLAlchemy 
+- AI: Gemini API (ETA, Chatbot, tóm tắt giao hàng)
+- Deployment:Frontend Vite, Backend Flask, Supabase PostgreSQL 
 ## 3. Các tasks chính:
 - Phân tích yêu cầu và nghiệp vụ
 - Thiết kế hệ thống và cơ sở dữ liệu
