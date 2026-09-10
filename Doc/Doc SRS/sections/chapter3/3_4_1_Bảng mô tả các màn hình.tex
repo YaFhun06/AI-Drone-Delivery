@@ -1,103 +1,91 @@
 \subsection{Bảng mô tả các màn hình hệ thống}
 
+\textbf{Phạm vi giao diện phiên bản hiện tại:} Frontend đã triển khai màn hình đăng nhập, Dashboard tổng quan, Quản lý người dùng, Quản lý khách hàng và Đơn giao hàng. Các màn hình còn lại trong bảng là phạm vi mục tiêu hoặc đang chờ hoàn thiện, không được xem là chức năng đã bàn giao.
+
 \begin{table}[H]
-\centering
-\caption{Danh sách màn hình hệ thống}
-\label{tab:screen-list}
-\renewcommand{\arraystretch}{1.4}
+    \centering
+    \caption{Danh sách màn hình hệ thống}
+    \label{tab:screen-list}
 
-\begin{tabular}{|c|p{4.2cm}|p{9cm}|}
-\hline
+    \renewcommand{\arraystretch}{1.4}
 
-\textbf{Mã màn hình} &
-\textbf{Tên màn hình} &
-\textbf{Mô tả chức năng chi tiết} \\
+    \begin{tabular}{|c|p{4.2cm}|p{9cm}|}
+        \hline
 
-\hline
+        \textbf{Mã màn hình} &
+        \textbf{Tên màn hình} &
+        \textbf{Mô tả chức năng chi tiết} \\
+        \hline
 
-SCR-01 &
-Màn hình Đăng nhập \& Xác thực &
-Cho phép người dùng đăng nhập bằng Email/SĐT và xác thực quyền truy cập theo vai trò. \\
+        SCR-01 &
+        Màn hình Đăng nhập \& Xác thực &
+        Cho phép người dùng đăng nhập bằng Email/SĐT và xác thực quyền truy cập theo vai trò. \\
+        \hline
 
-\hline
+        SCR-02 &
+        Dashboard Quản trị viên &
+        Hiển thị tổng quan người dùng, khách hàng và đơn hàng từ Backend/Supabase. Quản lý Drone, trạm và chỉ số nâng cao chưa có giao diện đầy đủ. \\
+        \hline
 
-SCR-02 &
-Dashboard Quản trị viên &
-Hiển thị tổng quan hệ thống gồm người dùng, Drone, trạm hạ cánh, đơn hàng và các chỉ số vận hành. \\
+        SCR-03 &
+        Dashboard Điều phối &
+        Chưa triển khai Dashboard riêng. Các API duyệt, từ chối và lập lịch đã có ở Backend nhưng chưa có màn hình thao tác. \\
+        \hline
 
-\hline
+        SCR-04 &
+        Dashboard Nhân viên vận hành trạm &
+        Chưa triển khai giao diện. Backend có API trạm, drone và kiện hàng ở mức hiện tại. \\
+        \hline
 
-SCR-03 &
-Dashboard Điều phối &
-Hỗ trợ điều phối viên xem yêu cầu giao hàng, duyệt/từ chối đơn, lập lịch và phân công Drone, trạm hạ cánh. \\
+        SCR-05 &
+        Dashboard Khách hàng &
+        Chưa triển khai Dashboard khách hàng. Chức năng tạo đơn, theo dõi, thông báo và lịch sử khách hàng là phạm vi mở rộng. \\
+        \hline
 
-\hline
+        SCR-06 &
+        Dashboard Quản lý Logistics &
+        Chưa triển khai Dashboard riêng. Backend mới có các API analytics cơ bản. \\
+        \hline
 
-SCR-04 &
-Dashboard Nhân viên vận hành trạm &
-Theo dõi trạng thái trạm, kiện hàng và Drone; hỗ trợ tiếp nhận, kiểm tra và xử lý kiện hàng tại trạm. \\
+        SCR-07 &
+        Quản lý Trạm hạ cánh &
+        Chưa có giao diện; Backend đã có API CRUD trạm, trạng thái và sức chứa. \\
+        \hline
 
-\hline
+        SCR-08 &
+        Quản lý Đội bay Drone &
+        Chưa có giao diện; Backend đã có API CRUD drone và xác nhận drone quay về. \\
+        \hline
 
-SCR-05 &
-Dashboard Khách hàng &
-Hiển thị tổng quan đơn hàng, cho phép tạo đơn mới, xem lịch sử giao hàng, theo dõi đơn và nhận thông báo. \\
+        SCR-09 &
+        Tạo Đơn giao hàng &
+        Chưa triển khai form tạo đơn trên frontend. \\
+        \hline
 
-\hline
+        SCR-10 &
+        Chi tiết Đơn hàng \& AI Routing &
+        Có thể xem dữ liệu đơn trong bảng/drawer; chưa có UI AI Routing hoặc bản đồ. API ETA đã có ở Backend. \\
+        \hline
 
-SCR-06 &
-Dashboard Quản lý Logistics &
-Hiển thị tổng quan hoạt động logistics, KPI, tình trạng giao hàng, hiệu suất Drone và các chỉ số vận hành. \\
+        SCR-11 &
+        Giám sát Giao hàng Real-time &
+        Chưa triển khai bản đồ và Socket.IO client trên frontend. \\
+        \hline
 
-\hline
+        SCR-12 &
+        Cảnh báo Sự cố \& Khẩn cấp &
+        Chưa triển khai giao diện cảnh báo và xử lý khẩn cấp. \\
+        \hline
 
-SCR-07 &
-Quản lý Trạm hạ cánh &
-Quản lý thông tin, trạng thái, vị trí và sức chứa của các trạm hạ cánh trong hệ thống. \\
+        SCR-13 &
+        Quản lý Người dùng \& Phân quyền &
+        Đã có danh sách người dùng; form tạo/sửa, vai trò và phân quyền chưa triển khai trên frontend. \\
+        \hline
 
-\hline
+        SCR-14 &
+        Báo cáo \& Phân tích AI &
+        Chưa có giao diện báo cáo. Backend có một số API analytics và AI summary. \\
+        \hline
 
-SCR-08 &
-Quản lý Đội bay Drone &
-Quản lý danh sách Drone, trạng thái hoạt động, tải trọng, mức pin và tình trạng bảo trì. \\
-
-\hline
-
-SCR-09 &
-Tạo Đơn giao hàng &
-Cho phép khách hàng nhập thông tin kiện hàng, địa chỉ nhận/giao và tạo yêu cầu giao hàng bằng Drone. \\
-
-\hline
-
-SCR-10 &
-Chi tiết Đơn hàng \& AI Routing &
-Hiển thị thông tin đơn hàng, tuyến đường đề xuất và thời gian giao hàng dự kiến (ETA) từ hệ thống AI. \\
-
-\hline
-
-SCR-11 &
-Giám sát Giao hàng Real-time &
-Hiển thị vị trí, trạng thái và hành trình của Drone trong quá trình thực hiện giao hàng. \\
-
-\hline
-
-SCR-12 &
-Cảnh báo Sự cố \& Khẩn cấp &
-Hiển thị các cảnh báo liên quan đến Drone, trạm, thời tiết, tuyến bay và các sự cố trong quá trình giao hàng. \\
-
-\hline
-
-SCR-13 &
-Quản lý Người dùng \& Phân quyền &
-Cho phép quản trị viên quản lý tài khoản, vai trò và quyền truy cập của người dùng. \\
-
-\hline
-
-SCR-14 &
-Báo cáo \& Phân tích AI &
-Hiển thị báo cáo giao hàng, KPI, hiệu suất Drone, tỷ lệ giao thành công và các phân tích do AI cung cấp. \\
-
-\hline
-
-\end{tabular}
+    \end{tabular}
 \end{table}

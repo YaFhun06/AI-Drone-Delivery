@@ -1,21 +1,48 @@
 \subsection{Kiến trúc triển khai}
 
-Hệ thống sử dụng Docker và Docker Compose để đóng gói và triển khai các thành phần
-trong môi trường thống nhất. Các thành phần chính được triển khai dưới dạng các
-container:
+Trong phiên bản hiện tại, hệ thống được chạy trong môi trường phát triển gồm frontend Vite, backend Flask và PostgreSQL trên Supabase. 
 
 \begin{itemize}
 
-    \item \textbf{Frontend Container:} ReactJS.
+    \item \textbf{Frontend Development Server:} ReactJS/Vite, chạy độc lập trong thư mục frontend.
 
-    \item \textbf{Backend Container:} Python/Flask, xử lý API và nghiệp vụ chính của hệ thống.
+    \item \textbf{Backend Development Server:} Python/Flask, xử lý API và nghiệp vụ chính của hệ thống.
 
-    \item \textbf{Database Container:}PostgreSQL + PostGIS, lưu trữ dữ liệu và thông tin tọa độ địa lý.
+    \item \textbf{Database Service:} PostgreSQL trên Supabase, kết nối qua biến môi trường \texttt{DATABASE\_URL}.
 
-    \item \textbf{NGINX Container:} API Gateway/Reverse Proxy.
-
-    \item \textbf{AI Service:} Gemini API được Backend Flask gọi để thực hiện các chức năng như dự đoán ETA, chatbot, tóm tắt và phân tích giao hàng.
+    \item \textbf{AI Service:} Gemini API được Backend Flask gọi cho ETA, chatbot và tóm tắt giao hàng khi đã cấu hình khóa API.
 
 \end{itemize}
 
-Các container được kết nối thông qua Docker Network. Người dùng truy cập hệ thống thông qua Web/Mobile, request được chuyển qua NGINX đến Backend Flask. Backend xử lý nghiệp vụ, truy xuất dữ liệu từ PostgreSQL và thực hiện các chức năng AI khi cần.
+Frontend gọi Backend qua HTTP tại môi trường phát triển. Backend xử lý nghiệp vụ, truy xuất dữ liệu từ Supabase và gọi Gemini khi cần.
+
+\subsubsection{Mạng và cổng dịch vụ hiện tại}
+
+Trong môi trường phát triển, frontend và backend chạy ở các tiến trình riêng. Frontend hiện gọi \texttt{http://localhost:5000}; database sử dụng connection string Supabase trong file môi trường backend. Không có Docker Network hoặc NGINX được cấu hình trong repository.
+
+\begin{longtable}{|p{3.2cm}|p{2.3cm}|p{8cm}|}
+\caption{Các thành phần và cổng triển khai}\\
+\label{tab:deployment-components}\\
+\hline
+\textbf{Thành phần} & \textbf{Cổng} & \textbf{Vai trò} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Thành phần} & \textbf{Cổng} & \textbf{Vai trò} \\
+\hline
+\endhead
+Frontend Vite & 5173 & Phục vụ giao diện React trong môi trường phát triển. \\
+\hline
+Backend Flask & 5000 & Xử lý REST API, xác thực, nghiệp vụ và Socket.IO. \\
+\hline
+Supabase PostgreSQL & 5432/6543 & Lưu dữ liệu nghiệp vụ qua biến môi trường \texttt{DATABASE\_URL}. \\
+\hline
+Gemini API & HTTPS & Cung cấp ETA, chatbot và tóm tắt giao hàng khi có khóa API. \\
+\hline
+\end{longtable}
+
+\subsubsection{Luồng triển khai}
+
+Backend dùng Alembic/Flask-Migrate để cập nhật schema; frontend và backend được khởi động bằng các lệnh phát triển riêng. Chưa có Dockerfile.
+
+Các secret như JWT key, mật khẩu database và khóa API AI được truyền qua biến môi trường. Endpoint health-check hiện kiểm tra trạng thái ứng dụng và database; HTTPS, reverse proxy và secret manager production là phạm vi triển khai sau.

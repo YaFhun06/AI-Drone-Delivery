@@ -1,2 +1,31 @@
 \section{Thiết kế cơ sở dữ liệu}
 
+Cơ sở dữ liệu hiện sử dụng PostgreSQL trên Supabase, truy cập từ Flask qua SQLAlchemy. Địa chỉ và trạm hiện lưu vĩ độ/kinh độ bằng các cột số thông thường; PostGIS chưa được bật hoặc sử dụng trong model/query hiện tại. Mô hình được chuẩn hóa theo hướng mỗi bảng đại diện cho một nhóm thông tin có trách nhiệm riêng.
+
+\subsection{Mục tiêu thiết kế dữ liệu}
+
+\begin{itemize}
+	\item Đảm bảo tính toàn vẹn tham chiếu giữa đơn hàng, khách hàng, kiện hàng, chuyến giao và lịch sử trạng thái.
+	\item Lưu thông tin vị trí bằng latitude/longitude; truy vấn không gian PostGIS là định hướng mở rộng, chưa thuộc phiên bản hiện tại.
+	\item Bảo toàn dữ liệu đơn hàng và trạng thái kiện hàng; audit log đầy đủ chưa được triển khai.
+	\item Hạn chế dữ liệu trùng lặp, dùng khóa chính dạng số nguyên hoặc UUID tùy nhóm bảng và tạo chỉ mục cho các trường thường xuyên tìm kiếm.
+\end{itemize}
+
+\subsection{Nhóm bảng dữ liệu}
+
+Các bảng trong hệ thống được chia thành các nhóm sau:
+
+\begin{enumerate}
+	\item \textbf{Người dùng và phân quyền:} \texttt{users}, \texttt{roles}, bảng mapping quyền và \texttt{notifications}.
+	\item \textbf{Khách hàng và địa chỉ:} thông tin người dùng mở rộng và các địa chỉ giao hàng liên kết.
+	\item \textbf{Đơn hàng và kiện hàng:} \texttt{orders}, \texttt{packages}; lịch sử trạng thái và biên nhận kiện hàng là các model bổ sung đang được hoàn thiện.
+	\item \textbf{Vận hành giao hàng:} \texttt{drones}, \texttt{stations}; đơn hàng hiện giữ \texttt{station\_id}, chưa có bảng \texttt{shipments} hoặc lịch giao độc lập.
+	\item \textbf{Phân tích và AI:} số liệu được tính trực tiếp từ các bảng nghiệp vụ; chưa có bảng kết quả \texttt{ai\_analysis} riêng.
+\end{enumerate}
+
+\subsection{Toàn vẹn và vòng đời dữ liệu}
+
+Đơn hàng được cập nhật trạng thái qua các thao tác approve, reject, schedule, complete, fail và retry. Cơ chế xóa mềm, audit log đầy đủ và đối soát lịch sử là phạm vi mở rộng; không nên mô tả là đã hoàn thành trong phiên bản hiện tại.
+
+Các trường thời gian sử dụng kiểu DateTime của SQLAlchemy. Tọa độ hiện lưu bằng số thực ở bảng địa chỉ/trạm; việc chuẩn hóa UTC và kiểm tra không gian cần được bổ sung khi triển khai PostGIS.
+

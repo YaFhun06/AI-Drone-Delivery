@@ -136,11 +136,6 @@
 & NOT NULL
 & Kinh độ \\ \hline
 
-\texttt{location}
-& GEOGRAPHY(POINT,4326)
-& NOT NULL
-& Tọa độ không gian sử dụng PostGIS \\ \hline
-
 \texttt{is\_default}
 & BOOLEAN
 & DEFAULT FALSE
@@ -268,7 +263,7 @@
 
 \begin{table}[H]
 \centering
-\caption{Thiết kế bảng \texttt{landing\_stations}}
+\caption{Thiết kế bảng \texttt{stations}}
 \begin{tabularx}{\textwidth}{|l|l|Z|Z|}
 \hline
 \textbf{Cột} &
@@ -296,10 +291,15 @@
 & DEFAULT 0
 & Số kiện hàng hiện tại \\ \hline
 
-\texttt{location}
-& GEOGRAPHY(POINT,4326)
+\texttt{latitude}
+& DOUBLE PRECISION
 & NOT NULL
-& Vị trí địa lý của trạm \\ \hline
+& Vĩ độ của trạm \\ \hline
+
+\texttt{longitude}
+& DOUBLE PRECISION
+& NOT NULL
+& Kinh độ của trạm \\ \hline
 
 \texttt{status}
 & VARCHAR(30)
@@ -361,6 +361,10 @@
 
 
 % ---------------------------------------------------------
+\textbf{Ghi chú hiện trạng:} Schema được triển khai trong Backend hiện gồm các bảng \texttt{roles}, \texttt{users}, \texttt{addresses}, \texttt{customers}, \texttt{stations}, \texttt{orders}, \texttt{packages}, \texttt{drones}, \texttt{notifications} và các bảng phân quyền. Các bảng \texttt{shipments}, \texttt{delivery\_schedules}, \texttt{delivery\_events}, \texttt{package\_handovers}, \texttt{delivery\_confirmations}, \texttt{delivery\_incidents}, \texttt{ai\_analysis} và \texttt{activity\_logs} dưới đây là thiết kế mở rộng, chưa có model/migration tương ứng trong phiên bản hiện tại.
+
+\iffalse
+
 % 8. SHIPMENTS
 % ---------------------------------------------------------
 
@@ -801,6 +805,8 @@
 
 
 % ---------------------------------------------------------
+\fi
+
 % 16. NOTIFICATIONS
 % ---------------------------------------------------------
 
@@ -854,10 +860,13 @@
 \end{tabularx}
 \end{table}
 
+\textbf{Bảng bổ sung đã có trong code:} \texttt{package\_receipts} và \texttt{package\_status\_histories} đã có model/controller hoặc migration liên quan; cần hoàn thiện migration và bổ sung đặc tả chi tiết riêng trước khi xem là schema ổn định.
 
 % ---------------------------------------------------------
 % 17. ACTIVITY LOGS
 % ---------------------------------------------------------
+
+\iffalse
 
 \subsubsection{Bảng \texttt{activity\_logs} -- Nhật ký hoạt động}
 
@@ -913,3 +922,4 @@
 
 \end{tabularx}
 \end{table}
+\fi

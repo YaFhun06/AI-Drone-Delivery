@@ -6,47 +6,70 @@
 \end{itemize}
 
 \begin{figure}[H]
-\centering
-\includegraphics[width=6.5in,height=7.26597in,keepaspectratio,width=\linewidth]{images/Use case Diagram của Khách hàng.png}
+    \centering
+    \includegraphics[
+        width=\linewidth,
+        height=7.26597in,
+        keepaspectratio
+    ]{images/Use case Diagram của Khách hàng.png}
+
+    \caption{Use Case Diagram khách hàng}
+    \label{fig:use-case-khach-hang}
 \end{figure}
 
-\textbf{Bảng mô tả các use case chính của Khách hàng}
-
 \begin{longtable}{|L{3cm}|L{11cm}|}
+
+\caption{Mô tả Use Case Đăng ký tài khoản}
+\label{tab:mo-ta-uc01-dang-ky}
+\\
 \hline
+
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
+
 \textbf{Use Case ID} & UC01 \\
 \hline
+
 \textbf{Tên Use Case} & Đăng ký tài khoản \\
 \hline
+
 \textbf{Actor chính} & Khách hàng \\
 \hline
+
 \textbf{Mô tả} & Cho phép khách hàng tạo tài khoản mới bằng email hoặc số điện thoại. \\
 \hline
+
 \textbf{Tiền điều kiện} & Khách hàng chưa có tài khoản trong hệ thống. \\
 \hline
-\textbf{Luồng chính} & \begin{itemize}[leftmargin=*,topsep=2pt,itemsep=2pt]
-\item Khách hàng chọn Đăng ký
-\item Nhập email/số điện thoại và thông tin tài khoản
-\item Hệ thống kiểm tra tính hợp lệ của thông tin
-\item Hệ thống xác minh thông tin đăng ký
-\item Hệ thống tạo tài khoản mới
-\item Thông báo đăng ký thành công
-\end{itemize} \\
+
+\textbf{Luồng chính} &
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=2pt]
+    \item Khách hàng chọn Đăng ký.
+    \item Nhập email/số điện thoại và thông tin tài khoản.
+    \item Hệ thống kiểm tra tính hợp lệ của thông tin.
+    \item Hệ thống xác minh thông tin đăng ký.
+    \item Hệ thống tạo tài khoản mới.
+    \item Thông báo đăng ký thành công.
+\end{itemize}
+\\
 \hline
-\textbf{Luồng rẽ nhánh} & \begin{itemize}[leftmargin=*,topsep=2pt,itemsep=2pt]
-\item 3a: Thông tin không hợp lệ → hệ thống thông báo lỗi
-\item 3b: Email/số điện thoại đã tồn tại → yêu cầu sử dụng thông tin khác
-\item 4a: Xác minh thất bại → thông báo lỗi
-\end{itemize} \\
-\hline
-\textbf{Hậu điều kiện} & Tài khoản khách hàng được tạo thành công. \\
+
+\textbf{Luồng rẽ nhánh} &
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=2pt]
+    \item 3a: Thông tin không hợp lệ → hệ thống thông báo lỗi.
+    \item 3b: Email/số điện thoại đã tồn tại → yêu cầu sử dụng thông tin khác.
+    \item 4a: Xác minh thất bại → thông báo lỗi.
+\end{itemize}
+\\
 \hline
 \end{longtable}
+\begin{longtable}{|L{3cm}|L{11cm}|}
 
-\begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case Đăng nhập}
+\label{tab:mo-ta-uc02-dang-nhap}
+\\
 \hline
+
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
 
@@ -96,6 +119,66 @@ Người dùng đăng nhập thành công và được cấp quyền truy cập 
 \end{longtable}
 
 \begin{longtable}{|L{3cm}|L{11cm}|}
+
+\caption{Mô tả Use Case Đăng xuất}
+\label{tab:mo-ta-uc03-dang-xuat}
+\\
+\hline
+
+\textbf{Thành phần} & \textbf{Nội dung} \\
+\hline
+
+\textbf{Use Case ID} & UC03 \\
+\hline
+
+\textbf{Tên Use Case} & Đăng xuất \\
+\hline
+
+\textbf{Actor chính} & Người dùng đã đăng nhập \\
+\hline
+
+\textbf{Mô tả} &
+Cho phép người dùng kết thúc phiên làm việc hiện tại và rời khỏi hệ thống một cách an toàn.
+\\
+\hline
+
+\textbf{Tiền điều kiện} &
+Người dùng đã đăng nhập và đang sở hữu access token hợp lệ.
+\\
+\hline
+
+\textbf{Luồng chính} &
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=2pt]
+    \item 1. Người dùng chọn chức năng Đăng xuất.
+    \item 2. Client gửi yêu cầu POST đến endpoint \texttt{/api/auth/logout} kèm JWT.
+    \item 3. Hệ thống kiểm tra tính hợp lệ của token.
+    \item 4. Hệ thống xác nhận đăng xuất thành công.
+    \item 5. Client xóa access token, thông tin phiên và chuyển người dùng về màn hình đăng nhập.
+\end{itemize}
+\\
+\hline
+
+\textbf{Luồng rẽ nhánh} &
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=2pt]
+    \item 2a. Không có JWT $\rightarrow$ yêu cầu bị từ chối và chuyển người dùng về màn hình đăng nhập.
+    \item 3a. JWT hết hạn hoặc không hợp lệ $\rightarrow$ client xóa phiên cục bộ và yêu cầu đăng nhập lại.
+    \item 4a. API không phản hồi $\rightarrow$ client vẫn xóa thông tin phiên cục bộ và hiển thị thông báo phù hợp.
+\end{itemize}
+\\
+\hline
+
+\textbf{Hậu điều kiện} &
+Thông tin phiên đăng nhập và access token được xóa khỏi client; người dùng không thể truy cập các chức năng yêu cầu xác thực cho đến khi đăng nhập lại.
+\\
+\hline
+
+\end{longtable}
+
+\begin{longtable}{|L{3cm}|L{11cm}|}
+
+\caption{Mô tả Use Case Tạo đơn giao hàng}
+\label{tab:mo-ta-uc14-tao-don}
+\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -131,6 +214,9 @@ Người dùng đăng nhập thành công và được cấp quyền truy cập 
 \end{longtable}
 
 \begin{longtable}{|L{3cm}|L{11cm}|}
+\caption{Mô tả Use Case Xác nhận đơn giao hàng}
+\label{tab:mo-ta-uc16-xac-nhan-don}
+\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -162,6 +248,9 @@ Người dùng đăng nhập thành công và được cấp quyền truy cập 
 \end{longtable}
 
 \begin{longtable}{|L{3cm}|L{11cm}|}
+\caption{Mô tả Use Case Xem đơn hàng}
+\label{tab:mo-ta-uc19-xem-don}
+\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -191,6 +280,9 @@ Người dùng đăng nhập thành công và được cấp quyền truy cập 
 \end{longtable}
 
 \begin{longtable}{|L{3cm}|L{11cm}|}
+\caption{Mô tả Use Case Chỉnh sửa đơn hàng}
+\label{tab:mo-ta-uc20-chinh-sua-don}
+\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -223,6 +315,9 @@ Người dùng đăng nhập thành công và được cấp quyền truy cập 
 \end{longtable}
 
 \begin{longtable}{|L{3cm}|L{11cm}|}
+\caption{Mô tả Use Case Theo dõi giao hàng}
+\label{tab:mo-ta-uc22-theo-doi-giao-hang}
+\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -255,6 +350,9 @@ Người dùng đăng nhập thành công và được cấp quyền truy cập 
 \end{longtable}
 
 \begin{longtable}{|L{3cm}|L{11cm}|}
+\caption{Mô tả Use Case Xác nhận giao hàng}
+\label{tab:mo-ta-uc23-xac-nhan-giao-hang}
+\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -286,6 +384,9 @@ Người dùng đăng nhập thành công và được cấp quyền truy cập 
 \hline
 \end{longtable}
 \begin{longtable}{|L{3cm}|L{11cm}|}
+\caption{Mô tả Use Case Đánh giá giao hàng}
+\label{tab:mo-ta-uc24-danh-gia}
+\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -317,6 +418,9 @@ Người dùng đăng nhập thành công và được cấp quyền truy cập 
 \end{longtable}
 
 \begin{longtable}{|L{3cm}|L{11cm}|}
+\caption{Mô tả Use Case Chatbot AI}
+\label{tab:mo-ta-uc25-chatbot}
+\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -360,11 +464,15 @@ Người dùng đăng nhập thành công và được cấp quyền truy cập 
 \begin{figure}[H]
 \centering
 \includegraphics[width=6.5in,height=7.26597in,keepaspectratio,width=\linewidth]{images/Use case Diagram của Nhân viên điều phối.png}
+\caption{Use Case Diagram của Nhân viên điều phối}
+\label{fig:use-case-nhan-vien-dieu-phoi}
 \end{figure}
 
 \textbf{Bảng mô tả các use case chính của Nhân viên điều phối}
 
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc-nhan-vien-dieu-phoi-01}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -417,6 +525,8 @@ Thông tin khách hàng được cập nhật hoặc hiển thị thành công.
 
 % ==================== UC31 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC31 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc31-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -456,6 +566,8 @@ Cho phép nhân viên điều phối phê duyệt yêu cầu giao hàng đủ đ
 
 % ==================== UC32 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC32 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc32-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -495,6 +607,8 @@ Cho phép nhân viên điều phối từ chối các yêu cầu giao hàng khô
 
 % ==================== UC33 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC33 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc33-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -534,6 +648,8 @@ Cho phép nhân viên điều phối tạo lịch giao hàng cho các đơn đã
 
 % ==================== UC34 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC34 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc34-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -575,6 +691,8 @@ Drone được phân công cho đơn giao hàng. \\
 
 % ==================== UC35 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC35 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc35-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -613,6 +731,8 @@ Trạm xuất phát và trạm đến được xác định cho đơn hàng. \\
 
 % ==================== UC36 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC36 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc36-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -652,6 +772,8 @@ Tuyến đường giao hàng được lưu cho chuyến giao. \\
 
 % ==================== UC37 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC37 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc37-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -689,6 +811,8 @@ Trạng thái và tiến trình giao hàng được cập nhật. \\
 
 % ==================== UC38 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC38 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc38-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -727,6 +851,8 @@ Trạng thái đơn hàng được cập nhật. \\
 
 % ==================== UC39 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC39 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc39-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -767,6 +893,8 @@ Chuyến giao hàng được ghi nhận ở trạng thái thất bại. \\
 
 % ==================== UC40 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC40 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc40-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -807,6 +935,8 @@ Tạo lịch giao hàng mới cho đơn hàng bị giao thất bại. \\
 
 % ==================== UC41 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC41 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc41-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -846,6 +976,8 @@ Bản tóm tắt giao hàng được hiển thị. \\
 
 % ==================== UC42 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC42 của Nhân viên điều phối}\\
+\label{tab:mo-ta-uc42-dieu-phoi}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -893,12 +1025,16 @@ ETA dự kiến của chuyến giao được hiển thị và có thể được
 \begin{figure}[H]
 \centering
 \includegraphics[width=6.5in,height=7.26597in,keepaspectratio,width=\linewidth]{images/Use case Diagram của Nhân viên vận hành trạm.png}
+\caption{Use Case Diagram của Nhân viên vận hành trạm}
+\label{fig:use-case-nhan-vien-van-hanh-tram}
 \end{figure}
 
 \textbf{Bảng mô tả các use case chính của Nhân viên vận hành trạm}
 
 % ==================== UC43 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case của Nhân viên vận hành trạm}\\
+\label{tab:mo-ta-uc-nhan-vien-van-hanh-tram-01}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -944,6 +1080,8 @@ Kiện hàng được ghi nhận đã tiếp nhận tại trạm.
 
 % ==================== UC44 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC44 của Nhân viên vận hành trạm}\\
+\label{tab:mo-ta-uc44-van-hanh-tram}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -989,6 +1127,8 @@ Kết quả kiểm tra kiện hàng được lưu vào hệ thống.
 
 % ==================== UC45 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC45 của Nhân viên vận hành trạm}\\
+\label{tab:mo-ta-uc45-van-hanh-tram}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1032,6 +1172,8 @@ Thông tin trạm được cập nhật chính xác.
 
 % ==================== UC46 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC46 của Nhân viên vận hành trạm}\\
+\label{tab:mo-ta-uc46-van-hanh-tram}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1072,6 +1214,8 @@ Thông tin trạm được hiển thị.
 
 % ==================== UC47 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC47 của Nhân viên vận hành trạm}\\
+\label{tab:mo-ta-uc47-van-hanh-tram}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1115,6 +1259,8 @@ Trạng thái trạm được cập nhật.
 
 % ==================== UC48 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC48 của Nhân viên vận hành trạm}\\
+\label{tab:mo-ta-uc48-van-hanh-tram}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1158,6 +1304,8 @@ Sức chứa khả dụng của trạm được cập nhật.
 
 % ==================== UC49 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC49 của Nhân viên vận hành trạm}\\
+\label{tab:mo-ta-uc49-van-hanh-tram}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1202,6 +1350,8 @@ Trạng thái kiện hàng được cập nhật và sẵn sàng cho bước ti�
 
 % ==================== UC50 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC50 của Nhân viên vận hành trạm}\\
+\label{tab:mo-ta-uc50-van-hanh-tram}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1250,7 +1400,6 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 % ==================================================================================================
 % ==================================================================================================
 
-
 \begin{itemize}
 \item
   \textbf{Use case Diagram của Quản lý logitic} 
@@ -1259,14 +1408,22 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 \begin{figure}[H]
 \centering
 \includegraphics[width=6.5in,height=7.26597in,keepaspectratio,width=\linewidth]{images/Use case Diagram của Quản lý logistic.png}
+\caption{Use Case Diagram của Quản lý logistic}
+\label{fig:use-case-quan-ly-logistic}
 \end{figure}
 
 \textbf{Bảng mô tả các use case chính của Quản lý logistic}
+
+\textbf{Ghi chú phiên bản:} Các UC51--UC64 dưới đây thuộc phạm vi nghiệp vụ mục tiêu của Quản lý Logistics. Trong phiên bản hiện tại, Backend mới cung cấp các API analytics; giao diện Dashboard Logistics, báo cáo và các thao tác quản lý trạm chưa được triển khai đầy đủ.
+
+\iffalse
 
 % =========================================================
 % UC43 - Tiếp nhận kiện hàng
 % =========================================================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case của Quản lý logistic}\\
+\label{tab:mo-ta-uc-quan-ly-logistic-01}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1301,11 +1458,12 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 \hline
 \end{longtable}
 
-
 % =========================================================
 % UC44 - Kiểm tra kiện hàng
 % =========================================================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC44 của Quản lý logistic}\\
+\label{tab:mo-ta-uc44-quan-ly-logistic}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1345,6 +1503,8 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 % UC45 - Quản lý trạm hạ cánh
 % =========================================================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC45 của Quản lý logistic}\\
+\label{tab:mo-ta-uc45-quan-ly-logistic}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1382,6 +1542,8 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 % UC46 - Xem trạm hạ cánh
 % =========================================================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC46 của Quản lý logistic}\\
+\label{tab:mo-ta-uc46-quan-ly-logistic}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1416,6 +1578,8 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 % UC47 - Cập nhật trạng thái trạm
 % =========================================================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC47 của Quản lý logistic}\\
+\label{tab:mo-ta-uc47-quan-ly-logistic}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1453,6 +1617,8 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 % UC48 - Cập nhật sức chứa trạm
 % =========================================================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC48 của Quản lý logistic}\\
+\label{tab:mo-ta-uc48-quan-ly-logistic}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1490,6 +1656,8 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 % UC49 - Cập nhật trạng thái kiện hàng
 % =========================================================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC49 của Quản lý logistic}\\
+\label{tab:mo-ta-uc49-quan-ly-logistic}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1528,6 +1696,8 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 % UC50 - Xác nhận hoạt động của Drone
 % =========================================================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC50 của Quản lý logistic}\\
+\label{tab:mo-ta-uc50-quan-ly-logistic}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1569,20 +1739,40 @@ Drone được xác nhận sẵn sàng cho chuyến giao hàng hoặc được c
 % ==================================================================================================
 % ==================================================================================================
 
+\fi
+
+\begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Trạng thái Use Case UC51--UC64 của Quản lý Logistics}\\
+\label{tab:trang-thai-uc51-64-logistics}\\
+\hline
+\textbf{Use Case} & \textbf{Trạng thái phiên bản hiện tại} \\
+\hline
+UC51--UC59 & Có dữ liệu phân tích Backend ở mức cơ bản; chưa có Dashboard Logistics hoàn chỉnh. \\
+\hline
+UC60--UC61 & Có API trạm và sức chứa; chưa có giao diện quản lý Logistics riêng. \\
+\hline
+UC62--UC64 & Chưa có module tạo, quản lý và xuất báo cáo PDF/Excel/CSV. \\
+\hline
+\end{longtable}
+
 \begin{itemize}
 \item
-  \textbf{Use case Diagram của Quản trị viên hệ thống} 
+    \textbf{Use case Diagram của Quản trị viên hệ thống} 
 \end{itemize}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=6.5in,height=7.26597in,keepaspectratio,width=\linewidth]{images/Use case Diagram của Quản trị viên hệ thống.png}
+\caption{Use Case Diagram của Quản trị viên hệ thống}
+\label{fig:use-case-quan-tri-vien}
 \end{figure}
 
 \textbf{Bảng mô tả các use case chính của Quản trị viên hệ thống}
 
 % ==================== UC65 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case của Quản trị viên hệ thống}\\
+\label{tab:mo-ta-uc-quan-tri-vien-01}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1628,6 +1818,8 @@ Thông tin người dùng được cập nhật theo thao tác của quản tr�
 
 % ==================== UC70 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC70 của Quản trị viên hệ thống}\\
+\label{tab:mo-ta-uc70-quan-tri-vien}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1672,6 +1864,8 @@ Danh sách vai trò được cập nhật.
 
 % ==================== UC75 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC75 của Quản trị viên hệ thống}\\
+\label{tab:mo-ta-uc75-quan-tri-vien}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1716,6 +1910,8 @@ Quyền truy cập của vai trò được cập nhật.
 
 % ==================== UC79 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC79 của Quản trị viên hệ thống}\\
+\label{tab:mo-ta-uc79-quan-tri-vien}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1761,6 +1957,8 @@ Cấu hình hệ thống được cập nhật.
 
 % ==================== UC80 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC80 của Quản trị viên hệ thống}\\
+\label{tab:mo-ta-uc80-quan-tri-vien}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline
@@ -1804,6 +2002,8 @@ Nhật ký hoạt động được hiển thị để phục vụ kiểm tra và
 
 % ==================== UC82 ====================
 \begin{longtable}{|C{3cm}|L{11cm}|}
+\caption{Mô tả Use Case UC82 của Quản trị viên hệ thống}\\
+\label{tab:mo-ta-uc82-quan-tri-vien}\\
 \hline
 \textbf{Thành phần} & \textbf{Nội dung} \\
 \hline

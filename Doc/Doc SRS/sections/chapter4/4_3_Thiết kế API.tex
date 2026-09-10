@@ -6,7 +6,7 @@ Toàn bộ API được xây dựng trên nền tảng Flask, tuân theo kiến 
 
 \begin{itemize}
 \item
-  \textbf{Base URL:} \texttt{http://127.0.0.1:5000}
+  \textbf{Base URL hiện tại:} \texttt{http://localhost:5000} trong môi trường phát triển; frontend hiện cấu hình cùng địa chỉ này.
 \item
   \textbf{Định dạng dữ liệu:} JSON (Content-Type: application/json)
 \item
@@ -14,6 +14,23 @@ Toàn bộ API được xây dựng trên nền tảng Flask, tuân theo kiến 
 \item
   \textbf{Mã trạng thái phản hồi:} Tuân theo chuẩn HTTP (200 - Thành công, 201 - Tạo mới thành công, 400 - Yêu cầu không hợp lệ, 401 - Chưa xác thực, 404 - Không tìm thấy tài nguyên, 500 - Lỗi hệ thống)
 \end{itemize}
+
+\subsection{Quy ước request và response}
+
+Các endpoint sử dụng JSON nhưng response hiện chưa có envelope thống nhất. Tùy controller, API có thể trả object, array hoặc object chứa trường \texttt{message}; tài liệu này mô tả theo payload thực tế thay vì giả định mọi response đều có trường \texttt{data}.
+
+\begin{verbatim}
+{
+  "data": { "id": 24, "status": "APPROVED" },
+  "message": "Request processed successfully"
+}
+\end{verbatim}
+
+Đối với lỗi xác thực hoặc dữ liệu không hợp lệ, API trả về mã HTTP tương ứng. Phân trang, tìm kiếm và lọc chưa được triển khai đồng nhất cho tất cả API danh sách; frontend hiện lọc cục bộ ở một số màn hình.
+
+\subsection{Phân quyền API}
+
+Một số controller đã dùng JWT hoặc decorator kiểm tra quyền, nhưng việc bảo vệ route chưa đồng nhất giữa các module. Audit log đầy đủ chưa được triển khai; không nên xem các quy tắc phân quyền trong mục này là đã hoàn thành cho toàn bộ API.
 
 \subsection{Danh sách Endpoint}
 
@@ -44,6 +61,8 @@ POST & /api/auth/reset-password & Xác nhận đặt lại mật khẩu & FR-05 
 GET & /api/users/profile & Xem hồ sơ cá nhân & FR-06 \\
 \hline
 PUT & /api/users/profile & Cập nhật hồ sơ cá nhân & FR-06 \\
+\hline
+GET & /api/users & Xem danh sách người dùng quản trị & FR-06 \\
 \hline
 POST & /api/addresses & Tạo địa chỉ giao hàng & FR-07 \\
 \hline
@@ -77,6 +96,8 @@ PUT & /api/orders/<id>/reject & Từ chối đơn giao hàng & FR-13 \\
 \hline
 POST & /api/orders/<id>/schedule & Lên lịch giao hàng & FR-14 \\
 \hline
+GET & /api/orders & Xem danh sách đơn giao hàng & FR-18 \\
+\hline
 POST & /api/eta/estimate & Ước tính thời gian giao hàng bằng AI & FR-31 \\
 \hline
 POST & /api/chatbot/ask & Trả lời câu hỏi khách hàng bằng AI & FR-32 \\
@@ -86,6 +107,23 @@ POST & /api/deliveries/summarize & Tóm tắt trạng thái đơn hàng bằng A
 GET & /api/analytics/orders-by-status & Thống kê số lượng đơn theo trạng thái & FR-34 \\
 \hline
 \end{longtable}
+
+\subsection{Đối chiếu API phiên bản hiện tại}
+
+Bảng endpoint ở trên là danh sách nghiệp vụ chính. Danh sách triển khai thực tế còn bao gồm các nhóm sau:
+
+\begin{itemize}
+  \item \textbf{Người dùng và phân quyền:} \texttt{GET /api/users}, \texttt{GET/PUT /api/users/profile}, \texttt{GET/POST /api/roles}, \texttt{GET /api/functions}, \texttt{POST /api/roles/<id>/functions}.
+  \item \textbf{Đơn hàng:} \texttt{GET /api/orders}, các thao tác \texttt{approve}, \texttt{reject}, \texttt{schedule}, \texttt{complete}, \texttt{fail} và \texttt{retry}.
+  \item \textbf{Drone và trạm:} CRUD \texttt{/api/drones}, xác nhận quay về; CRUD \texttt{/api/stations}, cập nhật trạng thái và xem sức chứa.
+  \item \textbf{Kiện hàng:} \texttt{/api/package-receipts}, cập nhật trạng thái và xem timeline kiện hàng.
+  \item \textbf{Thông báo và hệ thống:} đọc/đánh dấu đã đọc thông báo và \texttt{GET /api/health}.
+  \item \textbf{Analytics và AI:} năm endpoint analytics, ETA, chatbot và tóm tắt giao hàng.
+\end{itemize}
+
+Các controller hiện trả response JSON trực tiếp theo từng endpoint; chưa áp dụng thống nhất envelope dạng \texttt{\{data, message\}} cho toàn bộ API. Vì vậy client phải xử lý cả object, array và response có trường \texttt{message} tùy nhóm chức năng.
+
+Các route nghiệp vụ mới hoặc thay đổi phương thức phải được đối chiếu với controller trước khi cập nhật tài liệu. Cụ thể, approve/reject hỗ trợ PUT/PATCH, schedule hỗ trợ POST/PUT, complete hỗ trợ PUT/PATCH và fail/retry hỗ trợ POST/PUT/PATCH.
 
 \subsection{Nhóm API Xác thực và Người dùng}
 
@@ -130,6 +168,21 @@ GET & /api/analytics/orders-by-status & Thống kê số lượng đơn theo tr�
   \textbf{Kết quả trả về:} access\_token và thông tin cơ bản của người dùng (id, email, họ tên, vai trò).
 \item
   \textbf{Điều kiện lỗi:} Email hoặc mật khẩu không đúng; tài khoản đã bị khóa.
+\end{itemize}
+
+\subsubsection{Đăng xuất}
+
+\begin{itemize}
+\item
+  \textbf{Endpoint:} POST /api/auth/logout
+\item
+  \textbf{Mô tả:} Kết thúc phiên làm việc hiện tại của người dùng đã xác thực.
+\item
+  \textbf{Header bắt buộc:} \texttt{Authorization: Bearer <access\_token>}
+\item
+  \textbf{Kết quả trả về:} HTTP 200 và thông báo ``Đăng xuất thành công''. Client phải xóa access token và dữ liệu phiên cục bộ sau khi nhận response.
+\item
+  \textbf{Điều kiện lỗi:} Thiếu token, token hết hạn hoặc token không hợp lệ; API trả về lỗi xác thực tương ứng.
 \end{itemize}
 
 \subsubsection{Quên mật khẩu và đặt lại mật khẩu}

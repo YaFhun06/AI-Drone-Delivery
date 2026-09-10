@@ -24,6 +24,7 @@ def create_app(test_config=None):
 
     # Mở toàn bộ quyền CORS cho Frontend từ cổng 5173
     CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+    socketio.init_app(app)
 
     with app.app_context():
         from src.infrastructure.models import (
@@ -42,6 +43,15 @@ def create_app(test_config=None):
         )
 
     # Đăng ký các Controllers
+    from src.api.controllers.auth_controller import auth_bp
+    app.register_blueprint(auth_bp)
+    from src.api.controllers.management_controller import management_bp
+    app.register_blueprint(management_bp)
+    from src.api.controllers.role_controller import role_bp
+    app.register_blueprint(role_bp)
+
+    from src.api.controllers.address_controller import address_bp
+    app.register_blueprint(address_bp)
     from src.api.controllers.customer_controller import customer_bp
     app.register_blueprint(customer_bp)
 
@@ -64,6 +74,9 @@ def create_app(test_config=None):
     # Để trần vì trong analytics_controller.py đã có sẵn "/api/analytics"
     from src.api.controllers.analytics_controller import analytics_bp
     app.register_blueprint(analytics_bp)
+
+    from src.api.controllers.health_controller import health_bp
+    app.register_blueprint(health_bp)
 
     # Đăng ký thêm Drone Controller (bắt buộc để hết lỗi 404 của Quản lý Drone)
     try:

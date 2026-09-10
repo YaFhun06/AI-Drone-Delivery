@@ -1,3 +1,42 @@
-\chapter{ĐẶC TẢ YÊU CẦU PHẦN MỀM}
+\chapter{THIẾT KẾ HỆ THỐNG}
 
-\section{Thiết kế hệ thống}
+\section{Mục tiêu và phạm vi thiết kế}
+
+Thiết kế hệ thống chuyển các yêu cầu nghiệp vụ của SmartDroneDelivery thành kiến trúc, thành phần phần mềm, mô hình dữ liệu và các giao diện tích hợp có thể triển khai. Thiết kế ưu tiên khả năng mở rộng, theo dõi được toàn bộ vòng đời đơn giao hàng và tách biệt rõ trách nhiệm giữa giao diện, nghiệp vụ và lưu trữ dữ liệu.
+
+Phạm vi phiên bản hiện tại bao gồm Web Application quản trị/điều phối, Backend Flask cung cấp RESTful API, cơ sở dữ liệu PostgreSQL trên Supabase, Gemini cho một số chức năng AI và Flask-SocketIO ở mức nền tảng. Mobile Application, bản đồ, lưu trữ file và các tích hợp thông báo bên ngoài là phạm vi mở rộng.
+
+\section{Kiến trúc logic}
+
+Hệ thống được tổ chức theo kiến trúc phân lớp kết hợp module nghiệp vụ. Mỗi yêu cầu từ Web hoặc Mobile đi qua lớp API, được xác thực và phân quyền trước khi chuyển đến Service xử lý nghiệp vụ. Repository chịu trách nhiệm truy cập dữ liệu, còn các adapter cô lập việc gọi AI, bản đồ, thông báo và dịch vụ lưu trữ bên ngoài.
+
+\begin{itemize}
+	\item \textbf{Presentation Layer:} ReactJS cho Web Manager và Flutter cho Mobile Application. Lớp này hiển thị dữ liệu, quản lý trạng thái giao diện và gửi yêu cầu đến API.
+	\item \textbf{API/Controller Layer:} Flask Blueprint tiếp nhận HTTP request, kiểm tra dữ liệu đầu vào, JWT và quyền truy cập, sau đó trả response theo chuẩn JSON.
+	\item \textbf{Application/Service Layer:} Điều phối các ca sử dụng như tạo đơn, duyệt đơn, lập lịch, theo dõi giao hàng và quản lý người dùng.
+	\item \textbf{Domain Layer:} Chứa thực thể, quy tắc trạng thái đơn hàng, quy tắc phân công drone/trạm và các giá trị nghiệp vụ độc lập với framework.
+	\item \textbf{Infrastructure Layer:} Repository PostgreSQL/Supabase, client Gemini và Socket.IO; các adapter PostGIS, MinIO, bản đồ, FCM và audit log đầy đủ chưa được triển khai.
+\end{itemize}
+
+\section{Luồng xử lý tổng quát}
+
+Một luồng giao hàng điển hình được xử lý theo các bước sau:
+
+\begin{enumerate}
+	\item Khách hàng tạo yêu cầu giao hàng và gửi thông tin kiện hàng, địa chỉ nhận và địa chỉ giao.
+	\item API xác thực người dùng, kiểm tra dữ liệu và tạo đơn ở trạng thái \texttt{PENDING}.
+	\item Nhân viên điều phối kiểm tra yêu cầu, phê duyệt hoặc từ chối đơn. Với đơn được duyệt, hệ thống chọn trạm và drone phù hợp.
+	\item Service lập lịch cập nhật chuyến giao, ghi lịch sử trạng thái và phát thông báo đến các bên liên quan.
+	\item Trong khi giao, vị trí và trạng thái được cập nhật; ETA được tính lại khi có dữ liệu vị trí mới.
+	\item Khi hoàn tất hoặc thất bại, hệ thống ghi nhận kết quả, bằng chứng giao hàng và lịch sử xử lý để phục vụ tra cứu, thống kê và audit.
+\end{enumerate}
+
+\section{Nguyên tắc thiết kế}
+
+\begin{itemize}
+	\item Mỗi thay đổi trạng thái đơn hàng phải được kiểm tra theo máy trạng thái và ghi vào bảng lịch sử.
+	\item Các thao tác thay đổi dữ liệu quan trọng phải kiểm tra quyền theo vai trò và ghi nhận người thực hiện.
+	\item API không trả trực tiếp thông tin nhạy cảm; mật khẩu được lưu dưới dạng băm và token được truyền qua header Authorization.
+	\item Các tích hợp bên ngoài được gọi thông qua adapter để có thể thay thế nhà cung cấp hoặc mô phỏng khi kiểm thử.
+	\item Các thao tác đọc danh sách phải hỗ trợ phân trang, tìm kiếm và lọc để tránh tải toàn bộ dữ liệu lên client.
+\end{itemize}
