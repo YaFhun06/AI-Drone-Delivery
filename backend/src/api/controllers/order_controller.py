@@ -3,25 +3,30 @@ from src.services.order_service import OrderService
 from src.domain.exceptions import DomainException
 from src.api.decorators import require_permission
 
+
 order_bp = Blueprint("order", __name__)
 order_service = OrderService()
 
 
+# Lấy danh sách đơn hàng
 @order_bp.route("/api/orders", methods=["GET"])
 def list_orders():
     orders = order_service.get_all()
     return jsonify([order.to_dict() for order in orders]), 200
 
 
+# Lấy chi tiết một đơn hàng
 @order_bp.route("/api/orders/<int:order_id>", methods=["GET"])
 def get_order(order_id):
     try:
         order = order_service.get_by_id(order_id)
     except DomainException as e:
         return jsonify({"error": e.message}), e.status_code
+
     return jsonify(order.to_dict()), 200
 
 
+# Duyệt đơn hàng
 @order_bp.route("/api/orders/<int:order_id>/approve", methods=["PUT", "PATCH"])
 @require_permission("approve_order")
 def approve_order(order_id):
@@ -29,9 +34,14 @@ def approve_order(order_id):
         order = order_service.approve_order(order_id)
     except DomainException as e:
         return jsonify({"error": e.message}), e.status_code
-    return jsonify({"message": "Order approved successfully", "status": order.status}), 200
+
+    return jsonify({
+        "message": "Order approved successfully",
+        "status": order.status
+    }), 200
 
 
+# Từ chối đơn hàng
 @order_bp.route("/api/orders/<int:order_id>/reject", methods=["PUT", "PATCH"])
 @require_permission("reject_order")
 def reject_order(order_id):
@@ -39,51 +49,85 @@ def reject_order(order_id):
         order = order_service.reject_order(order_id)
     except DomainException as e:
         return jsonify({"error": e.message}), e.status_code
-    return jsonify({"message": "Order rejected successfully", "status": order.status}), 200
+
+    return jsonify({
+        "message": "Order rejected successfully",
+        "status": order.status
+    }), 200
 
 
+# Lên lịch giao hàng
 @order_bp.route("/api/orders/<int:order_id>/schedule", methods=["POST", "PUT"])
 @require_permission("schedule_delivery")
 def schedule_delivery(order_id):
     data = request.get_json()
     scheduled_time = data.get("scheduled_time")
+
     if not scheduled_time:
         return jsonify({"error": "Missing scheduled_time"}), 400
 
     try:
         order = order_service.schedule_delivery(
-            order_id, scheduled_time, station_id=data.get("station_id")
+            order_id,
+            scheduled_time,
+            station_id=data.get("station_id")
         )
     except DomainException as e:
         return jsonify({"error": e.message}), e.status_code
-    return jsonify({"message": "Delivery scheduled successfully", "order": order.to_dict()}), 200
-from src.infrastructure.models.order_model import OrderModel
-from src.infrastructure.databases.base import db
 
-@order_bp.route("/api/orders", methods=["GET"])
-def get_orders():
+    return jsonify({
+        "message": "Delivery scheduled successfully",
+        "order": order.to_dict()
+    }), 200
+# Hoàn thành đơn hàng
+@order_bp.route("/api/orders/<int:order_id>/complete", methods=["PUT", "PATCH"])
+def complete_order(order_id):
     try:
-        orders = db.session.query(OrderModel).all()
-        return jsonify([{
-            "id": o.id,
-            "customer_id": o.customer_id,
-            "station_id": o.station_id,
-            "status": o.status
-        } for o in orders]), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        order = order_service.complete_order(order_id)
+    except DomainException as e:
+        return jsonify({"error": e.message}), e.status_code
 
-@order_bp.route("/api/orders/<int:order_id>", methods=["GET"])
-def get_order_detail(order_id):
+    return jsonify({
+        "message": "Order completed successfully",
+        "status": order.status
+    }), 200
+
+
+# Giao hàng thất bại
+@order_bp.route("/api/orders/<int:order_id>/fail", methods=["PUT", "PATCH"])
+def fail_order(order_id):
+    data = request.get_json() or {}
+    failure_reason = data.get("failure_reason")
+
     try:
-        order = db.session.query(OrderModel).filter_by(id=order_id).first()
-        if not order:
-            return jsonify({"error": "Không tìm thấy đơn hàng"}), 404
-        return jsonify({
-            "id": order.id,
-            "customer_id": order.customer_id,
-            "station_id": order.station_id,
-            "status": order.status
-        }), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        order = order_service.fail_order(
+            order_id,
+            failure_reason
+        )
+    except DomainException as e:
+        return jsonify({"error": e.message}), e.status_code
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    return jsonify({
+        "message": "Order marked as failed",
+        "status": order.status,
+        "failure_reason": order.failure_reason
+    }), 200
+
+
+# Thử giao lại đơn hàng
+@order_bp.route("/api/orders/<int:order_id>/retry", methods=["PUT", "PATCH"])
+def retry_order(order_id):
+    try:
+        order = order_service.retry_order(order_id)
+    except DomainException as e:
+        return jsonify({"error": e.message}), e.status_code
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    return jsonify({
+        "message": "Order retry successfully",
+        "status": order.status,
+        "retry_count": order.retry_count
+    }), 200

@@ -3,7 +3,7 @@ from src.infrastructure.ai.gemini_client import GeminiClient
 
 class ChatbotService:
     def __init__(self, gemini_client: GeminiClient = None):
-        self.gemini_client = gemini_client or GeminiClient()
+        self.gemini_client = gemini_client
 
     def ask(self, question: str) -> str:
         if not question or not question.strip():
@@ -16,6 +16,13 @@ class ChatbotService:
         )
 
         try:
+            if self.gemini_client is None:
+                self.gemini_client = GeminiClient()
+
             return self.gemini_client.generate_text(prompt)
+
         except Exception:
-            return "Xin lỗi, hệ thống chatbot đang gặp sự cố. Vui lòng thử lại sau hoặc liên hệ tổng đài hỗ trợ."
+            return (
+                "Xin lỗi, hệ thống chatbot hiện chưa khả dụng. "
+                "Vui lòng thử lại sau hoặc liên hệ tổng đài hỗ trợ."
+            )
