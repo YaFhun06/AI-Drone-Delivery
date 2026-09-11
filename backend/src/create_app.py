@@ -99,6 +99,9 @@ def create_app(test_config=None):
     from src.api.controllers.health_controller import health_bp
     app.register_blueprint(health_bp)
 
+    from src.api.controllers.package_status_controller import package_status_bp
+    app.register_blueprint(package_status_bp)
+
     # Drone Controller
     try:
         from src.api.controllers.drone_controller import drone_bp
