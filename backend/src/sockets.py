@@ -10,6 +10,7 @@ def register_socket_events(socketio):
     @socketio.on("join_order_room")
     def handle_join_order_room(data):
         from flask_socketio import join_room
+
         order_id = data.get("order_id")
         if order_id:
             join_room(f"order_{order_id}")
@@ -17,16 +18,45 @@ def register_socket_events(socketio):
     @socketio.on("join_customer_room")
     def handle_join_customer_room(data):
         from flask_socketio import join_room
+
         customer_id = data.get("customer_id")
         if customer_id:
             join_room(f"customer_{customer_id}")
 
+    @socketio.on("join_package_room")
+    def handle_join_package_room(data):
+        from flask_socketio import join_room
+
+        package_id = data.get("package_id")
+        if package_id:
+            join_room(f"package_{package_id}")
+
 
 def emit_order_update(order_id, payload):
     from src.extensions import socketio
-    socketio.emit("order_status_updated", payload, room=f"order_{order_id}")
+
+    socketio.emit(
+        "order_status_updated",
+        payload,
+        room=f"order_{order_id}"
+    )
 
 
 def emit_notification(customer_id, payload):
     from src.extensions import socketio
-    socketio.emit("new_notification", payload, room=f"customer_{customer_id}")
+
+    socketio.emit(
+        "new_notification",
+        payload,
+        room=f"customer_{customer_id}"
+    )
+
+
+def emit_package_status_update(package_id, payload):
+    from src.extensions import socketio
+
+    socketio.emit(
+        "package_status_updated",
+        payload,
+        room=f"package_{package_id}"
+    )

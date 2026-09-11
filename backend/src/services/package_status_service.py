@@ -2,11 +2,11 @@ from src.infrastructure.repositories.package_repository import PackageRepository
 from src.infrastructure.repositories.package_status_history_repository import (
     PackageStatusHistoryRepository
 )
-
 from src.domain.exceptions import (
     PackageNotFoundError,
     InvalidPackageStatusError,
 )
+from src.sockets import emit_package_status_update
 
 
 class PackageStatusService:
@@ -65,6 +65,15 @@ class PackageStatusService:
         self.history_repository.create(
             package_id=package.id,
             status=new_status
+        )
+
+        emit_package_status_update(
+            package.id,
+            {
+                "package_id": package.id,
+                "order_id": package.order_id,
+                "status": package.status,
+            }
         )
 
         return package
