@@ -8,6 +8,8 @@ import {
 import './App.css';
 import DashboardCharts from './components/DashboardCharts';
 import AnalyticsVisualization from './components/AnalyticsVisualization';
+import OrderDetail from './components/OrderDetail';
+
 const navItems = [
   { id: 'overview', label: 'Tổng quan', icon: LayoutDashboard },
   { id: 'users', label: 'Quản lý người dùng', icon: UsersRound },
@@ -32,11 +34,95 @@ function StatCard({ label, value, detail, icon: Icon, tone, trend }) { return <d
 function Toolbar({ search, setSearch, placeholder, onAdd, addLabel }) { return <div className="toolbar"><div className="search-box"><Search size={17} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={placeholder} /></div><button className="filter-button"><Filter size={16} /> Bộ lọc <ChevronDown size={15} /></button><button className="filter-button filter-icon"><SlidersHorizontal size={16} /></button>{onAdd && <button className="primary-button" onClick={onAdd}><Plus size={17} /> {addLabel}</button>}</div>; }
 function PageHeading({ eyebrow, title, description, buttonLabel, onAdd }) { return <div className="page-intro module-heading"><div><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="muted">{description}</p></div><button className="primary-button" onClick={onAdd}><Plus size={17} /> {buttonLabel}</button></div>; }
 function Pagination({ count }) { return <div className="pagination"><span>1–{count} trên {count} kết quả</span><div><button disabled>Trước</button><button className="current-page">1</button><button disabled>Sau</button></div></div>; }
-/* Legacy mock overview retained for reference; LiveOverview is the rendered view. */
 // eslint-disable-next-line no-unused-vars
 function Overview({ setActive }) { return null; }
-function DeliveryTable({ rows, compact = false, onSelect }) { return <div className="table-wrap"><table className={compact ? 'compact-table' : ''}><thead><tr><th>Mã đơn</th><th>Khách hàng</th><th>Lộ trình</th><th>Trạng thái</th><th>Tiến độ</th><th>{!compact && 'Drone'}</th><th /></tr></thead><tbody>{rows.map((row) => <tr key={row.id} className={onSelect ? 'clickable-row' : ''} onClick={() => onSelect?.(row)}><td><b className="order-id">{row.id}</b><small className="table-sub">Hôm nay, 09:42</small></td><td><div className="customer-inline"><Avatar initials={row.customer.split(' ').map((word) => word[0]).slice(-2).join('')} color={row.color} /><b>{row.customer}</b></div></td><td className="muted-cell"><span className="route"><MapPin size={14} />{row.route}</span></td><td><StatusPill tone={row.color === 'green' ? 'green' : row.color === 'amber' ? 'amber' : row.color === 'purple' ? 'purple' : 'blue'}>{row.status}</StatusPill></td><td><div className="progress-cell"><div className="progress-track"><span style={{ width: `${row.progress}%` }} className={`progress-${row.color}`} /></div><small>{row.progress}%</small></div></td>{!compact && <td><span className="drone-tag"><Truck size={14} /> {row.drone}</span></td>}<td><button className="more-button" aria-label={`Xem ${row.id}`}><Ellipsis size={19} /></button></td></tr>)}</tbody></table></div>; }
-function DetailDrawer({ item, type, onClose }) { if (!item) return null; const customer = type === 'customer'; return <div className="drawer-backdrop" onClick={onClose}><aside className="detail-drawer" onClick={(event) => event.stopPropagation()}><div className="drawer-header"><span>CHI TIẾT {customer ? 'KHÁCH HÀNG' : 'ĐƠN GIAO HÀNG'}</span><button className="icon-button" onClick={onClose} aria-label="Đóng"><X size={19} /></button></div><div className="drawer-profile">{customer ? <><Avatar initials={item.initials} color={item.color} /><h2>{item.name}</h2><p>{item.email}</p><StatusPill tone="green">Đang hoạt động</StatusPill></> : <><div className="drawer-order-icon"><Truck size={25} /></div><h2>{item.id}</h2><p>{item.customer}</p><StatusPill tone="blue">{item.status}</StatusPill></>}</div><div className="drawer-section"><h3>{customer ? 'Thông tin tổng quan' : 'Thông tin chuyến giao'}</h3>{customer ? <><div className="detail-row"><span>Số điện thoại</span><b>{item.phone}</b></div><div className="detail-row"><span>Ngày tham gia</span><b>{item.joined}</b></div><div className="detail-row"><span>Tổng đơn hàng</span><b>{item.orders} đơn</b></div><div className="detail-row"><span>Tổng chi tiêu</span><b>{item.spent}</b></div></> : <><div className="detail-row"><span>Lộ trình</span><b>{item.route}</b></div><div className="detail-row"><span>Drone phụ trách</span><b>{item.drone}</b></div><div className="detail-row"><span>Thời gian dự kiến</span><b>{item.eta}</b></div><div className="detail-row"><span>Tiến độ</span><b>{item.progress}%</b></div></>}</div><button className="primary-button drawer-action">{customer ? 'Xem lịch sử đơn hàng' : 'Mở bản đồ theo dõi'} <ChevronRight size={16} /></button></aside></div>; }
+
+function DeliveryTable({ rows, compact = false, onSelect }) { 
+  return (
+    <div className="table-wrap">
+      <table className={compact ? 'compact-table' : ''}>
+        <thead>
+          <tr>
+            <th>Mã đơn</th>
+            <th>Khách hàng</th>
+            <th>Lộ trình</th>
+            <th>Trạng thái</th>
+            <th>Tiến độ</th>
+            <th>{!compact && 'Drone'}</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.id} className="clickable-row" onClick={() => onSelect?.(row)}>
+              <td><b className="order-id">{row.id}</b><small className="table-sub">Hôm nay, 09:42</small></td>
+              <td><div className="customer-inline"><Avatar initials={(row.customer || 'KH').split(' ').map((word) => word[0]).slice(-2).join('')} color={row.color} /><b>{row.customer}</b></div></td>
+              <td className="muted-cell"><span className="route"><MapPin size={14} />{row.route}</span></td>
+              <td><StatusPill tone={row.color === 'green' ? 'green' : row.color === 'amber' ? 'amber' : row.color === 'purple' ? 'purple' : 'blue'}>{row.status}</StatusPill></td>
+              <td><div className="progress-cell"><div className="progress-track"><span style={{ width: `${row.progress}%` }} className={`progress-${row.color}`} /></div><small>{row.progress}%</small></div></td>
+              {!compact && <td><span className="drone-tag"><Truck size={14} /> {row.drone}</span></td>}
+              <td><button className="more-button" aria-label={`Xem ${row.id}`} onClick={(e) => { e.stopPropagation(); onSelect?.(row); }}><Ellipsis size={19} /></button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  ); 
+}
+
+function DetailDrawer({ item, type, onClose }) { 
+  if (!item) return null; 
+  const customer = type === 'customer'; 
+  return (
+    <div className="drawer-backdrop" onClick={onClose}>
+      <aside className="detail-drawer" onClick={(event) => event.stopPropagation()}>
+        <div className="drawer-header">
+          <span>CHI TIẾT {customer ? 'KHÁCH HÀNG' : 'ĐƠN GIAO HÀNG'}</span>
+          <button className="icon-button" onClick={onClose} aria-label="Đóng"><X size={19} /></button>
+        </div>
+        <div className="drawer-profile">
+          {customer ? (
+            <>
+              <Avatar initials={item.initials} color={item.color} />
+              <h2>{item.name}</h2>
+              <p>{item.email}</p>
+              <StatusPill tone="green">Đang hoạt động</StatusPill>
+            </>
+          ) : (
+            <>
+              <div className="drawer-order-icon"><Truck size={25} /></div>
+              <h2>{item.id}</h2>
+              <p>{item.customer}</p>
+              <StatusPill tone="blue">{item.status}</StatusPill>
+            </>
+          )}
+        </div>
+        <div className="drawer-section">
+          <h3>{customer ? 'Thông tin tổng quan' : 'Thông tin chuyến giao'}</h3>
+          {customer ? (
+            <>
+              <div className="detail-row"><span>Số điện thoại</span><b>{item.phone}</b></div>
+              <div className="detail-row"><span>Ngày tham gia</span><b>{item.joined}</b></div>
+              <div className="detail-row"><span>Tổng đơn hàng</span><b>{item.orders} đơn</b></div>
+              <div className="detail-row"><span>Tổng chi tiêu</span><b>{item.spent}</b></div>
+            </>
+          ) : (
+            <>
+              <div className="detail-row"><span>Lộ trình</span><b>{item.route}</b></div>
+              <div className="detail-row"><span>Drone phụ trách</span><b>{item.drone}</b></div>
+              <div className="detail-row"><span>Thời gian dự kiến</span><b>{item.eta}</b></div>
+              <div className="detail-row"><span>Tiến độ</span><b>{item.progress}%</b></div>
+            </>
+          )}
+        </div>
+        <button className="primary-button drawer-action">
+          {customer ? 'Xem lịch sử đơn hàng' : 'Mở bản đồ theo dõi'} <ChevronRight size={16} />
+        </button>
+      </aside>
+    </div>
+  ); 
+}
+
 function LiveUserPage({ onAdd }) {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState('');
@@ -62,15 +148,101 @@ function LiveDeliveryPage({ onSelect }) {
   return <><PageHeading eyebrow="QUẢN LÝ GIAO HÀNG" title="Đơn giao hàng" description="Đơn hàng được tải trực tiếp từ Supabase qua Backend." buttonLabel="Tạo đơn giao" onAdd={() => window.alert('Chức năng tạo đơn sẽ kết nối API tiếp theo.')} /><section className="panel table-panel"><div className="delivery-toolbar"><div className="search-box"><Search size={17} /><input placeholder="Tìm mã đơn hoặc tên khách hàng..." /></div><button className="filter-button"><Filter size={16} /> Tất cả trạng thái <ChevronDown size={15} /></button></div>{state.loading && <div className="data-state">Đang tải đơn giao hàng từ Supabase...</div>}{state.error && <div className="data-state data-error">{state.error}</div>}{!state.loading && !state.error && <DeliveryTable rows={rows} onSelect={onSelect} />}</section></>;
 }
 
-function LiveOverview({ setActive }) {
+function LiveOverview({ setActive, onSelectOrder }) {
   const [data, setData] = useState({ users: [], customers: [], orders: [] });
   const [state, setState] = useState({ loading: true, error: '' });
   useEffect(() => { Promise.all([apiFetch('/api/users'), apiFetch('/api/customers'), apiFetch('/api/orders')]).then(([users, customers, orders]) => setData({ users, customers, orders })).catch((error) => setState({ loading: false, error: error.message })).finally(() => setState((current) => ({ ...current, loading: false }))); }, []);
   const activeOrders = data.orders.filter((order) => !['COMPLETED', 'REJECTED', 'FAILED'].includes(order.status)).length;
-  return <><div className="page-intro"><div><p className="eyebrow">DỮ LIỆU TRỰC TIẾP TỪ SUPABASE</p><h1>Chào buổi sáng</h1><p className="muted">Các chỉ số dưới đây được đọc từ cơ sở dữ liệu qua Backend.</p></div><button className="outline-button" onClick={() => setActive('deliveries')}><Truck size={16} /> Theo dõi đơn hàng</button></div>{state.loading && <div className="data-state">Đang đồng bộ dữ liệu từ Supabase...</div>}{state.error && <div className="data-state data-error">{state.error}</div>}{!state.loading && !state.error && <><div className="stat-grid"><StatCard label="Tổng người dùng" value={data.users.length} detail="tài khoản trong hệ thống" icon={UsersRound} tone="blue" /><StatCard label="Khách hàng" value={data.customers.length} detail="hồ sơ khách hàng" icon={UserRound} tone="coral" /><StatCard label="Tổng đơn giao" value={data.orders.length} detail="đơn trong cơ sở dữ liệu" icon={Truck} tone="green" /><StatCard label="Đang xử lý" value={activeOrders} detail="đơn chưa hoàn tất" icon={MapPin} tone="purple" /></div><div className="overview-grid"><section className="panel quick-panel"><div className="panel-heading"><div><h2>Thao tác nhanh</h2><p>Truy cập các module dùng dữ liệu thật</p></div></div><button onClick={() => setActive('users')} className="quick-action"><span className="quick-icon blue-bg"><UsersRound size={18} /></span><span><b>Quản lý người dùng</b><small>{data.users.length} tài khoản đã tải</small></span><ChevronRight size={17} /></button><button onClick={() => setActive('customers')} className="quick-action"><span className="quick-icon coral-bg"><UserRound size={18} /></span><span><b>Quản lý khách hàng</b><small>{data.customers.length} khách hàng đã tải</small></span><ChevronRight size={17} /></button><button onClick={() => setActive('deliveries')} className="quick-action"><span className="quick-icon green-bg"><Truck size={18} /></span><span><b>Theo dõi giao hàng</b><small>{activeOrders} đơn đang xử lý</small></span><ChevronRight size={17} /></button></section><section className="panel quick-panel"><div className="panel-heading"><div><h2>Trạng thái đồng bộ</h2><p>Kết nối Backend và Supabase</p></div></div><div className="sync-status"><span className="sync-pulse" /><b>Đang hoạt động</b><small>Backend đã kết nối cơ sở dữ liệu</small></div><div className="sync-detail"><span>Người dùng</span><b>{data.users.length} bản ghi</b></div><div className="sync-detail"><span>Khách hàng</span><b>{data.customers.length} bản ghi</b></div><div className="sync-detail"><span>Đơn giao hàng</span><b>{data.orders.length} bản ghi</b></div></section></div><section className="panel recent-panel"><div className="panel-heading"><div><h2>Đơn giao hàng gần đây</h2><p>Dữ liệu mới nhất từ Supabase</p></div><button className="text-button" onClick={() => setActive('deliveries')}>Xem tất cả <ChevronRight size={15} /></button></div><DeliveryTable rows={data.orders.slice(0, 5).map((row) => ({ ...row, customer: row.customer_name, route: `Trạm #${row.station_id || 'chưa gán'}`, status: row.status, eta: row.scheduled_time || '—', drone: 'Chưa gán', progress: row.status === 'COMPLETED' ? 100 : 40, color: row.status === 'COMPLETED' ? 'green' : 'blue' }))} compact /></section> <div className="mt-8 space-y-6">
-  <DashboardCharts />
-  <AnalyticsVisualization />
-</div></>}</>;
+
+  return (
+    <>
+      <div className="page-intro">
+        <div>
+          <p className="eyebrow">DỮ LIỆU TRỰC TIẾP TỪ SUPABASE</p>
+          <h1>Chào buổi sáng</h1>
+          <p className="muted">Các chỉ số dưới đây được đọc từ cơ sở dữ liệu qua Backend.</p>
+        </div>
+        <button className="outline-button" onClick={() => setActive('deliveries')}>
+          <Truck size={16} /> Theo dõi đơn hàng
+        </button>
+      </div>
+
+      {state.loading && <div className="data-state">Đang đồng bộ dữ liệu từ Supabase...</div>}
+      {state.error && <div className="data-state data-error">{state.error}</div>}
+
+      {!state.loading && !state.error && (
+        <>
+          <div className="stat-grid">
+            <StatCard label="Tổng người dùng" value={data.users.length} detail="tài khoản trong hệ thống" icon={UsersRound} tone="blue" />
+            <StatCard label="Khách hàng" value={data.customers.length} detail="hồ sơ khách hàng" icon={UserRound} tone="coral" />
+            <StatCard label="Tổng đơn giao" value={data.orders.length} detail="đơn trong cơ sở dữ liệu" icon={Truck} tone="green" />
+            <StatCard label="Đang xử lý" value={activeOrders} detail="đơn chưa hoàn tất" icon={MapPin} tone="purple" />
+          </div>
+
+          <div className="overview-grid">
+            <section className="panel quick-panel">
+              <div className="panel-heading">
+                <div><h2>Thao tác nhanh</h2><p>Truy cập các module dùng dữ liệu thật</p></div>
+              </div>
+              <button onClick={() => setActive('users')} className="quick-action">
+                <span className="quick-icon blue-bg"><UsersRound size={18} /></span>
+                <span><b>Quản lý người dùng</b><small>{data.users.length} tài khoản đã tải</small></span>
+                <ChevronRight size={17} />
+              </button>
+              <button onClick={() => setActive('customers')} className="quick-action">
+                <span className="quick-icon coral-bg"><UserRound size={18} /></span>
+                <span><b>Quản lý khách hàng</b><small>{data.customers.length} khách hàng đã tải</small></span>
+                <ChevronRight size={17} />
+              </button>
+              <button onClick={() => setActive('deliveries')} className="quick-action">
+                <span className="quick-icon green-bg"><Truck size={18} /></span>
+                <span><b>Theo dõi giao hàng</b><small>{activeOrders} đơn đang xử lý</small></span>
+                <ChevronRight size={17} />
+              </button>
+            </section>
+
+            <section className="panel quick-panel">
+              <div className="panel-heading">
+                <div><h2>Trạng thái đồng bộ</h2><p>Kết nối Backend và Supabase</p></div>
+              </div>
+              <div className="sync-status"><span className="sync-pulse" /><b>Đang hoạt động</b><small>Backend đã kết nối cơ sở dữ liệu</small></div>
+              <div className="sync-detail"><span>Người dùng</span><b>{data.users.length} bản ghi</b></div>
+              <div className="sync-detail"><span>Khách hàng</span><b>{data.customers.length} bản ghi</b></div>
+              <div className="sync-detail"><span>Đơn giao hàng</span><b>{data.orders.length} bản ghi</b></div>
+            </section>
+          </div>
+
+          <section className="panel recent-panel">
+            <div className="panel-heading">
+              <div><h2>Đơn giao hàng gần đây</h2><p>Dữ liệu mới nhất từ Supabase</p></div>
+              <button className="text-button" onClick={() => setActive('deliveries')}>
+                Xem tất cả <ChevronRight size={15} />
+              </button>
+            </div>
+            <DeliveryTable
+              rows={data.orders.slice(0, 5).map((row) => ({
+                ...row,
+                customer: row.customer_name,
+                route: `Trạm #${row.station_id || 'chưa gán'}`,
+                status: row.status,
+                eta: row.scheduled_time || '—',
+                drone: 'Chưa gán',
+                progress: row.status === 'COMPLETED' ? 100 : 40,
+                color: row.status === 'COMPLETED' ? 'green' : 'blue',
+              }))}
+              compact
+              onSelect={onSelectOrder}
+            />
+          </section>
+
+          <div className="mt-8 space-y-6">
+            <DashboardCharts />
+            <AnalyticsVisualization />
+          </div>
+        </>
+      )}
+    </>
+  );
 }
 
 function Login({ onLogin, onGoToRegister }) {
@@ -83,7 +255,7 @@ function Login({ onLogin, onGoToRegister }) {
     setError('');
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+      const response = await fetch(`${API_URL}/api/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'Email hoặc mật khẩu không đúng.');
       onLogin(data);
@@ -95,6 +267,7 @@ function Login({ onLogin, onGoToRegister }) {
   };
   return <main className="login-shell"><div className="login-decoration"><div className="login-orbit orbit-one" /><div className="login-orbit orbit-two" /><div className="login-drone"><PackageCheck size={34} /></div><p>Smart delivery, <b>made simple.</b></p></div><section className="login-card"><div className="login-brand"><span className="brand-mark"><PackageCheck size={21} /></span><span>smart<span>drone</span></span></div><div className="login-heading"><p className="eyebrow">WORKSPACE VẬN HÀNH</p><h1>Chào mừng trở lại</h1><p>Đăng nhập để tiếp tục quản lý hệ thống giao hàng.</p></div><form onSubmit={submit}><label>Email hoặc số điện thoại<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@smartdrone.vn" autoComplete="email" required /></label><label>Mật khẩu<div className="password-field"><input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Nhập mật khẩu của bạn" autoComplete="current-password" required /></div></label>{error && <div className="login-error">{error}</div>}<div className="login-options"><label className="remember"><input type="checkbox" /> Ghi nhớ đăng nhập</label><button type="button" onClick={() => setError('Vui lòng liên hệ quản trị viên để đặt lại mật khẩu.')}>Quên mật khẩu?</button></div><div className="login-options"><button type="button" onClick={onGoToRegister}>Chưa có tài khoản? Đăng ký</button></div><button className="primary-button login-submit" type="submit" disabled={loading}>{loading ? 'Đang xác thực...' : 'Đăng nhập'} {!loading && <ChevronRight size={17} />}</button></form><p className="login-footer">© 2026 SmartDrone Delivery</p></section></main>;
 }
+
 function Register({ onRegistered, onBackToLogin }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -113,7 +286,7 @@ function Register({ onRegistered, onBackToLogin }) {
     }
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ full_name: fullName, email, phone, password }),
@@ -130,6 +303,7 @@ function Register({ onRegistered, onBackToLogin }) {
 
   return <main className="login-shell"><div className="login-decoration"><div className="login-orbit orbit-one" /><div className="login-orbit orbit-two" /><div className="login-drone"><PackageCheck size={34} /></div><p>Smart delivery, <b>made simple.</b></p></div><section className="login-card"><div className="login-brand"><span className="brand-mark"><PackageCheck size={21} /></span><span>smart<span>drone</span></span></div><div className="login-heading"><p className="eyebrow">WORKSPACE VẬN HÀNH</p><h1>Tạo tài khoản mới</h1><p>Đăng ký để bắt đầu sử dụng hệ thống giao hàng.</p></div><form onSubmit={submit}><label>Họ và tên<input type="text" value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Nguyễn Văn A" required /></label><label>Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@smartdrone.vn" autoComplete="email" required /></label><label>Số điện thoại<input type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="09xxxxxxxx" required /></label><label>Mật khẩu<div className="password-field"><input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Tạo mật khẩu" autoComplete="new-password" required /></div></label><label>Xác nhận mật khẩu<div className="password-field"><input type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} placeholder="Nhập lại mật khẩu" autoComplete="new-password" required /></div></label>{error && <div className="login-error">{error}</div>}<button className="primary-button login-submit" type="submit" disabled={loading}>{loading ? 'Đang tạo tài khoản...' : 'Đăng ký'} {!loading && <ChevronRight size={17} />}</button></form><div className="login-options"><button type="button" onClick={onBackToLogin}>Đã có tài khoản? Đăng nhập</button></div><p className="login-footer">© 2026 SmartDrone Delivery</p></section></main>;
 }
+
 function App() {
   const [active, setActive] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -139,11 +313,17 @@ function App() {
   const [user, setUser] = useState(() => { try { return JSON.parse(localStorage.getItem('smartdrone_user')) || null; } catch { return null; } });
   const title = navItems.find((item) => item.id === active)?.label || 'Tổng quan';
   const add = () => { setToast(true); window.setTimeout(() => setToast(false), 2400); };
-  const handleLogin = (data) => { localStorage.setItem('smartdrone_token', data.access_token); localStorage.setItem('smartdrone_user', JSON.stringify(data.user)); setUser(data.user); };
+  
+  const handleLogin = (data) => { 
+    localStorage.setItem('smartdrone_token', data.access_token); 
+    localStorage.setItem('smartdrone_user', JSON.stringify(data.user)); 
+    setUser(data.user); 
+  };
+  
   const handleLogout = async () => {
     const token = localStorage.getItem('smartdrone_token');
     try {
-      if (token) await fetch('http://localhost:5000/api/auth/logout', { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+      if (token) await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
     } finally {
       localStorage.removeItem('smartdrone_token');
       localStorage.removeItem('smartdrone_user');
@@ -151,11 +331,47 @@ function App() {
       setDetail(null);
     }
   };
+
   if (!user) {
     return authView === 'register'
       ? <Register onRegistered={handleLogin} onBackToLogin={() => setAuthView('login')} />
       : <Login onLogin={handleLogin} onGoToRegister={() => setAuthView('register')} />;
   }
-  return <div className="app-shell"><Sidebar active={active} setActive={(id) => { setActive(id); setSidebarOpen(false); }} open={sidebarOpen} onLogout={handleLogout} /><main className="main-area"><Header title={title} onMenu={() => setSidebarOpen((open) => !open)} onHelp={add} user={user} onLogout={handleLogout} /><div className="content">{active === 'overview' && <LiveOverview setActive={setActive} />}{active === 'users' && <LiveUserPage onAdd={add} />}{active === 'customers' && <LiveCustomerPage onAdd={add} onSelect={(item) => setDetail({ item, type: 'customer' })} />}{active === 'deliveries' && <LiveDeliveryPage onSelect={(item) => setDetail({ item, type: 'delivery' })} />}</div></main>{detail && <DetailDrawer {...detail} onClose={() => setDetail(null)} />}{toast && <div className="toast"><PackageCheck size={18} /> Tác vụ đã sẵn sàng để thực hiện</div>}</div>;
+
+  return (
+    <div className="app-shell">
+      <Sidebar active={active} setActive={(id) => { setActive(id); setSidebarOpen(false); }} open={sidebarOpen} onLogout={handleLogout} />
+      <main className="main-area">
+        <Header title={title} onMenu={() => setSidebarOpen((open) => !open)} onHelp={add} user={user} onLogout={handleLogout} />
+        <div className="content">
+          {active === 'overview' && (
+            <LiveOverview 
+              setActive={setActive} 
+              onSelectOrder={(item) => setDetail({ item, type: 'delivery' })} 
+            />
+          )}
+          {active === 'users' && <LiveUserPage onAdd={add} />}
+          {active === 'customers' && <LiveCustomerPage onAdd={add} onSelect={(item) => setDetail({ item, type: 'customer' })} />}
+          {active === 'deliveries' && <LiveDeliveryPage onSelect={(item) => setDetail({ item, type: 'delivery' })} />}
+        </div>
+      </main>
+
+      {/* Chi tiết khách hàng giữ nguyên DetailDrawer */}
+      {detail && detail.type === 'customer' && (
+        <DetailDrawer {...detail} onClose={() => setDetail(null)} />
+      )}
+
+      {/* Chi tiết đơn hàng kích hoạt OrderDetail với Socket.IO Realtime */}
+      {detail && detail.type === 'delivery' && (
+        <OrderDetail 
+          orderId={detail.item.id} 
+          onClose={() => setDetail(null)} 
+        />
+      )}
+
+      {toast && <div className="toast"><PackageCheck size={18} /> Tác vụ đã sẵn sàng để thực hiện</div>}
+    </div>
+  );
 }
+
 export default App;
