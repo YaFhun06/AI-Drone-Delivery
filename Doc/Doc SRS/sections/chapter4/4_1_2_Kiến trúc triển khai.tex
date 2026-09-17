@@ -1,48 +1,69 @@
 \subsection{Kiến trúc triển khai}
 
-Trong phiên bản hiện tại, hệ thống được chạy trong môi trường phát triển gồm frontend Vite, backend Flask và PostgreSQL trên Supabase. 
+Hệ thống SmartDroneDelivery được triển khai theo mô hình gồm frontend, backend, cơ sở dữ liệu và dịch vụ AI. Frontend được xây dựng bằng ReactJS/Vite, Backend sử dụng Python/Flask, cơ sở dữ liệu sử dụng PostgreSQL trên Supabase và các chức năng AI được cung cấp thông qua Gemini API.
 
 \begin{itemize}
 
-    \item \textbf{Frontend Development Server:} ReactJS/Vite, chạy độc lập trong thư mục frontend.
+```
+\item \textbf{Frontend Development Server:} ReactJS/Vite, cung cấp giao diện người dùng và thực hiện giao tiếp với Backend thông qua HTTP/REST API.
 
-    \item \textbf{Backend Development Server:} Python/Flask, xử lý API và nghiệp vụ chính của hệ thống.
+\item \textbf{Backend Development Server:} Python/Flask, xử lý REST API, xác thực, phân quyền và các nghiệp vụ chính của hệ thống.
 
-    \item \textbf{Database Service:} PostgreSQL trên Supabase, kết nối qua biến môi trường \texttt{DATABASE\_URL}.
+\item \textbf{Database Service:} PostgreSQL trên Supabase, lưu trữ dữ liệu nghiệp vụ và kết nối với Backend thông qua biến môi trường \texttt{DATABASE\_URL}.
 
-    \item \textbf{AI Service:} Gemini API được Backend Flask gọi cho ETA, chatbot và tóm tắt giao hàng khi đã cấu hình khóa API.
+\item \textbf{AI Service:} Gemini API được Backend Flask tích hợp để hỗ trợ các chức năng ETA, chatbot và tóm tắt thông tin giao hàng.
+```
 
 \end{itemize}
 
-Frontend gọi Backend qua HTTP tại môi trường phát triển. Backend xử lý nghiệp vụ, truy xuất dữ liệu từ Supabase và gọi Gemini khi cần.
+Frontend gửi yêu cầu đến Backend thông qua HTTP. Backend tiếp nhận và xử lý yêu cầu, truy xuất hoặc cập nhật dữ liệu trên Supabase PostgreSQL và gọi Gemini API khi cần thực hiện các chức năng AI.
 
-\subsubsection{Mạng và cổng dịch vụ hiện tại}
+\subsubsection{Mạng và cổng dịch vụ}
 
-Trong môi trường phát triển, frontend và backend chạy ở các tiến trình riêng. Frontend hiện gọi \texttt{http://localhost:5000}; database sử dụng connection string Supabase trong file môi trường backend. Không có Docker Network hoặc NGINX được cấu hình trong repository.
+Các thành phần của hệ thống được tổ chức thành các dịch vụ riêng biệt và giao tiếp với nhau thông qua các giao thức tương ứng. Frontend sử dụng cổng 5173, Backend sử dụng cổng 5000, trong khi PostgreSQL sử dụng kết nối cơ sở dữ liệu thông qua Supabase. Các dịch vụ bên ngoài như Gemini API được truy cập thông qua HTTPS.
 
 \begin{longtable}{|p{3.2cm}|p{2.3cm}|p{8cm}|}
-\caption{Các thành phần và cổng triển khai}\\
-\label{tab:deployment-components}\\
+
+\caption{Các thành phần và cổng triển khai} \
+
+\label{tab:deployment-components} \
+
 \hline
-\textbf{Thành phần} & \textbf{Cổng} & \textbf{Vai trò} \\
+
+\textbf{Thành phần} & \textbf{Cổng} & \textbf{Vai trò} \
+
 \hline
+
 \endfirsthead
+
 \hline
-\textbf{Thành phần} & \textbf{Cổng} & \textbf{Vai trò} \\
+
+\textbf{Thành phần} & \textbf{Cổng} & \textbf{Vai trò} \
+
 \hline
+
 \endhead
-Frontend Vite & 5173 & Phục vụ giao diện React trong môi trường phát triển. \\
+
+Frontend Vite & 5173 & Cung cấp giao diện React và giao tiếp với Backend thông qua HTTP. \
+
 \hline
-Backend Flask & 5000 & Xử lý REST API, xác thực, nghiệp vụ và Socket.IO. \\
+
+Backend Flask & 5000 & Xử lý REST API, xác thực, phân quyền, nghiệp vụ và Socket.IO. \
+
 \hline
-Supabase PostgreSQL & 5432/6543 & Lưu dữ liệu nghiệp vụ qua biến môi trường \texttt{DATABASE\_URL}. \\
+
+Supabase PostgreSQL & 5432/6543 & Lưu trữ dữ liệu nghiệp vụ và cung cấp kết nối cơ sở dữ liệu cho Backend. \
+
 \hline
-Gemini API & HTTPS & Cung cấp ETA, chatbot và tóm tắt giao hàng khi có khóa API. \\
+
+Gemini API & HTTPS & Cung cấp các chức năng AI như ETA, chatbot và tóm tắt giao hàng. \
+
 \hline
+
 \end{longtable}
 
 \subsubsection{Luồng triển khai}
 
-Backend dùng Alembic/Flask-Migrate để cập nhật schema; frontend và backend được khởi động bằng các lệnh phát triển riêng. Chưa có Dockerfile.
+Quá trình triển khai hệ thống được tổ chức theo luồng từ Frontend đến Backend, sau đó Backend thực hiện xử lý nghiệp vụ và tương tác với các dịch vụ liên quan. Backend sử dụng Alembic/Flask-Migrate để quản lý và cập nhật schema cơ sở dữ liệu. Frontend và Backend được khởi động với các tiến trình tương ứng trong môi trường phát triển.
 
-Các secret như JWT key, mật khẩu database và khóa API AI được truyền qua biến môi trường. Endpoint health-check hiện kiểm tra trạng thái ứng dụng và database; HTTPS, reverse proxy và secret manager production là phạm vi triển khai sau.
+Các thông tin cấu hình và dữ liệu bảo mật như JWT key, thông tin kết nối cơ sở dữ liệu và khóa API AI được quản lý thông qua biến môi trường. Hệ thống có cơ chế health-check nhằm kiểm tra trạng thái hoạt động của ứng dụng và kết nối cơ sở dữ liệu.

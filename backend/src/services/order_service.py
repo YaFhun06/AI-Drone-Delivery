@@ -70,3 +70,8 @@ class OrderService:
         if not order:
             raise OrderNotFoundError()
         return order
+
+    def create_order(self, customer_id, station_id=None):
+        if not customer_id:
+            raise ValueError("customer_id là bắt buộc")
+        return self.order_repository.create(customer_id, station_id)

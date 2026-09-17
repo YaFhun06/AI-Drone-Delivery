@@ -33,3 +33,10 @@ class OrderRepository:
         return order
     def find_all(self):
         return OrderModel.query.order_by(OrderModel.created_at.desc()).all()
+    
+    def create(self, customer_id, station_id=None):
+        order = OrderModel(customer_id=customer_id, station_id=station_id, status='PENDING')
+        db.session.add(order)
+        db.session.commit()
+        return order
+  

@@ -31,7 +31,7 @@ def list_users():
     ]), 200
 
 
-@management_bp.route("/api/orders", methods=["GET"])
+@management_bp.route("/api/management/orders", methods=["GET"])
 @jwt_required()
 def list_orders():
     rows = db.session.query(OrderModel, CustomerModel.full_name).outerjoin(

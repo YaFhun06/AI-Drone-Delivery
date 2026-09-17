@@ -1,42 +1,69 @@
-\chapter{THIẾT KẾ HỆ THỐNG}
+\subsection{Kiến trúc triển khai}
 
-\section{Mục tiêu và phạm vi thiết kế}
-
-Thiết kế hệ thống chuyển các yêu cầu nghiệp vụ của SmartDroneDelivery thành kiến trúc, thành phần phần mềm, mô hình dữ liệu và các giao diện tích hợp có thể triển khai. Thiết kế ưu tiên khả năng mở rộng, theo dõi được toàn bộ vòng đời đơn giao hàng và tách biệt rõ trách nhiệm giữa giao diện, nghiệp vụ và lưu trữ dữ liệu.
-
-Phạm vi phiên bản hiện tại bao gồm Web Application quản trị/điều phối, Backend Flask cung cấp RESTful API, cơ sở dữ liệu PostgreSQL trên Supabase, Gemini cho một số chức năng AI và Flask-SocketIO ở mức nền tảng. Mobile Application, bản đồ, lưu trữ file và các tích hợp thông báo bên ngoài là phạm vi mở rộng.
-
-\section{Kiến trúc logic}
-
-Hệ thống được tổ chức theo kiến trúc phân lớp kết hợp module nghiệp vụ. Mỗi yêu cầu từ Web hoặc Mobile đi qua lớp API, được xác thực và phân quyền trước khi chuyển đến Service xử lý nghiệp vụ. Repository chịu trách nhiệm truy cập dữ liệu, còn các adapter cô lập việc gọi AI, bản đồ, thông báo và dịch vụ lưu trữ bên ngoài.
+Hệ thống SmartDroneDelivery được triển khai theo mô hình gồm frontend, backend, cơ sở dữ liệu và dịch vụ AI. Frontend được xây dựng bằng ReactJS/Vite, Backend sử dụng Python/Flask, cơ sở dữ liệu sử dụng PostgreSQL trên Supabase và các chức năng AI được cung cấp thông qua Gemini API.
 
 \begin{itemize}
-	\item \textbf{Presentation Layer:} ReactJS cho Web Manager và Flutter cho Mobile Application. Lớp này hiển thị dữ liệu, quản lý trạng thái giao diện và gửi yêu cầu đến API.
-	\item \textbf{API/Controller Layer:} Flask Blueprint tiếp nhận HTTP request, kiểm tra dữ liệu đầu vào, JWT và quyền truy cập, sau đó trả response theo chuẩn JSON.
-	\item \textbf{Application/Service Layer:} Điều phối các ca sử dụng như tạo đơn, duyệt đơn, lập lịch, theo dõi giao hàng và quản lý người dùng.
-	\item \textbf{Domain Layer:} Chứa thực thể, quy tắc trạng thái đơn hàng, quy tắc phân công drone/trạm và các giá trị nghiệp vụ độc lập với framework.
-	\item \textbf{Infrastructure Layer:} Repository PostgreSQL/Supabase, client Gemini và Socket.IO; các adapter PostGIS, MinIO, bản đồ, FCM và audit log đầy đủ chưa được triển khai.
+
+```
+\item \textbf{Frontend Development Server:} ReactJS/Vite, cung cấp giao diện người dùng và thực hiện giao tiếp với Backend thông qua HTTP/REST API.
+
+\item \textbf{Backend Development Server:} Python/Flask, xử lý REST API, xác thực, phân quyền và các nghiệp vụ chính của hệ thống.
+
+\item \textbf{Database Service:} PostgreSQL trên Supabase, lưu trữ dữ liệu nghiệp vụ và kết nối với Backend thông qua biến môi trường \texttt{DATABASE\_URL}.
+
+\item \textbf{AI Service:} Gemini API được Backend Flask tích hợp để hỗ trợ các chức năng ETA, chatbot và tóm tắt thông tin giao hàng.
+```
+
 \end{itemize}
 
-\section{Luồng xử lý tổng quát}
+Frontend gửi yêu cầu đến Backend thông qua HTTP. Backend tiếp nhận và xử lý yêu cầu, truy xuất hoặc cập nhật dữ liệu trên Supabase PostgreSQL và gọi Gemini API khi cần thực hiện các chức năng AI.
 
-Một luồng giao hàng điển hình được xử lý theo các bước sau:
+\subsubsection{Mạng và cổng dịch vụ}
 
-\begin{enumerate}
-	\item Khách hàng tạo yêu cầu giao hàng và gửi thông tin kiện hàng, địa chỉ nhận và địa chỉ giao.
-	\item API xác thực người dùng, kiểm tra dữ liệu và tạo đơn ở trạng thái \texttt{PENDING}.
-	\item Nhân viên điều phối kiểm tra yêu cầu, phê duyệt hoặc từ chối đơn. Với đơn được duyệt, hệ thống chọn trạm và drone phù hợp.
-	\item Service lập lịch cập nhật chuyến giao, ghi lịch sử trạng thái và phát thông báo đến các bên liên quan.
-	\item Trong khi giao, vị trí và trạng thái được cập nhật; ETA được tính lại khi có dữ liệu vị trí mới.
-	\item Khi hoàn tất hoặc thất bại, hệ thống ghi nhận kết quả, bằng chứng giao hàng và lịch sử xử lý để phục vụ tra cứu, thống kê và audit.
-\end{enumerate}
+Các thành phần của hệ thống được tổ chức thành các dịch vụ riêng biệt và giao tiếp với nhau thông qua các giao thức tương ứng. Frontend sử dụng cổng 5173, Backend sử dụng cổng 5000, trong khi PostgreSQL sử dụng kết nối cơ sở dữ liệu thông qua Supabase. Các dịch vụ bên ngoài như Gemini API được truy cập thông qua HTTPS.
 
-\section{Nguyên tắc thiết kế}
+\begin{longtable}{|p{3.2cm}|p{2.3cm}|p{8cm}|}
 
-\begin{itemize}
-	\item Mỗi thay đổi trạng thái đơn hàng phải được kiểm tra theo máy trạng thái và ghi vào bảng lịch sử.
-	\item Các thao tác thay đổi dữ liệu quan trọng phải kiểm tra quyền theo vai trò và ghi nhận người thực hiện.
-	\item API không trả trực tiếp thông tin nhạy cảm; mật khẩu được lưu dưới dạng băm và token được truyền qua header Authorization.
-	\item Các tích hợp bên ngoài được gọi thông qua adapter để có thể thay thế nhà cung cấp hoặc mô phỏng khi kiểm thử.
-	\item Các thao tác đọc danh sách phải hỗ trợ phân trang, tìm kiếm và lọc để tránh tải toàn bộ dữ liệu lên client.
-\end{itemize}
+\caption{Các thành phần và cổng triển khai} \
+
+\label{tab:deployment-components} \
+
+\hline
+
+\textbf{Thành phần} & \textbf{Cổng} & \textbf{Vai trò} \
+
+\hline
+
+\endfirsthead
+
+\hline
+
+\textbf{Thành phần} & \textbf{Cổng} & \textbf{Vai trò} \
+
+\hline
+
+\endhead
+
+Frontend Vite & 5173 & Cung cấp giao diện React và giao tiếp với Backend thông qua HTTP. \
+
+\hline
+
+Backend Flask & 5000 & Xử lý REST API, xác thực, phân quyền, nghiệp vụ và Socket.IO. \
+
+\hline
+
+Supabase PostgreSQL & 5432/6543 & Lưu trữ dữ liệu nghiệp vụ và cung cấp kết nối cơ sở dữ liệu cho Backend. \
+
+\hline
+
+Gemini API & HTTPS & Cung cấp các chức năng AI như ETA, chatbot và tóm tắt giao hàng. \
+
+\hline
+
+\end{longtable}
+
+\subsubsection{Luồng triển khai}
+
+Quá trình triển khai hệ thống được tổ chức theo luồng từ Frontend đến Backend, sau đó Backend thực hiện xử lý nghiệp vụ và tương tác với các dịch vụ liên quan. Backend sử dụng Alembic/Flask-Migrate để quản lý và cập nhật schema cơ sở dữ liệu. Frontend và Backend được khởi động với các tiến trình tương ứng trong môi trường phát triển.
+
+Các thông tin cấu hình và dữ liệu bảo mật như JWT key, thông tin kết nối cơ sở dữ liệu và khóa API AI được quản lý thông qua biến môi trường. Hệ thống có cơ chế health-check nhằm kiểm tra trạng thái hoạt động của ứng dụng và kết nối cơ sở dữ liệu.

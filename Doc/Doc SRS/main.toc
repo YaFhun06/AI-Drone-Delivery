@@ -1,0 +1,90 @@
+\xpg@aux {}{vietnamese}
+\contentsline {chapter}{\numberline {1}GIỚI THIỆU TỔNG QUAN}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Thông tin dự án}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Bối cảnh thực trạng}{3}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Giới thiệu dự án}{4}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Mục tiêu dự án}{4}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Phạm vi dự án}{4}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Trong phạm vi:}{5}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Ngoài phạm vi:}{5}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Dữ liệu và thử nghiệm:}{5}{subsection.1.5.3}%
+\contentsline {chapter}{\numberline {2}KẾ HOẠCH QUẢN LÝ DỰ ÁN}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Phương pháp phát triển}{6}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Phương pháp quản lý dự án}{6}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Quy trình làm việc trên Jira (Jira Workflow)}{6}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Quản lý chất lượng}{6}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}Lập kế hoạch dự án}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Kế hoạch Sprint}{6}{subsection.2.2.1}%
+\contentsline {section}{\numberline {2.3}Quản lý cấu hình}{9}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Quản lý tài liệu}{9}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Quản lý mã nguồn}{9}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Công cụ và hạ tầng}{10}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}Quản lý rủi ro}{11}{section.2.4}%
+\contentsline {chapter}{\numberline {3}ĐẶC TẢ YÊU CẦU PHẦN MỀM}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Tổng quan sản phẩm}{12}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Mô tả hệ thống}{12}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Sơ đồ ngữ cảnh}{12}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Quy trình nghiệp vụ chính}{12}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Phân tích yêu cầu}{13}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Yêu cầu chức năng}{13}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Yêu cầu phi chức năng}{14}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Yêu cầu người dùng}{15}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Các tác nhân -- Actor}{15}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Use Case Diagram tổng thể}{16}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Bảng tóm tắt mô tả Use Case}{16}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Use Case Diagram chi tiết}{21}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Sơ đồ Screen Flow của các actor}{48}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Bảng mô tả các màn hình hệ thống}{50}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Ma trận phân quyền màn hình theo vai trò}{52}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Activity Diagram}{52}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Sequence Diagram}{55}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Kiến trúc triển khai}{58}{subsection.3.6.1}%
+\contentsline {subsubsection}{Mạng và cổng dịch vụ}{59}{subsection.3.6.1}%
+\contentsline {subsubsection}{Luồng triển khai}{59}{table.3.45}%
+\contentsline {subsection}{\numberline {3.6.2}Kiến trúc hệ thống}{59}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Kiến trúc triển khai}{61}{subsection.3.6.3}%
+\contentsline {subsubsection}{Mạng và cổng dịch vụ}{61}{subsection.3.6.3}%
+\contentsline {subsubsection}{Luồng triển khai}{62}{table.3.46}%
+\contentsline {section}{\numberline {3.7}Thiết kế cơ sở dữ liệu}{62}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Mục tiêu thiết kế dữ liệu}{62}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Nhóm bảng dữ liệu}{62}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.3}Toàn vẹn và vòng đời dữ liệu}{63}{subsection.3.7.3}%
+\contentsline {subsection}{\numberline {3.7.4}Thiết kế cơ sở dữ liệu}{63}{subsection.3.7.4}%
+\contentsline {subsection}{\numberline {3.7.5}ERD Diagram}{65}{subsection.3.7.5}%
+\contentsline {subsection}{\numberline {3.7.6}Thiết kế bảng cơ sở dữ liệu}{65}{subsection.3.7.6}%
+\contentsline {subsubsection}{Bảng \texttt {roles} -- Vai trò}{66}{subsection.3.7.6}%
+\contentsline {subsubsection}{Bảng \texttt {users} -- Người dùng}{66}{table.3.50}%
+\contentsline {subsubsection}{Bảng \texttt {addresses} -- Địa chỉ}{67}{table.3.52}%
+\contentsline {subsubsection}{Bảng \texttt {orders} -- Đơn giao hàng}{67}{table.3.54}%
+\contentsline {subsubsection}{Bảng \texttt {packages} -- Kiện hàng}{68}{table.3.56}%
+\contentsline {subsubsection}{Bảng \texttt {landing\_stations} -- Trạm hạ cánh}{68}{table.3.58}%
+\contentsline {subsubsection}{Bảng \texttt {drones} -- Drone}{69}{table.3.60}%
+\contentsline {subsubsection}{Bảng \texttt {notifications} -- Thông báo}{69}{table.3.62}%
+\contentsline {section}{\numberline {3.8}Thiết kế API}{70}{section.3.8}%
+\contentsline {subsection}{\numberline {3.8.1}Quy ước request và response}{70}{subsection.3.8.1}%
+\contentsline {subsection}{\numberline {3.8.2}Phân quyền API}{70}{subsection.3.8.2}%
+\contentsline {subsection}{\numberline {3.8.3}Danh sách Endpoint}{71}{subsection.3.8.3}%
+\contentsline {subsection}{\numberline {3.8.4}Đối chiếu API phiên bản hiện tại}{72}{subsection.3.8.4}%
+\contentsline {subsection}{\numberline {3.8.5}Nhóm API Xác thực và Người dùng}{72}{subsection.3.8.5}%
+\contentsline {subsubsection}{Đăng ký tài khoản}{72}{subsection.3.8.5}%
+\contentsline {subsubsection}{Đăng nhập}{73}{Item.15}%
+\contentsline {subsubsection}{Đăng xuất}{73}{Item.15}%
+\contentsline {subsubsection}{Quên mật khẩu và đặt lại mật khẩu}{73}{Item.15}%
+\contentsline {subsubsection}{Quản lý hồ sơ cá nhân}{74}{Item.15}%
+\contentsline {subsection}{\numberline {3.8.6}Nhóm API Địa chỉ và Khách hàng}{74}{subsection.3.8.6}%
+\contentsline {subsubsection}{Quản lý địa chỉ giao hàng}{74}{subsection.3.8.6}%
+\contentsline {subsubsection}{Quản lý thông tin khách hàng}{74}{subsection.3.8.6}%
+\contentsline {subsection}{\numberline {3.8.7}Nhóm API Trạm giao hàng}{74}{subsection.3.8.7}%
+\contentsline {subsection}{\numberline {3.8.8}Nhóm API Đơn hàng và Kiện hàng}{75}{subsection.3.8.8}%
+\contentsline {subsubsection}{Duyệt và từ chối đơn hàng}{75}{subsection.3.8.8}%
+\contentsline {subsubsection}{Lên lịch giao hàng}{75}{subsection.3.8.8}%
+\contentsline {subsection}{\numberline {3.8.9}Nhóm API Tích hợp Trí tuệ nhân tạo}{75}{subsection.3.8.9}%
+\contentsline {subsubsection}{Ước tính thời gian giao hàng (ETA)}{76}{subsection.3.8.9}%
+\contentsline {subsubsection}{Trợ lý hội thoại (Chatbot)}{76}{subsection.3.8.9}%
+\contentsline {subsubsection}{Tóm tắt trạng thái giao hàng}{76}{subsection.3.8.9}%
+\contentsline {subsubsection}{Thống kê vận hành (Analytics)}{76}{subsection.3.8.9}%
+\contentsline {chapter}{\numberline {A}TÀI LIỆU THAM KHẢO }{78}{appendix.A}%
+\contentsline {chapter}{\numberline {B}PHỤ LỤC}{79}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Liên kết dự án}{79}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Liên kết sơ đồ}{79}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Liên kết cơ sở dữ liệu}{79}{section.B.3}%

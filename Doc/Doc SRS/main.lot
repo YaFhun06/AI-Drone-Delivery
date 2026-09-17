@@ -1,0 +1,66 @@
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Bảng thành viên}}{3}{table.1.1}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Kế hoạch Sprint}}{7}{table.2.1}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Phân rã công việc (WBS)}}{8}{table.2.2}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Danh sách rủi ro và phương án ứng phó}}{11}{table.2.3}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Danh sách yêu cầu chức năng}}{13}{table.3.1}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Các tác nhân của hệ thống}}{15}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Bảng tóm tắt mô tả Use Case}}{17}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Mô tả Use Case Đăng ký tài khoản}}{22}{table.3.4}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Mô tả Use Case Đăng nhập}}{23}{table.3.5}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Mô tả Use Case Đăng xuất}}{23}{table.3.6}%
+\contentsline {table}{\numberline {3.7}{\ignorespaces Mô tả Use Case Tạo đơn giao hàng}}{24}{table.3.7}%
+\contentsline {table}{\numberline {3.8}{\ignorespaces Mô tả Use Case Xác nhận đơn giao hàng}}{25}{table.3.8}%
+\contentsline {table}{\numberline {3.9}{\ignorespaces Mô tả Use Case Xem đơn hàng}}{25}{table.3.9}%
+\contentsline {table}{\numberline {3.10}{\ignorespaces Mô tả Use Case Chỉnh sửa đơn hàng}}{26}{table.3.10}%
+\contentsline {table}{\numberline {3.11}{\ignorespaces Mô tả Use Case Theo dõi giao hàng}}{26}{table.3.11}%
+\contentsline {table}{\numberline {3.12}{\ignorespaces Mô tả Use Case Xác nhận giao hàng}}{27}{table.3.12}%
+\contentsline {table}{\numberline {3.13}{\ignorespaces Mô tả Use Case Đánh giá giao hàng}}{28}{table.3.13}%
+\contentsline {table}{\numberline {3.14}{\ignorespaces Mô tả Use Case Chatbot AI}}{28}{table.3.14}%
+\contentsline {table}{\numberline {3.15}{\ignorespaces Mô tả Use Case của Nhân viên điều phối}}{29}{table.3.15}%
+\contentsline {table}{\numberline {3.16}{\ignorespaces Mô tả Use Case UC31 của Nhân viên điều phối}}{30}{table.3.16}%
+\contentsline {table}{\numberline {3.17}{\ignorespaces Mô tả Use Case UC32 của Nhân viên điều phối}}{31}{table.3.17}%
+\contentsline {table}{\numberline {3.18}{\ignorespaces Mô tả Use Case UC33 của Nhân viên điều phối}}{31}{table.3.18}%
+\contentsline {table}{\numberline {3.19}{\ignorespaces Mô tả Use Case UC34 của Nhân viên điều phối}}{32}{table.3.19}%
+\contentsline {table}{\numberline {3.20}{\ignorespaces Mô tả Use Case UC35 của Nhân viên điều phối}}{33}{table.3.20}%
+\contentsline {table}{\numberline {3.21}{\ignorespaces Mô tả Use Case UC36 của Nhân viên điều phối}}{33}{table.3.21}%
+\contentsline {table}{\numberline {3.22}{\ignorespaces Mô tả Use Case UC37 của Nhân viên điều phối}}{34}{table.3.22}%
+\contentsline {table}{\numberline {3.23}{\ignorespaces Mô tả Use Case UC38 của Nhân viên điều phối}}{34}{table.3.23}%
+\contentsline {table}{\numberline {3.24}{\ignorespaces Mô tả Use Case UC39 của Nhân viên điều phối}}{35}{table.3.24}%
+\contentsline {table}{\numberline {3.25}{\ignorespaces Mô tả Use Case UC40 của Nhân viên điều phối}}{35}{table.3.25}%
+\contentsline {table}{\numberline {3.26}{\ignorespaces Mô tả Use Case UC41 của Nhân viên điều phối}}{36}{table.3.26}%
+\contentsline {table}{\numberline {3.27}{\ignorespaces Mô tả Use Case UC42 của Nhân viên điều phối}}{37}{table.3.27}%
+\contentsline {table}{\numberline {3.28}{\ignorespaces Mô tả Use Case của Nhân viên vận hành trạm}}{38}{table.3.28}%
+\contentsline {table}{\numberline {3.29}{\ignorespaces Mô tả Use Case UC44 của Nhân viên vận hành trạm}}{39}{table.3.29}%
+\contentsline {table}{\numberline {3.30}{\ignorespaces Mô tả Use Case UC45 của Nhân viên vận hành trạm}}{39}{table.3.30}%
+\contentsline {table}{\numberline {3.31}{\ignorespaces Mô tả Use Case UC46 của Nhân viên vận hành trạm}}{40}{table.3.31}%
+\contentsline {table}{\numberline {3.32}{\ignorespaces Mô tả Use Case UC47 của Nhân viên vận hành trạm}}{40}{table.3.32}%
+\contentsline {table}{\numberline {3.33}{\ignorespaces Mô tả Use Case UC48 của Nhân viên vận hành trạm}}{41}{table.3.33}%
+\contentsline {table}{\numberline {3.34}{\ignorespaces Mô tả Use Case UC49 của Nhân viên vận hành trạm}}{41}{table.3.34}%
+\contentsline {table}{\numberline {3.35}{\ignorespaces Mô tả Use Case UC50 của Nhân viên vận hành trạm}}{42}{table.3.35}%
+\contentsline {table}{\numberline {3.36}{\ignorespaces Trạng thái Use Case UC51--UC64 của Quản lý Logistics}}{43}{table.3.36}%
+\contentsline {table}{\numberline {3.37}{\ignorespaces Mô tả Use Case của Quản trị viên hệ thống}}{44}{table.3.37}%
+\contentsline {table}{\numberline {3.38}{\ignorespaces Mô tả Use Case UC70 của Quản trị viên hệ thống}}{45}{table.3.38}%
+\contentsline {table}{\numberline {3.39}{\ignorespaces Mô tả Use Case UC75 của Quản trị viên hệ thống}}{46}{table.3.39}%
+\contentsline {table}{\numberline {3.40}{\ignorespaces Mô tả Use Case UC79 của Quản trị viên hệ thống}}{46}{table.3.40}%
+\contentsline {table}{\numberline {3.41}{\ignorespaces Mô tả Use Case UC80 của Quản trị viên hệ thống}}{47}{table.3.41}%
+\contentsline {table}{\numberline {3.42}{\ignorespaces Mô tả Use Case UC82 của Quản trị viên hệ thống}}{47}{table.3.42}%
+\contentsline {table}{\numberline {3.43}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Danh sách màn hình hệ thống}}{51}{table.caption.18}%
+\contentsline {table}{\numberline {3.44}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Ma trận phân quyền màn hình theo vai trò}}{52}{table.caption.19}%
+\contentsline {table}{\numberline {3.45}{\ignorespaces Các thành phần và cổng triển khai}}{59}{table.3.45}%
+\contentsline {table}{\numberline {3.46}{\ignorespaces Các thành phần và cổng triển khai}}{61}{table.3.46}%
+\contentsline {table}{\numberline {3.47}{\ignorespaces Thực thể chính của hệ thống}}{63}{table.3.47}%
+\contentsline {table}{\numberline {3.48}{\ignorespaces Mối quan hệ các thực thể}}{64}{table.3.48}%
+\contentsline {table}{\numberline {3.49}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thiết kế bảng \texttt {roles}}}{66}{table.caption.29}%
+\contentsline {table}{\numberline {3.51}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thiết kế bảng \texttt {users}}}{66}{table.caption.30}%
+\contentsline {table}{\numberline {3.53}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thiết kế bảng \texttt {addresses}}}{67}{table.caption.31}%
+\contentsline {table}{\numberline {3.55}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thiết kế bảng \texttt {orders}}}{67}{table.caption.32}%
+\contentsline {table}{\numberline {3.57}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thiết kế bảng \texttt {packages}}}{68}{table.caption.33}%
+\contentsline {table}{\numberline {3.59}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thiết kế bảng \texttt {stations}}}{68}{table.caption.34}%
+\contentsline {table}{\numberline {3.61}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thiết kế bảng \texttt {drones}}}{69}{table.caption.35}%
+\contentsline {table}{\numberline {3.63}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thiết kế bảng \texttt {notifications}}}{69}{table.caption.36}%
+\contentsline {table}{\numberline {3.65}{\ignorespaces Tổng hợp Endpoint API}}{71}{table.3.65}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }

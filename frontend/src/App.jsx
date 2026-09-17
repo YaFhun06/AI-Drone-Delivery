@@ -15,11 +15,47 @@ const navItems = [
 ];
 
 const API_URL = 'http://localhost:5000';
+
 async function apiFetch(path) {
   const token = localStorage.getItem('smartdrone_token');
-  const response = await fetch(`${API_URL}${path}`, { headers: { Authorization: `Bearer ${token}` } });
+
+  if (!token) {
+    throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+  }
+
+  const response = await fetch(`${API_URL}${path}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || 'Không thể tải dữ liệu từ máy chủ.');
+
+  if (!response.ok) {
+    const message = String(data.msg || data.error || data.message || '').toLowerCase();
+    const isInvalidToken =
+      response.status === 401 ||
+      (response.status === 422 &&
+        (message.includes('signature') ||
+          message.includes('token') ||
+          message.includes('jwt')));
+
+    if (isInvalidToken) {
+      localStorage.removeItem('smartdrone_token');
+      localStorage.removeItem('smartdrone_user');
+      throw new Error('Token đăng nhập không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại.');
+    }
+
+    throw new Error(
+      data.error ||
+        data.message ||
+        data.msg ||
+        `HTTP ${response.status}`
+    );
+  }
+
   return data;
 }
 
@@ -40,7 +76,15 @@ function LiveUserPage({ onAdd }) {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState('');
   const [state, setState] = useState({ loading: true, error: '' });
-  useEffect(() => { apiFetch('/api/users').then(setRows).catch((error) => setState({ loading: false, error: error.message })).finally(() => setState((current) => ({ ...current, loading: false }))); }, []);
+  useEffect(() => {
+    apiFetch('/api/users')
+      .then((data) => {
+        const users = Array.isArray(data) ? data : data.users || [];
+        setRows(users);
+      })
+      .catch((error) => setState({ loading: false, error: error.message }))
+      .finally(() => setState((current) => ({ ...current, loading: false })));
+  }, []);
   const filtered = useMemo(() => rows.filter((row) => `${row.full_name} ${row.email} ${row.role}`.toLowerCase().includes(search.toLowerCase())), [rows, search]);
   return <><PageHeading eyebrow="QUẢN LÝ HỆ THỐNG" title="Quản lý người dùng" description="Dữ liệu tài khoản được tải trực tiếp từ Supabase qua Backend." buttonLabel="Thêm người dùng" onAdd={onAdd} /><section className="panel table-panel"><Toolbar search={search} setSearch={setSearch} placeholder="Tìm theo tên, email hoặc vai trò..." onAdd={onAdd} addLabel="Thêm người dùng" />{state.loading && <div className="data-state">Đang tải người dùng từ Supabase...</div>}{state.error && <div className="data-state data-error">{state.error}</div>}{!state.loading && !state.error && <><div className="table-meta"><span>{filtered.length} người dùng từ cơ sở dữ liệu</span><button className="export-button"><Download size={15} /> Xuất danh sách</button></div><div className="table-wrap"><table><thead><tr><th>Người dùng</th><th>Vai trò</th><th>Trạng thái</th><th>Ngày tạo</th><th /></tr></thead><tbody>{filtered.map((row) => <tr key={row.id}><td><div className="person-cell"><Avatar initials={(row.full_name || row.email).split(' ').map((part) => part[0]).slice(-2).join('')} color="blue" /><span><b>{row.full_name || 'Chưa cập nhật'}</b><small>{row.email}</small></span></div></td><td><span className="role-label">{row.role}</span></td><td><StatusPill tone={row.is_active ? 'green' : 'red'}>{row.is_active ? 'Đang hoạt động' : 'Đã khóa'}</StatusPill></td><td className="muted-cell">{row.created_at ? new Date(row.created_at).toLocaleDateString('vi-VN') : '—'}</td><td><button className="more-button" aria-label={`Tùy chọn ${row.email}`}><Ellipsis size={19} /></button></td></tr>)}</tbody></table></div><Pagination count={filtered.length} /></>}</section></>;
 }
@@ -49,7 +93,24 @@ function LiveCustomerPage({ onAdd, onSelect }) {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState('');
   const [state, setState] = useState({ loading: true, error: '' });
-  useEffect(() => { apiFetch('/api/customers').then((data) => setRows(data.map((row) => ({ ...row, name: row.full_name, email: `customer-${row.id}@smartdrone.vn`, orders: 0, spent: '—', status: 'Hoạt động', initials: (row.full_name || 'KH').split(' ').map((part) => part[0]).slice(-2).join(''), color: 'blue' })))).catch((error) => setState({ loading: false, error: error.message })).finally(() => setState((current) => ({ ...current, loading: false }))); }, []);
+  useEffect(() => {
+    apiFetch('/api/customers')
+      .then((data) => {
+        const customers = Array.isArray(data) ? data : data.customers || [];
+        setRows(customers.map((row) => ({
+          ...row,
+          name: row.full_name || 'Chưa cập nhật',
+          email: row.email || `customer-${row.id}@smartdrone.vn`,
+          orders: row.orders || 0,
+          spent: row.spent || '—',
+          status: row.is_active === false ? 'Đã khóa' : 'Hoạt động',
+          initials: (row.full_name || 'KH').split(' ').map((part) => part[0]).slice(-2).join(''),
+          color: 'blue',
+        })));
+      })
+      .catch((error) => setState({ loading: false, error: error.message }))
+      .finally(() => setState((current) => ({ ...current, loading: false })));
+  }, []);
   const filtered = useMemo(() => rows.filter((row) => `${row.name} ${row.email} ${row.phone}`.toLowerCase().includes(search.toLowerCase())), [rows, search]);
   return <><PageHeading eyebrow="QUẢN LÝ KHÁCH HÀNG" title="Khách hàng" description="Dữ liệu khách hàng được tải trực tiếp từ Supabase qua Backend." buttonLabel="Thêm khách hàng" onAdd={onAdd} /><section className="panel table-panel"><Toolbar search={search} setSearch={setSearch} placeholder="Tìm theo tên hoặc số điện thoại..." onAdd={onAdd} addLabel="Thêm khách hàng" />{state.loading && <div className="data-state">Đang tải khách hàng từ Supabase...</div>}{state.error && <div className="data-state data-error">{state.error}</div>}{!state.loading && !state.error && <><div className="table-meta"><span>{filtered.length} khách hàng từ cơ sở dữ liệu</span><button className="export-button"><Download size={15} /> Xuất danh sách</button></div><div className="table-wrap"><table><thead><tr><th>Khách hàng</th><th>Số điện thoại</th><th>Mã địa chỉ</th><th>Trạng thái</th><th /></tr></thead><tbody>{filtered.map((row) => <tr key={row.id} onClick={() => onSelect(row)} className="clickable-row"><td><div className="person-cell"><Avatar initials={row.initials} color={row.color} /><span><b>{row.name}</b><small>{row.email}</small></span></div></td><td className="muted-cell">{row.phone || '—'}</td><td className="muted-cell">{row.address_id || '—'}</td><td><StatusPill tone="green">{row.status}</StatusPill></td><td><button className="more-button" aria-label={`Tùy chọn ${row.name}`} onClick={(event) => event.stopPropagation()}><Ellipsis size={19} /></button></td></tr>)}</tbody></table></div><Pagination count={filtered.length} /></>}</section></>;
 }
@@ -57,16 +118,48 @@ function LiveCustomerPage({ onAdd, onSelect }) {
 function LiveDeliveryPage({ onSelect }) {
   const [rows, setRows] = useState([]);
   const [state, setState] = useState({ loading: true, error: '' });
-  useEffect(() => { apiFetch('/api/orders').then((data) => setRows(data.map((row) => ({ ...row, customer: row.customer_name, route: `Trạm #${row.station_id || 'chưa gán'}`, eta: row.scheduled_time ? new Date(row.scheduled_time).toLocaleString('vi-VN') : '—', drone: 'Chưa gán', progress: row.status === 'COMPLETED' ? 100 : row.status === 'PENDING' ? 10 : 50, color: row.status === 'COMPLETED' ? 'green' : row.status === 'PENDING' ? 'amber' : 'blue' })))).catch((error) => setState({ loading: false, error: error.message })).finally(() => setState((current) => ({ ...current, loading: false }))); }, []);
+  useEffect(() => {
+    apiFetch('/api/orders')
+      .then((data) => {
+        const orders = Array.isArray(data) ? data : data.orders || [];
+        setRows(orders.map((row) => ({
+          ...row,
+          id: row.id || row.order_id || '—',
+          customer: row.customer_name || 'Chưa có tên',
+          route: `Trạm #${row.station_id || 'chưa gán'}`,
+          eta: row.scheduled_time ? new Date(row.scheduled_time).toLocaleString('vi-VN') : '—',
+          drone: row.drone_name || 'Chưa gán',
+          progress: row.status === 'COMPLETED' ? 100 : row.status === 'PENDING' ? 10 : 50,
+          color: row.status === 'COMPLETED' ? 'green' : row.status === 'PENDING' ? 'amber' : 'blue',
+        })));
+      })
+      .catch((error) => setState({ loading: false, error: error.message }))
+      .finally(() => setState((current) => ({ ...current, loading: false })));
+  }, []);
   return <><PageHeading eyebrow="QUẢN LÝ GIAO HÀNG" title="Đơn giao hàng" description="Đơn hàng được tải trực tiếp từ Supabase qua Backend." buttonLabel="Tạo đơn giao" onAdd={() => window.alert('Chức năng tạo đơn sẽ kết nối API tiếp theo.')} /><section className="panel table-panel"><div className="delivery-toolbar"><div className="search-box"><Search size={17} /><input placeholder="Tìm mã đơn hoặc tên khách hàng..." /></div><button className="filter-button"><Filter size={16} /> Tất cả trạng thái <ChevronDown size={15} /></button></div>{state.loading && <div className="data-state">Đang tải đơn giao hàng từ Supabase...</div>}{state.error && <div className="data-state data-error">{state.error}</div>}{!state.loading && !state.error && <DeliveryTable rows={rows} onSelect={onSelect} />}</section></>;
 }
 
 function LiveOverview({ setActive }) {
   const [data, setData] = useState({ users: [], customers: [], orders: [] });
   const [state, setState] = useState({ loading: true, error: '' });
-  useEffect(() => { Promise.all([apiFetch('/api/users'), apiFetch('/api/customers'), apiFetch('/api/orders')]).then(([users, customers, orders]) => setData({ users, customers, orders })).catch((error) => setState({ loading: false, error: error.message })).finally(() => setState((current) => ({ ...current, loading: false }))); }, []);
+  useEffect(() => {
+    Promise.all([
+      apiFetch('/api/users'),
+      apiFetch('/api/customers'),
+      apiFetch('/api/orders'),
+    ])
+      .then(([usersData, customersData, ordersData]) => {
+        setData({
+          users: Array.isArray(usersData) ? usersData : usersData.users || [],
+          customers: Array.isArray(customersData) ? customersData : customersData.customers || [],
+          orders: Array.isArray(ordersData) ? ordersData : ordersData.orders || [],
+        });
+      })
+      .catch((error) => setState({ loading: false, error: error.message }))
+      .finally(() => setState((current) => ({ ...current, loading: false })));
+  }, []);
   const activeOrders = data.orders.filter((order) => !['COMPLETED', 'REJECTED', 'FAILED'].includes(order.status)).length;
-  return <><div className="page-intro"><div><p className="eyebrow">DỮ LIỆU TRỰC TIẾP TỪ SUPABASE</p><h1>Chào buổi sáng</h1><p className="muted">Các chỉ số dưới đây được đọc từ cơ sở dữ liệu qua Backend.</p></div><button className="outline-button" onClick={() => setActive('deliveries')}><Truck size={16} /> Theo dõi đơn hàng</button></div>{state.loading && <div className="data-state">Đang đồng bộ dữ liệu từ Supabase...</div>}{state.error && <div className="data-state data-error">{state.error}</div>}{!state.loading && !state.error && <><div className="stat-grid"><StatCard label="Tổng người dùng" value={data.users.length} detail="tài khoản trong hệ thống" icon={UsersRound} tone="blue" /><StatCard label="Khách hàng" value={data.customers.length} detail="hồ sơ khách hàng" icon={UserRound} tone="coral" /><StatCard label="Tổng đơn giao" value={data.orders.length} detail="đơn trong cơ sở dữ liệu" icon={Truck} tone="green" /><StatCard label="Đang xử lý" value={activeOrders} detail="đơn chưa hoàn tất" icon={MapPin} tone="purple" /></div><div className="overview-grid"><section className="panel quick-panel"><div className="panel-heading"><div><h2>Thao tác nhanh</h2><p>Truy cập các module dùng dữ liệu thật</p></div></div><button onClick={() => setActive('users')} className="quick-action"><span className="quick-icon blue-bg"><UsersRound size={18} /></span><span><b>Quản lý người dùng</b><small>{data.users.length} tài khoản đã tải</small></span><ChevronRight size={17} /></button><button onClick={() => setActive('customers')} className="quick-action"><span className="quick-icon coral-bg"><UserRound size={18} /></span><span><b>Quản lý khách hàng</b><small>{data.customers.length} khách hàng đã tải</small></span><ChevronRight size={17} /></button><button onClick={() => setActive('deliveries')} className="quick-action"><span className="quick-icon green-bg"><Truck size={18} /></span><span><b>Theo dõi giao hàng</b><small>{activeOrders} đơn đang xử lý</small></span><ChevronRight size={17} /></button></section><section className="panel quick-panel"><div className="panel-heading"><div><h2>Trạng thái đồng bộ</h2><p>Kết nối Backend và Supabase</p></div></div><div className="sync-status"><span className="sync-pulse" /><b>Đang hoạt động</b><small>Backend đã kết nối cơ sở dữ liệu</small></div><div className="sync-detail"><span>Người dùng</span><b>{data.users.length} bản ghi</b></div><div className="sync-detail"><span>Khách hàng</span><b>{data.customers.length} bản ghi</b></div><div className="sync-detail"><span>Đơn giao hàng</span><b>{data.orders.length} bản ghi</b></div></section></div><section className="panel recent-panel"><div className="panel-heading"><div><h2>Đơn giao hàng gần đây</h2><p>Dữ liệu mới nhất từ Supabase</p></div><button className="text-button" onClick={() => setActive('deliveries')}>Xem tất cả <ChevronRight size={15} /></button></div><DeliveryTable rows={data.orders.slice(0, 5).map((row) => ({ ...row, customer: row.customer_name, route: `Trạm #${row.station_id || 'chưa gán'}`, status: row.status, eta: row.scheduled_time || '—', drone: 'Chưa gán', progress: row.status === 'COMPLETED' ? 100 : 40, color: row.status === 'COMPLETED' ? 'green' : 'blue' }))} compact /></section></>}</>;
+  return <><div className="page-intro"><div><p className="eyebrow">DỮ LIỆU TRỰC TIẾP TỪ SUPABASE</p><h1>Chào buổi sáng</h1><p className="muted">Các chỉ số dưới đây được đọc từ cơ sở dữ liệu qua Backend.</p></div><button className="outline-button" onClick={() => setActive('deliveries')}><Truck size={16} /> Theo dõi đơn hàng</button></div>{state.loading && <div className="data-state">Đang đồng bộ dữ liệu từ Supabase...</div>}{state.error && <div className="data-state data-error">{state.error}</div>}{!state.loading && !state.error && <><div className="stat-grid"><StatCard label="Tổng người dùng" value={data.users.length} detail="tài khoản trong hệ thống" icon={UsersRound} tone="blue" /><StatCard label="Khách hàng" value={data.customers.length} detail="hồ sơ khách hàng" icon={UserRound} tone="coral" /><StatCard label="Tổng đơn giao" value={data.orders.length} detail="đơn trong cơ sở dữ liệu" icon={Truck} tone="green" /><StatCard label="Đang xử lý" value={activeOrders} detail="đơn chưa hoàn tất" icon={MapPin} tone="purple" /></div><div className="overview-grid"><section className="panel quick-panel"><div className="panel-heading"><div><h2>Thao tác nhanh</h2><p>Truy cập các module dùng dữ liệu thật</p></div></div><button onClick={() => setActive('users')} className="quick-action"><span className="quick-icon blue-bg"><UsersRound size={18} /></span><span><b>Quản lý người dùng</b><small>{data.users.length} tài khoản đã tải</small></span><ChevronRight size={17} /></button><button onClick={() => setActive('customers')} className="quick-action"><span className="quick-icon coral-bg"><UserRound size={18} /></span><span><b>Quản lý khách hàng</b><small>{data.customers.length} khách hàng đã tải</small></span><ChevronRight size={17} /></button><button onClick={() => setActive('deliveries')} className="quick-action"><span className="quick-icon green-bg"><Truck size={18} /></span><span><b>Theo dõi giao hàng</b><small>{activeOrders} đơn đang xử lý</small></span><ChevronRight size={17} /></button></section><section className="panel quick-panel"><div className="panel-heading"><div><h2>Trạng thái đồng bộ</h2><p>Kết nối Backend và Supabase</p></div></div><div className="sync-status"><span className="sync-pulse" /><b>Đang hoạt động</b><small>Backend đã kết nối cơ sở dữ liệu</small></div><div className="sync-detail"><span>Người dùng</span><b>{data.users.length} bản ghi</b></div><div className="sync-detail"><span>Khách hàng</span><b>{data.customers.length} bản ghi</b></div><div className="sync-detail"><span>Đơn giao hàng</span><b>{data.orders.length} bản ghi</b></div></section></div><section className="panel recent-panel"><div className="panel-heading"><div><h2>Đơn giao hàng gần đây</h2><p>Dữ liệu mới nhất từ Supabase</p></div><button className="text-button" onClick={() => setActive('deliveries')}>Xem tất cả <ChevronRight size={15} /></button></div><DeliveryTable rows={data.orders.slice(0, 5).map((row) => ({ ...row, customer: row.customer_name || row.customer?.full_name || row.customer?.name || 'Chưa có tên', route: `Trạm #${row.station_id || 'chưa gán'}`, status: row.status, eta: row.scheduled_time || '—', drone: 'Chưa gán', progress: row.status === 'COMPLETED' ? 100 : 40, color: row.status === 'COMPLETED' ? 'green' : 'blue' }))} compact /></section></>}</>;
 }
 
 function Login({ onLogin, onGoToRegister }) {
@@ -81,7 +174,9 @@ function Login({ onLogin, onGoToRegister }) {
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || 'Email hoặc mật khẩu không đúng.');
+      if (!response.ok) {
+        throw new Error(data.error || data.message || data.msg || 'Email hoặc mật khẩu không đúng.');
+      }
       onLogin(data);
     } catch (requestError) {
       setError(requestError.message || 'Không thể kết nối đến máy chủ.');
@@ -115,7 +210,9 @@ function Register({ onRegistered, onBackToLogin }) {
         body: JSON.stringify({ full_name: fullName, email, phone, password }),
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || 'Đăng ký thất bại.');
+      if (!response.ok) {
+        throw new Error(data.error || data.message || data.msg || 'Đăng ký thất bại.');
+      }
       onRegistered(data);
     } catch (requestError) {
       setError(requestError.message || 'Không thể kết nối đến máy chủ.');

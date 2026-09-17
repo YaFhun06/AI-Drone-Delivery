@@ -17,5 +17,10 @@ class ChatbotService:
 
         try:
             return self.gemini_client.generate_text(prompt)
-        except Exception:
-            return "Xin lỗi, hệ thống chatbot đang gặp sự cố. Vui lòng thử lại sau hoặc liên hệ tổng đài hỗ trợ."
+
+        except Exception as e:
+            print(f"[CHATBOT ERROR] {type(e).__name__}: {e}")
+            return (
+                "Xin lỗi, hệ thống chatbot đang gặp sự cố. "
+                "Vui lòng thử lại sau hoặc liên hệ tổng đài hỗ trợ."
+            )
